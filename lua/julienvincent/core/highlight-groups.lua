@@ -1,0 +1,3 @@
+-- vim.api.nvim_command("hi link IlluminatedWordRead LspReferenceRead")
+-- vim.api.nvim_command("hi link IlluminatedWordWrite LspReferenceWrite")
+-- vim.api.nvim_command("hi link IlluminatedWordText LspReferenceRead")

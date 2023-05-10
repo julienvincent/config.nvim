@@ -1,5 +1,5 @@
 vim.keymap.set("n", "<leader>e", "<cmd>:Neotree focus<cr>", {})
-vim.keymap.set("n", "<leader>l", ":lua vim.lsp.buf.format()<CR>", {})
+-- vim.keymap.set("n", "<leader>l", ":lua vim.lsp.buf.format()<CR>", {})
 
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 
