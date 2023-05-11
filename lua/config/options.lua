@@ -10,3 +10,4 @@ vim.opt.conceallevel = 0
 
 vim.opt.clipboard = ""
 
+vim.g.maplocalleader = ";"

@@ -27,4 +27,21 @@ return {
       },
     },
   },
+
+  {
+    "guns/vim-sexp",
+    ft = { "clojure" },
+
+    init = function()
+      vim.g.sexp_filetypes = "clojure"
+    end,
+
+    dependencies = {
+      "radenling/vim-dispatch-neovim",
+      "tpope/vim-sexp-mappings-for-regular-people",
+      "tpope/vim-repeat",
+    },
+  },
+
+  { "psliwka/vim-smoothie" },
 }

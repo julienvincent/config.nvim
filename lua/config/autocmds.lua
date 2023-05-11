@@ -17,3 +17,5 @@ vim.cmd([[
 vim.cmd([[highlight! NonBoldFunction gui=none]])
 -- Link the Treesitter function group to the custom highlight group
 vim.cmd([[highlight! link TSFunction NonBoldFunction]])
+
+-- vim.cmd([[highlight! GruvboxGreenBold guifg=#b8bb26]])

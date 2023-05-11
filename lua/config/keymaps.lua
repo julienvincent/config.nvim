@@ -1,6 +1,13 @@
 vim.keymap.set("n", "<leader>e", "<cmd>:Neotree focus<cr>", {})
 vim.keymap.set("n", "<leader>l", ":lua vim.lsp.buf.format()<CR>", {})
 
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+
+vim.keymap.set("n", ">)", "<Plug>(sexp_emit_tail_element)")
+vim.keymap.set("n", "<)", "<Plug>(sexp_capture_next_element)")
+vim.keymap.set("n", ">(", "<Plug>(sexp_emit_head_element)")
+vim.keymap.set("n", "<(", "<Plug>(sexp_capture_previous_element)")
+
 -- Store the last two opened buffer numbers in variables
 vim.g.last_buffer_1 = -1
 vim.g.last_buffer_2 = -1
@@ -45,3 +52,28 @@ vim.cmd([[
 
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
+
+-- sexp
+--
+-- local function map(mode, rhs, lhs, opts)
+--   opts.buffer = 0
+--   vim.keymap.set(mode, rhs, lhs, opts)
+-- end
+--
+-- local function xmap(rhs, lhs, opts)
+--   map("x", rhs, lhs, opts)
+-- end
+--
+-- local function nmap(rhs, lhs, opts)
+--   map("n", rhs, lhs, opts)
+-- end
+--
+-- local function omap(rhs, lhs, opts)
+--   map("o", rhs, lhs, opts)
+-- end
+--
+-- local function imap(rhs, lhs, opts)
+--   map("i", rhs, lhs, opts)
+-- end
+--
+--
