@@ -8,6 +8,8 @@ vim.keymap.set("n", "<)", "<Plug>(sexp_capture_next_element)")
 vim.keymap.set("n", ">(", "<Plug>(sexp_emit_head_element)")
 vim.keymap.set("n", "<(", "<Plug>(sexp_capture_previous_element)")
 
+vim.keymap.set("n", "<leader>CR", require("tools.nrepl-finder").find_repls)
+
 -- Store the last two opened buffer numbers in variables
 vim.g.last_buffer_1 = -1
 vim.g.last_buffer_2 = -1

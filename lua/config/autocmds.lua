@@ -1,7 +1,7 @@
 vim.cmd([[
   augroup autosave_on_focus_lost
     autocmd!
-    autocmd FocusLost,BufHidden * silent! if &modified && !empty(bufname('%')) | write | endif
+    autocmd FocusLost * silent! if &modified && !empty(bufname('%')) | write | endif
   augroup END
 ]])
 
@@ -12,6 +12,24 @@ vim.cmd([[
     autocmd VimEnter * if isdirectory(expand("%")) | execute "cd " . expand("%:p") | endif
   augroup END
 ]])
+
+local function augroup(name)
+  return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
+end
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = augroup("highlight_yank"),
+  callback = function() end,
+})
+
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("FileType", {
+  pattern = {
+    "clojure",
+  },
+  callback = function()
+    vim.cmd("setlocal iskeyword=@,48-57,_,192-255,!,?")
+  end,
+})
 
 -- Define a custom highlight group for non-bold functions
 vim.cmd([[highlight! NonBoldFunction gui=none]])
