@@ -10,7 +10,7 @@ return {
         name_formatter = function(buf)
           -- return buf.path:match("/([^/]+)$")
         end,
-        separator_style = "slope",
+        separator_style = "thin",
         always_show_bufferline = false,
       },
     },

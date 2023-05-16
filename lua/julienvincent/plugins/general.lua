@@ -22,7 +22,7 @@ return {
   { "mbbill/undotree" },
   { "psliwka/vim-smoothie" },
   { "folke/which-key.nvim" },
-  { "numToStr/Comment.nvim" },
+  { "numToStr/Comment.nvim", config = true },
 
   {
     "rcarriga/nvim-notify",

@@ -34,4 +34,6 @@ return {
       end,
     },
   },
+
+  { "TimUntersberger/neogit" },
 }

@@ -25,3 +25,4 @@ vim.g.maplocalleader = ";"
 lazy.setup("julienvincent.plugins")
 
 require("julienvincent.helpers.keys").map("n", "<leader>LL", lazy.show, "Show Lazy")
+
