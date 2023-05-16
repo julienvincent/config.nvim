@@ -44,7 +44,10 @@ map("n", "<leader>|", "<C-W>v", { desc = "Split window right" })
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", function()
-  vim.api.nvim_feedkeys(":tabnew ~/code/", "n", false)
+  local path = vim.fn.input("Path: ", "~/code/", "file")
+  if path ~= "" then
+    vim.cmd("$tabnew " .. path)
+  end
 end, { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
