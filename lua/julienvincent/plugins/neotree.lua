@@ -42,6 +42,17 @@ return {
 
     keys = {
       {
+        "<leader>E",
+        function()
+          local state = get_neotree_state()
+          if state.is_focused then
+            -- switch back to current buffer
+          else
+            vim.cmd.Neotree("reveal")
+          end
+        end,
+      },
+      {
         "<leader>e",
         function()
           local state = get_neotree_state()
@@ -55,13 +66,19 @@ return {
           end
         end,
       },
+      {
+        "<leader>k",
+        function()
+          vim.cmd.Neotree("toggle")
+        end,
+      },
       { "<leader>k", "<cmd>:Neotree toggle<cr>" },
     },
 
     opts = {
       filesystem = {
         bind_to_cwd = true,
-        follow_current_file = true,
+        follow_current_file = false,
         use_libuv_file_watcher = true,
 
         filtered_items = {
