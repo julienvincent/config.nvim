@@ -22,7 +22,11 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
 
-lazy.setup("julienvincent.plugins")
+lazy.setup("julienvincent.plugins", {
+  change_detection = {
+    enabled = false
+  }
+})
 
 require("julienvincent.helpers.keys").map("n", "<leader>LL", lazy.show, "Show Lazy")
 
