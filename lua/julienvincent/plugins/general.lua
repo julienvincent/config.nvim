@@ -40,6 +40,7 @@ return {
   {
     "kylechui/nvim-surround",
     event = "BufReadPost",
+    config = true
   },
   {
     "windwp/nvim-autopairs",
@@ -50,9 +51,19 @@ return {
   },
 
   { "mbbill/undotree" },
-  { "psliwka/vim-smoothie" },
-  { "folke/which-key.nvim" },
-  { "numToStr/Comment.nvim", config = true },
+  {
+    "psliwka/vim-smoothie",
+    init = function()
+      vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
+    end
+  },
+  { "folke/which-key.nvim", event = "VeryLazy" },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup({})
+    end
+  },
 
   {
     "rcarriga/nvim-notify",
