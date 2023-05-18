@@ -8,6 +8,22 @@ return {
       vim.g["conjure#client#clojure#nrepl#eval#raw_out"] = true
       vim.g["conjure#log#hud#enabled"] = false
       vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
+
+      vim.g["conjure#client#clojure#nrepl#mapping#disconnect"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#connect_port_file"] = false
+
+      vim.g["conjure#client#clojure#nrepl#mapping#session_clone"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_fresh"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_close"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_close_all"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_list"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_next"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_prev"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#session_select"] = false
+
+      vim.g["conjure#client#clojure#nrepl#mapping#refresh_changed"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#refresh_all"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#refresh_clear"] = false
     end,
     config = function()
       local wk = require("which-key")
@@ -21,12 +37,13 @@ return {
       wk.register({
         c = {
           name = "NREPL Connect",
-          cond = vim.bo.filetype == "clojure",
           f = {
             nrepl.find_repls,
             "Find and connect to running repls",
           },
-          c = { connect_cmd, "Connect via port" },
+          c = { "<cmd>ConjureCljConnectPortFile<cr>", "Connect via port file" },
+          d = { "<cmd>ConjureCljDisconnect<cr>", "Disconnect" },
+          p = { connect_cmd, "Connect via port" },
           s = {
             nrepl.switch_active_repl,
             "Switch repl session",

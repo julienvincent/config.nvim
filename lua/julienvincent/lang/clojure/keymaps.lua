@@ -26,7 +26,7 @@ return {
     function()
       local eval = require("conjure.eval")
       eval["eval-str"]({
-        code = "*e",
+        code = "(do (require '[clojure.pprint :as pprint]) (pprint/pprint *e))",
         origin = "custom_command",
       })
     end,
