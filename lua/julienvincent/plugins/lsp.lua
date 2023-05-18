@@ -17,91 +17,103 @@ local keybinds = {
   K = { vim.lsp.buf.hover, "Hover doc" },
 }
 
-return {
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v2.x",
-    lazy = true,
-    config = function()
-      require("lsp-zero.settings").preset("recommended")
-    end,
-  },
-
-  -- Autocompletion
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      { "L3MON4D3/LuaSnip" },
+local servers = {
+  clojure_lsp = {
+    init_options = {
+      codeLens = true,
     },
-    config = function()
-      -- The arguments for .extend() have the same shape as `manage_nvim_cmp`:
-      -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/api-reference.md#manage_nvim_cmp
-
-      require("lsp-zero.cmp").extend()
-
-      local cmp = require("cmp")
-
-      cmp.setup({
-        preselect = "item",
-        completion = {
-          completeopt = "menu,menuone,noinsert",
-        },
-        mapping = {
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm(),
-          ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-        },
-      })
-    end,
   },
-
-  -- LSP
-  {
-    "neovim/nvim-lspconfig",
-    cmd = "LspInfo",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "williamboman/mason-lspconfig.nvim" },
-      {
-        "williamboman/mason.nvim",
-        build = function()
-          pcall(vim.cmd, "MasonUpdate")
-        end,
+  yamlls = {
+    settings = {
+      yaml = {
+        schemas = {
+          "https://json.schemastore.org/github-workflow.json",
+          ".github/workflows/*",
+        },
       },
     },
-    config = function()
-      local lsp = require("lsp-zero")
-
-      lsp.on_attach(function(_, bufnr)
-        lsp.default_keymaps({ buffer = bufnr })
-
-        local wk = require("which-key")
-        wk.register(keybinds, { noremap = true, buffer = bufnr })
-      end)
-
-      lsp.ensure_installed({
-        "tsserver",
-        "rust_analyzer",
-        "lua_ls",
-        "clojure_lsp",
-        "jdtls",
-      })
-
-      require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-
-      require("lspconfig").clojure_lsp.setup({
-        root_dir = function()
-          return vim.fn.getcwd()
-        end,
-        init_options = {
-          signatureHelp = true,
-          codeLens = true,
+  },
+  tsserver = {},
+  jdtls = {
+    settings = {
+      single_file_support = true,
+      java = {
+        signatureHelp = { enabled = true },
+        contentProvider = { preferred = "fernflower" },
+      },
+    },
+  },
+  jsonls = {},
+  rust_analyser = {},
+  lua_ls = {
+    settings = {
+      Lua = {
+        format = {
+          enable = true,
+          defaultConfig = {
+            indent_style = "space",
+            indent_size = "2",
+          },
         },
-      })
+        runtime = {
+          version = "LuaJIT",
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+        },
+        telemetry = { enable = false },
+      },
+    },
+  },
+}
 
-      lsp.setup()
-    end,
+return {
+  {
+    "neovim/nvim-lspconfig",
+    event = "BufReadPre",
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ui = { border = "rounded" },
+        },
+      },
+      "hrsh7th/cmp-nvim-lsp",
+      "williamboman/mason-lspconfig.nvim",
+      opts = {
+        ensure_installed = vim.tbl_keys(servers),
+      },
+    },
+
+    config = function()
+      local mason_lspconfig = require("mason-lspconfig")
+      local cmplsp = require("cmp_nvim_lsp")
+
+      local capabilities = cmplsp.default_capabilities()
+
+      local options = {
+        flags = {
+          debounce_text_changes = 150,
+        },
+
+        capabilities = capabilities,
+
+        on_attach = function(_, bufnr)
+          local wk = require("which-key")
+          wk.register(keybinds, { noremap = true, buffer = bufnr })
+        end,
+      }
+
+      mason_lspconfig.setup_handlers({
+        function(server_name)
+          local server_opts = servers[server_name] or {}
+          local opts = vim.tbl_deep_extend("force", {}, options, server_opts)
+          require("lspconfig")[server_name].setup(opts)
+        end,
+      })
+    end
   },
 }
