@@ -4,10 +4,11 @@ return {
     tag = "0.1.1",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader><space>", "<cmd>Telescope find_files<cr>",  desc = "Find files" },
-      { "<leader>ff",      "<cmd>Telescope live_grep<cr>",   desc = "Grep (root dir)" },
-      { "<leader>gc",      "<cmd>Telescope git_commits<CR>", desc = "commits" },
-      { "<leader>gs",      "<cmd>Telescope git_status<CR>",  desc = "status" },
+      { "<leader><space>", "<cmd>Telescope find_files<cr>",                desc = "Find files" },
+      { "<leader>fa",      "<cmd>Telescope live_grep<cr>",                 desc = "Grep" },
+      { "<leader>ff",      "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find in buffer" },
+      { "<leader>fgc",      "<cmd>Telescope git_commits<CR>",               desc = "commits" },
+      { "<leader>fgs",      "<cmd>Telescope git_status<CR>",                desc = "status" },
     },
     opts = {
       pickers = {
