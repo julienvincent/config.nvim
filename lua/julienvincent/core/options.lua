@@ -2,7 +2,7 @@ local opts = {
   conceallevel = 0,
   cursorline = true,
   termguicolors = true,
-  list = true,
+  -- list = true,
   mouse = "a",
   winminwidth = 5,
 
@@ -44,4 +44,5 @@ for opt, val in pairs(opts) do
   vim.o[opt] = val
 end
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("gruvbox-material")
+-- vim.cmd.colorscheme("gruvbox")

@@ -1,10 +1,40 @@
 return {
   {
-    "ellisonleao/gruvbox.nvim",
+    "thallada/gruvbox.nvim",
     lazy = true,
-    opts = {
-      contrast = "soft",
-    },
+    config = function()
+      local colors = require("gruvbox.palette").colors
+
+      require("gruvbox").setup({
+        contrast = "soft",
+        undercurl = false,
+        underline = false,
+        bold = false,
+        italic = {
+          strings = false,
+          comments = false,
+          operators = false,
+          folds = false,
+        },
+        -- overrides = {
+        --   DiffviewDiffAddAsDelete = { bg = "#431313" },
+        --   DiffDelete = { bg = "none", fg = colors.dark2 },
+        --   DiffviewDiffDelete = { bg = "none", fg = colors.dark2 },
+        --   DiffAdd = { bg = "#142a03" },
+        --   DiffChange = { bg = "#3B3307" },
+        --   DiffText = { bg = "#4D520D" },
+        -- }
+      })
+    end
+  },
+
+  {
+    "sainnhe/gruvbox-material",
+    init = function()
+      vim.g.gruvbox_material_better_performance = 1
+      vim.g.gruvbox_material_foreground = "mix"
+      vim.g.gruvbox_material_background = "soft"
+    end
   },
 
   {
