@@ -2,13 +2,11 @@ local opts = {
   conceallevel = 0,
   cursorline = true,
   termguicolors = true,
-  -- list = true,
   mouse = "a",
   winminwidth = 5,
 
   undofile = true,
   undolevels = 10000,
-  -- updatetime = 200,
 
   laststatus = 0,
 
@@ -43,6 +41,8 @@ local opts = {
 for opt, val in pairs(opts) do
   vim.o[opt] = val
 end
+
+vim.opt.shortmess:append({ W = true, I = true, c = true })
 
 vim.cmd.colorscheme("gruvbox-material")
 -- vim.cmd.colorscheme("gruvbox")
