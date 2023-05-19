@@ -31,6 +31,12 @@ end
 local function append_buffer_to_stack(win, buf)
   local bufs = PREV_BUFS[win] or {}
 
+  -- Don't append the buffer if it is already on top of the stack
+  -- For example this can happen if the buffer is opened more than once and is left multiple times
+  if bufs[#bufs] == buf then
+    return
+  end
+
   table.insert(bufs, buf)
   if #bufs > MAX_DEPTH then
     table.remove(bufs, 1)
@@ -45,8 +51,6 @@ local function switch_to_prev_buf()
   if bufs and #bufs > 0 then
     local prev_buf = bufs[#bufs]
     vim.api.nvim_win_set_buf(win, prev_buf)
-  else
-    print("No previous buffer to switch to for window", win, vim.inspect(bufs))
   end
 end
 
@@ -88,7 +92,6 @@ M.init = function()
         return
       end
 
-      -- print("BufLeave =", buf, win)
       append_buffer_to_stack(win, buf)
     end,
   })
@@ -109,7 +112,6 @@ M.init = function()
         return
       end
 
-      -- print("BufEnter =", buf, win)
       pop_buf_from_stack(win, buf)
     end,
   })
