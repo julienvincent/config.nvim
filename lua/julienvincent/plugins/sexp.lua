@@ -80,10 +80,10 @@ local function vim_sexp_mappings()
   nmap("<M-Right>", "<Plug>(sexp_swap_element_forward)", { desc = "Sexp swap element forward" })
   xmap("<M-Right>", "<Plug>(sexp_swap_element_forward)", { desc = "Sexp swap element forward" })
 
-  nmap("<M-<>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
-  xmap("<M-<>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
-  nmap("<M->>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
-  xmap("<M->>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
+  nmap("<S-Left>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
+  xmap("<S-Left>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
+  nmap("<S-Right>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
+  xmap("<S-Right>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
 end
 
 local autocmd = vim.api.nvim_create_autocmd
