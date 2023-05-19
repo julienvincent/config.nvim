@@ -101,6 +101,16 @@ return {
 
         capabilities = capabilities,
 
+        handlers = {
+          ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
+            { signs = true,
+              virtual_text = false,
+              update_in_insert = true,
+              underline = true
+            }
+          )
+        },
+
         on_attach = function(_, bufnr)
           local wk = require("which-key")
           wk.register(keybinds, { noremap = true, buffer = bufnr })
