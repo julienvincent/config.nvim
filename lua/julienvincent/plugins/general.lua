@@ -46,7 +46,10 @@ return {
     "windwp/nvim-autopairs",
     event = "BufReadPost",
     config = function()
-      require("nvim-autopairs").setup()
+      require("nvim-autopairs").setup({
+        check_ts = true,
+        enable_check_bracket_line = false
+      })
     end,
   },
 
@@ -73,6 +76,35 @@ return {
       render = "compact",
       stages = "static",
     },
+  },
+
+  {
+    "nvim-pack/nvim-spectre",
+    keys = {
+      { "<leader>sr", function() require("spectre").open() end, desc = "Spectre find and replace" },
+    },
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = { "TroubleToggle", "Trouble" },
+  },
+
+  {
+    "ggandor/leap.nvim",
+    keys = {
+      { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
+      { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
+      { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
+    },
+    config = function(_, opts)
+      local leap = require("leap")
+      for k, v in pairs(opts) do
+        leap.opts[k] = v
+      end
+      leap.add_default_mappings(true)
+      vim.keymap.del({ "x", "o" }, "x")
+      vim.keymap.del({ "x", "o" }, "X")
+    end,
   },
 
   { "nvim-tree/nvim-web-devicons" },
