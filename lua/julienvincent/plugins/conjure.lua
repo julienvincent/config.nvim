@@ -48,8 +48,8 @@ return {
             nrepl.find_repls,
             "Find and connect to running repls",
           },
-          c = { "<cmd>ConjureCljConnectPortFile<cr>", "Connect via port file" },
-          d = { "<cmd>ConjureCljDisconnect<cr>", "Disconnect" },
+          c = { require("conjure.client.clojure.nrepl.action")["connect-port-file"], "Connect via port file" },
+          d = { require("conjure.client.clojure.nrepl.server")["disconnect"], "Disconnect" },
           p = { connect_cmd, "Connect via port" },
           s = {
             nrepl.switch_active_repl,
