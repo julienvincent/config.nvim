@@ -5,9 +5,16 @@ return {
     keys = require("julienvincent.lang.clojure.keymaps"),
     init = function()
       vim.g["conjure#highlight#enabled"] = true
+      vim.g["conjure#highlight#group"] = "CurrentWord"
+      vim.g["conjure#highlight#timeout"] = 200
+      vim.g["conjure#eval#inline#highlight"] = "CurrentWord"
+
       vim.g["conjure#client#clojure#nrepl#eval#raw_out"] = true
       vim.g["conjure#log#hud#enabled"] = false
+      vim.g["conjure#log#wrap"] = true
       vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
+
+      vim.g["conjure#mapping#doc_word"] = false
 
       vim.g["conjure#client#clojure#nrepl#mapping#disconnect"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#connect_port_file"] = false
