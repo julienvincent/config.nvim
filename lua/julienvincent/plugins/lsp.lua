@@ -44,6 +44,11 @@ local function find_furthest_root(globs)
   end
 
   return function(start_path)
+    local result = string.match(start_path, '^%w+://')
+    if result then
+      return nil
+    end
+
     return traverse(start_path, nil)
   end
 end
@@ -51,6 +56,7 @@ end
 local servers = {
   clojure_lsp = {
     root_dir = find_furthest_root({ "deps.edn", "bb.edn", "shadow-cljs.edn" }),
+    single_file_support = true,
     init_options = {
       codeLens = true,
     },
@@ -67,8 +73,8 @@ local servers = {
   },
   tsserver = {},
   jdtls = {
+    single_file_support = true,
     settings = {
-      single_file_support = true,
       java = {
         signatureHelp = { enabled = true },
         contentProvider = { preferred = "fernflower" },
