@@ -1,6 +1,9 @@
 local map = require("julienvincent.helpers.keys").map
 
-map("n", "<leader>qq", "<cmd>qa<cr>", "Quit NeoVim")
+map("n", "<leader>qq", function()
+  vim.api.nvim_command("wa")
+  vim.api.nvim_command("qa")
+end, "Save and quit")
 
 map("n", "<leader>W", "<cmd>wa<cr>", "Save all buffers")
 
