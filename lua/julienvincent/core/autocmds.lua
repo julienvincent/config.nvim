@@ -12,18 +12,6 @@ autocmd("FocusLost", {
   end,
 })
 
--- autocmd("VimEnter", {
---   group = general,
---   desc = "Set the cwd to the opened directory",
---   callback = function(data)
---     local directory = vim.fn.isdirectory(data.file) == 1
---     if directory then
---       vim.cmd.cd(data.file)
---     end
---     print(vim.fn.getcwd())
---   end,
--- })
-
 autocmd("FileType", {
   pattern = { "clojure" },
   group = general,

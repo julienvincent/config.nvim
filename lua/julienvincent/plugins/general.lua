@@ -1,10 +1,9 @@
 return {
   {
     "thallada/gruvbox.nvim",
+    enabled = false,
     lazy = true,
     config = function()
-      local colors = require("gruvbox.palette").colors
-
       require("gruvbox").setup({
         contrast = "soft",
         undercurl = false,
@@ -16,14 +15,6 @@ return {
           operators = false,
           folds = false,
         },
-        -- overrides = {
-        --   DiffviewDiffAddAsDelete = { bg = "#431313" },
-        --   DiffDelete = { bg = "none", fg = colors.dark2 },
-        --   DiffviewDiffDelete = { bg = "none", fg = colors.dark2 },
-        --   DiffAdd = { bg = "#142a03" },
-        --   DiffChange = { bg = "#3B3307" },
-        --   DiffText = { bg = "#4D520D" },
-        -- }
       })
     end
   },
@@ -66,16 +57,6 @@ return {
     config = function()
       require("Comment").setup({})
     end
-  },
-
-  {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
-
-    opts = {
-      render = "compact",
-      stages = "static",
-    },
   },
 
   {

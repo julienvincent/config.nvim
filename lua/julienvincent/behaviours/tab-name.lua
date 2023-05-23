@@ -1,6 +1,6 @@
 local M = {}
 
-TAB_NAMES = {}
+local TAB_NAMES = {}
 
 M.init = function()
   local autocmd = vim.api.nvim_create_autocmd

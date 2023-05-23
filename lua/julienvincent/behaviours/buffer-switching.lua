@@ -9,15 +9,6 @@ local MAX_DEPTH = 20
 -- When switching to the previous buffer for a window, we just pop the last buffer off the stack
 local PREV_BUFS = {}
 
--- local function remove_buf_from_stack(stack, val)
---   for i, v in ipairs(stack) do
---     if v == val then
---       table.remove(stack, i)
---       return
---     end
---   end
--- end
-
 local function pop_buf_from_stack(win, buf)
   local bufs = PREV_BUFS[win]
 
