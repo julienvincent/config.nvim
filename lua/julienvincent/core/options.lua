@@ -35,6 +35,9 @@ local opts = {
   shiftwidth = 2,
   tabstop = 2,
   wrap = false,
+
+  spell = false,
+  spelllang = 'en_us',
 }
 
 -- Set options from table
