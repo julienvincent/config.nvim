@@ -12,6 +12,12 @@ return {
       { "<leader>fs",      "<cmd>Telescope git_status<CR>",                desc = "status" },
     },
     opts = {
+      defaults = {
+        layout_config = {
+          vertical = { width = 0.9 }
+        },
+        layout_strategy = "vertical"
+      },
       pickers = {
         find_files = {
           find_command = {
