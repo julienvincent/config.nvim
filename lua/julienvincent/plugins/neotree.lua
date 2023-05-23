@@ -76,6 +76,8 @@ return {
     },
 
     opts = {
+      enable_diagnostics = false,
+
       filesystem = {
         bind_to_cwd = true,
         follow_current_file = false,
@@ -87,6 +89,7 @@ return {
       },
 
       window = {
+        width = 30,
         mappings = {
           ["<space>"] = "none",
 
@@ -118,7 +121,28 @@ return {
         },
 
         icon = {
-          folder_empty = "-",
+          folder_empty = "~",
+        },
+        modified = {
+          symbol = ""
+        },
+        name = {
+          use_git_status_colors = true
+        },
+        git_status = {
+          symbols = {
+            -- Change type
+            added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+            modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+            deleted   = "", -- this can only be used in the git_status source
+            renamed   = "", -- this can only be used in the git_status source
+            -- Status type
+            untracked = "",
+            ignored   = "",
+            unstaged  = "",
+            staged    = "",
+            conflict  = "",
+          }
         },
       },
     },
