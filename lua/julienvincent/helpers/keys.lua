@@ -1,7 +1,13 @@
 local M = {}
 
-M.map = function(mode, lhs, rhs, desc)
-  vim.keymap.set(mode, lhs, rhs, { desc = desc })
+M.map = function(mode, lhs, rhs, desc_or_opts)
+  local opts = {}
+  if type(desc_or_opts) == "table" then
+    opts = desc_or_opts
+  else
+    opts = { desc = desc_or_opts }
+  end
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 M.lsp_map = function(lhs, rhs, bufnr, desc)
