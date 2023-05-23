@@ -17,8 +17,40 @@ local keybinds = {
   K = { vim.lsp.buf.hover, "Hover doc" },
 }
 
+local function glob_exists_in_dir(dir, globs)
+  for _, glob in ipairs(globs) do
+    if #vim.fn.glob(vim.api.nvim_call_function('fnamemodify', { dir, ':p' }) .. '/' .. glob) > 0 then
+      return true
+    end
+  end
+  return false
+end
+
+local function find_furthest_root(globs)
+  local home = vim.fn.expand("~")
+
+  local function traverse(path, root)
+    if path == home or path == "/" then
+      return root
+    end
+
+    local next = vim.fn.fnamemodify(path, ':h')
+
+    if glob_exists_in_dir(path, globs) then
+      return traverse(next, path)
+    end
+
+    return traverse(next, root)
+  end
+
+  return function(start_path)
+    return traverse(start_path, nil)
+  end
+end
+
 local servers = {
   clojure_lsp = {
+    root_dir = find_furthest_root({ "deps.edn", "bb.edn", "shadow-cljs.edn" }),
     init_options = {
       codeLens = true,
     },
