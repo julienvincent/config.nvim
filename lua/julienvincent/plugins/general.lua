@@ -21,6 +21,7 @@ return {
 
   {
     "sainnhe/gruvbox-material",
+    lazy = true,
     init = function()
       vim.g.gruvbox_material_better_performance = 1
       vim.g.gruvbox_material_foreground = "mix"
@@ -44,7 +45,10 @@ return {
     end,
   },
 
-  { "mbbill/undotree" },
+  {
+    "mbbill/undotree",
+    event = "VeryLazy"
+  },
   {
     "psliwka/vim-smoothie",
     init = function()
@@ -54,6 +58,7 @@ return {
   { "folke/which-key.nvim", event = "VeryLazy" },
   {
     "numToStr/Comment.nvim",
+    event = "VeryLazy",
     config = function()
       require("Comment").setup({})
     end
@@ -68,6 +73,13 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
+    keys = {
+      { "<localleader>D", "<cmd>Trouble<cr>", desc = "Open Trouble Diagnostics" }
+    },
+    opts = {
+      use_diagnostic_signs = true,
+      mode = "document_diagnostics",
+    },
   },
 
   {
@@ -88,8 +100,7 @@ return {
     end,
   },
 
-  { "nvim-tree/nvim-web-devicons" },
-  { "nvim-lua/plenary.nvim" },
-  { "nvim-tree/nvim-web-devicons" },
-  { "MunifTanjim/nui.nvim" },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "nvim-lua/plenary.nvim", lazy = true },
+  { "MunifTanjim/nui.nvim", lazy = true },
 }
