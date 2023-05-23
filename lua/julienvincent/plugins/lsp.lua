@@ -70,6 +70,15 @@ local servers = {
   },
 }
 
+local icons = {
+  diagnostics = {
+    Error = " ",
+    Warn = " ",
+    Hint = " ",
+    Info = " ",
+  }
+}
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -116,6 +125,11 @@ return {
           wk.register(keybinds, { noremap = true, buffer = bufnr })
         end,
       }
+
+      for name, icon in pairs(icons.diagnostics) do
+        name = "DiagnosticSign" .. name
+        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
 
       mason_lspconfig.setup_handlers({
         function(server_name)
