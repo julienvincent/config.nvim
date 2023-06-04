@@ -12,6 +12,17 @@ autocmd("FocusLost", {
   end,
 })
 
+autocmd("BufLeave", {
+  pattern = "*",
+  group = general,
+  desc = "Auto save buffers when I leave them",
+  callback = function()
+    if vim.bo.modified and vim.bo.modifiable and #vim.fn.bufname("%") > 0 then
+      vim.api.nvim_command("write")
+    end
+  end,
+})
+
 autocmd("FileType", {
   pattern = { "clojure" },
   group = general,
