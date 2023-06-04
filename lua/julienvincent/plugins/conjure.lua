@@ -31,6 +31,8 @@ return {
       vim.g["conjure#client#clojure#nrepl#mapping#refresh_changed"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#refresh_all"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#refresh_clear"] = false
+
+      vim.g["conjure#log#jump_to_latest#cursor_scroll_position"] = "none"
     end,
     config = function()
       local wk = require("which-key")
