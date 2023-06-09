@@ -23,7 +23,7 @@ return {
         "vim",
         "vimdoc",
         "yaml",
-
+        "fennel",
         "clojure",
         "rust",
       },
@@ -42,4 +42,6 @@ return {
       require("nvim-treesitter.configs").setup(opts)
     end,
   },
+
+  { "nvim-treesitter/playground" },
 }
