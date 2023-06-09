@@ -80,34 +80,34 @@ local function vim_sexp_mappings()
   nmap("<M-Right>", "<Plug>(sexp_swap_element_forward)", { desc = "Sexp swap element forward" })
   xmap("<M-Right>", "<Plug>(sexp_swap_element_forward)", { desc = "Sexp swap element forward" })
 
-  nmap("<S-Left>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
-  xmap("<S-Left>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
-  nmap("<S-Right>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
-  xmap("<S-Right>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
+  nmap("<S-Right>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
+  xmap("<S-Right>", "<Plug>(sexp_capture_next_element)", { desc = "Slurp" })
+  nmap("<S-Left>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
+  xmap("<S-Left>", "<Plug>(sexp_emit_tail_element)", { desc = "Barf" })
 end
 
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
+-- local autocmd = vim.api.nvim_create_autocmd
+-- local augroup = vim.api.nvim_create_augroup
 
-autocmd("FileType", {
-  group = augroup("VimSexp", { clear = true }),
-  pattern = { "clojure" },
-  callback = vim_sexp_mappings,
-})
+-- autocmd("FileType", {
+--   group = augroup("VimSexp", { clear = true }),
+--   pattern = { "clojure" },
+--   callback = vim_sexp_mappings,
+-- })
 
 return {
-  {
-    "guns/vim-sexp",
-    ft = { "clojure" },
-
-    init = function()
-      vim.g.sexp_filetypes = ""
-      vim.g.sexp_enable_insert_mode_mappings = 0
-    end,
-
-    dependencies = {
-      "radenling/vim-dispatch-neovim",
-      "tpope/vim-repeat",
-    },
-  },
+  -- {
+  --   "snoe/vim-sexp",
+  --   ft = { "clojure" },
+  --
+  --   init = function()
+  --     vim.g.sexp_filetypes = ""
+  --     vim.g.sexp_enable_insert_mode_mappings = 0
+  --   end,
+  --
+  --   dependencies = {
+  --     "radenling/vim-dispatch-neovim",
+  --     "tpope/vim-repeat",
+  --   },
+  -- },
 }
