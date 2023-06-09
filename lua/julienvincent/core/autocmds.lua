@@ -64,6 +64,11 @@ vim.api.nvim_create_autocmd(
       vim.api.nvim_set_hl(0, 'DiffText', {
         bg = "#707553"
       })
+
+      vim.api.nvim_set_hl(0, 'VertSplit', {
+        bg = "#3c3836",
+        fg = "#a89984"
+      })
     end
   }
 )
