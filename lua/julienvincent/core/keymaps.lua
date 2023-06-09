@@ -9,6 +9,8 @@ map("n", "<leader>W", "<cmd>wa<cr>", "Save all buffers")
 
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", "Escape and clear hlsearch")
 
+map("n", "<C-Tab>", "<C-^>", "Toggle previous buffer")
+
 -- Yank to system clipboard
 map("v", "<leader>y", [["+y]], "Copy to system clipboard")
 map("n", "<leader>yy", [["+yy]], "Copy line under cursor to system clipboard")
