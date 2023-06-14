@@ -8,12 +8,12 @@ return {
       local function get_lsp_client_status()
         for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
           if client.initialized then
-            return " " .. client.name
+            return ""
           else
-            return " " .. client.name
+            return ""
           end
         end
-        return ""
+        return ""
       end
 
       local function get_nrepl_status()
