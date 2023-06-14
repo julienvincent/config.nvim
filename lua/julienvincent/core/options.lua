@@ -47,7 +47,15 @@ end
 
 vim.opt.shortmess:append({ W = true, I = true, c = true })
 
-vim.opt.fillchars:append({vert = "|"})
+vim.opt.fillchars:append({
+  vert = "|",
+  vertright = "|",
+  vertleft = "|",
+  verthoriz = "+",
+  horiz = "-",
+  horizup = "-",
+  horizdown = "-",
+})
 
 vim.cmd.colorscheme("gruvbox-material")
 -- vim.cmd.colorscheme("gruvbox")
