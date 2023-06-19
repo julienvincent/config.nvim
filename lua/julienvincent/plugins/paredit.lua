@@ -11,6 +11,9 @@ return {
           ["<S-Right>"] = { paredit.api.slurp_forwards, "Slurp" },
           ["<S-Left>"] = { paredit.api.barf_forwards, "Barf" },
 
+          ["<S-H>"] = { paredit.api.slurp_backwards, "Slurp backwards" },
+          ["<S-L>"] = { paredit.api.barf_backwards, "Barf backwards" },
+
           ["<M-Left>"] = { paredit.api.drag_element_backwards, "Drag element left" },
           ["<M-Right>"] = { paredit.api.drag_element_forwards, "Drag element right" },
 
@@ -20,8 +23,8 @@ return {
           ["<localleader>r"] = { paredit.api.raise_element, "Raise element" },
           ["<localleader>R"] = { paredit.api.raise_form, "Raise form" },
 
-          ["E"] = { paredit.api.move_to_next_element, "Jump to next element" },
-          ["B"] = { paredit.api.move_to_prev_element, "Jump to previous element" },
+          ["E"] = { paredit.api.move_to_next_element, "Jump to next element", repeatable = false },
+          ["B"] = { paredit.api.move_to_prev_element, "Jump to previous element", repeatable = false },
         }
       })
     end
