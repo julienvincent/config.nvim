@@ -60,7 +60,7 @@ return {
       vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
     end
   },
-  { "folke/which-key.nvim", event = "VeryLazy" },
+  { "folke/which-key.nvim",        event = "VeryLazy" },
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
@@ -105,7 +105,12 @@ return {
     end,
   },
 
+  {
+    "NoahTheDuke/vim-just",
+    ft = "just",
+  },
+
   { "nvim-tree/nvim-web-devicons", lazy = true },
-  { "nvim-lua/plenary.nvim", lazy = true },
-  { "MunifTanjim/nui.nvim", lazy = true },
+  { "nvim-lua/plenary.nvim",       lazy = true },
+  { "MunifTanjim/nui.nvim",        lazy = true },
 }
