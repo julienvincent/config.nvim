@@ -1,34 +1,31 @@
+local function eval_str(code)
+  local eval = require("conjure.eval")
+  local client = require("conjure.client")
+  client["with-filetype"]("clojure", eval["eval-str"], {
+    origin = "julienvincent.custom-command",
+    code = code,
+  })
+end
+
 return {
   {
     "<leader>§",
     function()
-      local eval = require("conjure.eval")
-      eval["eval-str"]({
-        code = "(do (ns user) (reset) nil)",
-        origin = "custom_command",
-      })
+      eval_str("(do (ns user) (reset) nil)")
     end,
     desc = "user/reset",
   },
   {
     "<leader>po",
     function()
-      local eval = require("conjure.eval")
-      eval["eval-str"]({
-        code = "(do (ns user) (open-portal!) nil)",
-        origin = "custom_command",
-      })
+      eval_str("(do (ns user) (open-portal!) nil)")
     end,
     desc = "Open portal",
   },
   {
     "<leader>*",
     function()
-      local eval = require("conjure.eval")
-      eval["eval-str"]({
-        code = "(do (require '[clojure.pprint :as pprint]) (pprint/pprint *e))",
-        origin = "custom_command",
-      })
+      eval_str("(do (require '[clojure.pprint :as pprint]) (pprint/pprint *e))")
     end,
     desc = "Eval last error",
   },
