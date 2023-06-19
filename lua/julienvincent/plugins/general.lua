@@ -32,7 +32,12 @@ return {
   {
     "kylechui/nvim-surround",
     event = "BufReadPost",
-    config = true
+    opts = {
+      keymaps = {
+        visual = "gS",
+        visual_line = "gS",
+      },
+    },
   },
   {
     "windwp/nvim-autopairs",
