@@ -25,7 +25,9 @@ return {
         "yaml",
         "fennel",
         "clojure",
+        "commonlisp",
         "rust",
+        "go",
       },
       incremental_selection = {
         enable = true,
@@ -43,5 +45,8 @@ return {
     end,
   },
 
-  { "nvim-treesitter/playground" },
+  {
+    "nvim-treesitter/playground",
+    event = { "BufReadPost", "BufNewFile" },
+  },
 }
