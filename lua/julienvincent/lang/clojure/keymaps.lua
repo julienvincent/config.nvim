@@ -18,7 +18,7 @@ return {
   {
     "<leader>po",
     function()
-      eval_str("(do (ns user) (open-portal!) nil)")
+      eval_str("(do (ns user) (require '[portal.api :as p]) (add-tap #'p/submit) (p/open) nil)")
     end,
     desc = "Open portal",
   },
