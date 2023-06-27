@@ -5,6 +5,7 @@ local opts = {
   mouse = "a",
   winminwidth = 5,
 
+  swapfile = false,
   undofile = true,
   undolevels = 10000,
 
