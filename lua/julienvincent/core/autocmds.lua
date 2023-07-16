@@ -32,6 +32,15 @@ autocmd("FileType", {
   end,
 })
 
+autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.zed" },
+  group = general,
+  desc = "Set the filetype of .zed files",
+  callback = function(event)
+    vim.api.nvim_buf_set_option(event.buf, "filetype", "authzed")
+  end,
+})
+
 autocmd("BufNewFile", {
   pattern = "conjure-log-*",
   group = general,
