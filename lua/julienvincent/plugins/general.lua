@@ -110,6 +110,14 @@ return {
     ft = "just",
   },
 
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
+
   { "nvim-tree/nvim-web-devicons", lazy = true },
   { "nvim-lua/plenary.nvim",       lazy = true },
   { "MunifTanjim/nui.nvim",        lazy = true },
