@@ -17,6 +17,7 @@ return {
         "luap",
         "markdown",
         "markdown_inline",
+        "mermaid",
         "regex",
         "tsx",
         "typescript",
