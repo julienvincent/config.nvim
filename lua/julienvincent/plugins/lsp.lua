@@ -50,13 +50,17 @@ local function find_furthest_root(globs)
       return nil
     end
 
-    return traverse(start_path, nil)
+    local furthest_root = traverse(start_path, nil)
+    if furthest_root then
+      return furthest_root
+    end
+    return vim.fn.getcwd()
   end
 end
 
 local servers = {
   clojure_lsp = {
-    root_dir = find_furthest_root({ "deps.edn", "bb.edn", "shadow-cljs.edn" }),
+    root_dir = find_furthest_root({ "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" }),
     single_file_support = true,
     init_options = {
       codeLens = true,
