@@ -61,6 +61,10 @@ local servers = {
     init_options = {
       codeLens = true,
     },
+
+    before_init = function(params)
+      params.workDoneToken = "enable-progress"
+    end
   },
   yamlls = {
     settings = {
