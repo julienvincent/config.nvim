@@ -87,7 +87,7 @@ local servers = {
     settings = {
       Lua = {
         format = {
-          enable = true,
+          enable = false,
           defaultConfig = {
             indent_style = "space",
             indent_size = "2",
@@ -122,6 +122,7 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
       {
         "williamboman/mason.nvim",
         opts = {
@@ -136,10 +137,14 @@ return {
     },
 
     config = function()
+      local nls = require("null-ls")
       local mason_lspconfig = require("mason-lspconfig")
       local cmplsp = require("cmp_nvim_lsp")
 
-      local capabilities = cmplsp.default_capabilities()
+      local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+      default_capabilities.workspace.workspaceEdit.documentChanges = true
+      local cmp_capabilities = cmplsp.default_capabilities(default_capabilities)
+      local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities)
 
       local options = {
         flags = {
@@ -158,9 +163,16 @@ return {
           )
         },
 
-        on_attach = function(_, bufnr)
+        on_attach = function(client, bufnr)
           local wk = require("which-key")
           wk.register(keybinds, { noremap = true, buffer = bufnr })
+
+          if client.name == "tsserver" then
+            client.server_capabilities.documentFormattingProvider = false
+          end
+          if client.name == "lua_ls" then
+            client.server_capabilities.documentFormattingProvider = false
+          end
         end,
       }
 
@@ -168,6 +180,15 @@ return {
         name = "DiagnosticSign" .. name
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
+
+      nls.setup({
+        save_after_format = false,
+        sources = {
+          nls.builtins.formatting.stylua,
+          nls.builtins.formatting.just,
+          nls.builtins.formatting.prettierd,
+        },
+      })
 
       mason_lspconfig.setup_handlers({
         function(server_name)
