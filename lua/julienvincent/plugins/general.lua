@@ -60,7 +60,13 @@ return {
       vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
     end
   },
-  { "folke/which-key.nvim",        event = "VeryLazy" },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("which-key").setup()
+    end
+  },
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
