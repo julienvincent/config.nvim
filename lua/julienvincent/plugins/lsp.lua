@@ -11,6 +11,7 @@ local keybinds = {
       f = { vim.lsp.buf.format, "Format" },
       r = { vim.lsp.buf.rename, "Rename" },
       R = { ":LspRestart<cr>", "Lsp Restart" },
+      a = { vim.lsp.buf.code_action, "Code Action" },
       I = { ":LspInfo<cr>", "Lsp Info" },
     },
   },
