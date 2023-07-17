@@ -34,26 +34,20 @@ return {
   },
 
   {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",
     opts = {
       kind = "vsplit",
-      integrations = {
-        diffview = true
-      }
     },
     keys = {
       { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" }
     },
-    dependencies = {
-      { "sindrets/diffview.nvim" }
-    }
   },
 
   {
     "sindrets/diffview.nvim",
     keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open diff view" },
-      { "q", "<cmd>DiffviewClose<cr>", desc = "Close diff view" }
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>",  desc = "Open diff view" },
+      { "q",          "<cmd>DiffviewClose<cr>", desc = "Close diff view" }
     },
     event = "VeryLazy",
     opts = {
