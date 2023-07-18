@@ -78,6 +78,10 @@ vim.api.nvim_create_autocmd(
         bg = "#3c3836",
         fg = "#a89984"
       })
+
+      vim.api.nvim_set_hl(0, 'CursorColumn', {
+        bg = "#504945"
+      })
     end
   }
 )

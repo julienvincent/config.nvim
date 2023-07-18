@@ -100,6 +100,26 @@ return {
   },
 
   {
+    "petertriho/nvim-scrollbar",
+    event = "BufReadPost",
+    config = function()
+      require("scrollbar").setup({
+        handle = {
+          blend = 0,
+        },
+        marks = {
+          Cursor = {
+            text = "",
+          },
+        },
+        handlers = {
+          gitsigns = true,
+        },
+      })
+    end,
+  },
+
+  {
     "easymotion/vim-easymotion",
     event = "VeryLazy",
     init = function()
