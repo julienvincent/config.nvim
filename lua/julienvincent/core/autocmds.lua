@@ -50,6 +50,24 @@ autocmd("BufNewFile", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable spellcheck for certain filetypes",
+  group = general,
+  pattern = { "gitcommit", "markdown" },
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable line wrapping for certain filetypes",
+  group = general,
+  pattern = { "markdown" },
+  callback = function()
+    vim.opt_local.wrap = true
+  end,
+})
+
 vim.api.nvim_create_autocmd(
   "ColorScheme",
   {
