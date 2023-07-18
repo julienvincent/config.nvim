@@ -91,7 +91,11 @@ local servers = {
     },
   },
   jsonls = {},
-  rust_analyser = {},
+  rust_analyser = {
+    settings = {
+      ["rust-analyzer"] = {}
+    }
+  },
   lua_ls = {
     settings = {
       Lua = {

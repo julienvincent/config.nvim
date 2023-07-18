@@ -24,6 +24,7 @@ return {
         "vim",
         "vimdoc",
         "yaml",
+        "graphql",
         "fennel",
         "clojure",
         "commonlisp",
