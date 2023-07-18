@@ -115,6 +115,15 @@ return {
         handlers = {
           gitsigns = true,
         },
+        excluded_filetypes = {
+          "cmp_docs",
+          "cmp_menu",
+          "noice",
+          "prompt",
+          "TelescopePrompt",
+          "neo-tree",
+          "neo-tree-popup",
+        },
       })
     end,
   },
