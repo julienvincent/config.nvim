@@ -24,9 +24,9 @@ autocmd("BufLeave", {
 })
 
 autocmd("FileType", {
-  pattern = { "clojure" },
+  pattern = { "*" },
   group = general,
-  desc = "Override the definition of a word for clojure files",
+  desc = "Override the definition of a keyword",
   callback = function()
     vim.cmd("setlocal iskeyword=@,48-57,_,192-255,!,?")
   end,
