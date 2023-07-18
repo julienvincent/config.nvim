@@ -16,7 +16,7 @@ return {
           folds = false,
         },
       })
-    end
+    end,
   },
 
   {
@@ -26,7 +26,7 @@ return {
       vim.g.gruvbox_material_better_performance = 1
       vim.g.gruvbox_material_foreground = "mix"
       vim.g.gruvbox_material_background = "soft"
-    end
+    end,
   },
 
   {
@@ -45,47 +45,53 @@ return {
     config = function()
       require("nvim-autopairs").setup({
         check_ts = true,
-        enable_check_bracket_line = false
+        enable_check_bracket_line = false,
       })
     end,
   },
 
   {
     "mbbill/undotree",
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
   {
     "psliwka/vim-smoothie",
     init = function()
       vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
-    end
+    end,
   },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
       require("which-key").setup()
-    end
+    end,
   },
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
     config = function()
       require("Comment").setup({})
-    end
+    end,
   },
 
   {
     "nvim-pack/nvim-spectre",
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Spectre find and replace" },
+      {
+        "<leader>sr",
+        function()
+          require("spectre").open()
+        end,
+        desc = "Spectre find and replace",
+      },
     },
   },
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
     keys = {
-      { "<localleader>D", "<cmd>Trouble<cr>", desc = "Open Trouble Diagnostics" }
+      { "<localleader>D", "<cmd>Trouble<cr>", desc = "Open Trouble Diagnostics" },
     },
     opts = {
       use_diagnostic_signs = true,
@@ -96,8 +102,8 @@ return {
   {
     "ggandor/leap.nvim",
     keys = {
-      { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
-      { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
+      { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
+      { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
       { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
     },
     config = function(_, opts)
@@ -134,6 +140,6 @@ return {
   },
 
   { "nvim-tree/nvim-web-devicons", lazy = true },
-  { "nvim-lua/plenary.nvim",       lazy = true },
-  { "MunifTanjim/nui.nvim",        lazy = true },
+  { "nvim-lua/plenary.nvim", lazy = true },
+  { "MunifTanjim/nui.nvim", lazy = true },
 }
