@@ -111,6 +111,15 @@ return {
     end,
   },
 
+
+  {
+    "svermeulen/vim-easyclip",
+    event = "VeryLazy",
+    init = function ()
+      vim.g["EasyClipShareYanks"] = true
+    end
+  },
+
   {
     "NoahTheDuke/vim-just",
     ft = "just",
