@@ -79,6 +79,10 @@ return {
       require("neo-tree").setup({
         enable_diagnostics = false,
 
+        -- This causes NeoTree to use the native vim.ui implementations - which in my setup are overridden
+        -- by Drerssing.nvim. This allows editing in normal mode.
+        use_popups_for_input = false,
+
         filesystem = {
           bind_to_cwd = true,
           follow_current_file = false,

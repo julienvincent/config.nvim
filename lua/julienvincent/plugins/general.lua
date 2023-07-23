@@ -158,7 +158,19 @@ return {
   {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
-    config = true,
+    config = function()
+      require("dressing").setup({
+        input = {
+          insert_only = false,
+          start_in_insert = true,
+
+          win_options = {
+            -- Window transparency (0-100)
+            winblend = 0,
+          },
+        },
+      })
+    end,
   },
 
   {
