@@ -12,6 +12,17 @@ autocmd("FocusLost", {
   end,
 })
 
+autocmd("FocusGained", {
+  pattern = "*",
+  group = general,
+  desc = "Refresh NeoTree git status on focus",
+  callback = function()
+    if package.loaded["neo-tree.sources.git_status"] then
+      require("neo-tree.sources.git_status").refresh()
+    end
+  end,
+})
+
 autocmd("BufLeave", {
   pattern = "*",
   group = general,
