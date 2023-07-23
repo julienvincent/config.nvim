@@ -75,97 +75,88 @@ return {
       { "<leader>k", "<cmd>:Neotree toggle<cr>" },
     },
 
-    opts = {
-      enable_diagnostics = false,
+    config = function()
+      require("neo-tree").setup({
+        enable_diagnostics = false,
 
-      filesystem = {
-        bind_to_cwd = true,
-        follow_current_file = false,
-        use_libuv_file_watcher = true,
+        filesystem = {
+          bind_to_cwd = true,
+          follow_current_file = false,
+          use_libuv_file_watcher = true,
 
-        filtered_items = {
-          visible = true,
-        },
-      },
-
-      window = {
-        width = 30,
-        mappings = {
-          ["<space>"] = "none",
-
-          ["<Right>"] = function(state)
-            local node = state.tree:get_node()
-            if require("neo-tree.utils").is_expandable(node) then
-              state.commands["toggle_node"](state)
-            else
-              state.commands["open"](state)
-              vim.cmd("Neotree reveal")
-            end
-          end,
-
-          ["<Left>"] = function(state)
-            local node = state.tree:get_node()
-            if require("neo-tree.utils").is_expandable(node) then
-              state.commands["toggle_node"](state)
-            end
-          end,
-        },
-      },
-
-      default_component_configs = {
-        indent = {
-          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-          expander_collapsed = "",
-          expander_expanded = "",
-          expander_highlight = "NeoTreeExpander",
-        },
-
-        icon = {
-          folder_empty = "~",
-        },
-        modified = {
-          symbol = "",
-        },
-        name = {
-          use_git_status_colors = true,
-        },
-        git_status = {
-          symbols = {
-            -- Change type
-            added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-            modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-            deleted = "", -- this can only be used in the git_status source
-            renamed = "", -- this can only be used in the git_status source
-            -- Status type
-            untracked = "",
-            ignored = "",
-            unstaged = "",
-            staged = "",
-            conflict = "",
+          filtered_items = {
+            visible = true,
           },
         },
-      },
 
-      event_handlers = {
-        {
-          event = "neo_tree_buffer_enter",
-          handler = function()
-            vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", {
-              link = "NeoTreeGitAdded",
-            })
-          end,
+        window = {
+          width = 30,
+          mappings = {
+            ["<space>"] = "none",
+
+            ["<Right>"] = function(state)
+              local node = state.tree:get_node()
+              if require("neo-tree.utils").is_expandable(node) then
+                state.commands["toggle_node"](state)
+              else
+                state.commands["open"](state)
+                vim.cmd("Neotree reveal")
+              end
+            end,
+
+            ["<Left>"] = function(state)
+              local node = state.tree:get_node()
+              if require("neo-tree.utils").is_expandable(node) then
+                state.commands["toggle_node"](state)
+              end
+            end,
+          },
         },
-      },
-    },
-    config = function(_, opts)
-      require("neo-tree").setup(opts)
-      vim.api.nvim_create_autocmd("TermClose", {
-        pattern = "*lazygit",
-        callback = function()
-          if package.loaded["neo-tree.sources.git_status"] then
-            require("neo-tree.sources.git_status").refresh()
-          end
-        end,
+
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = "",
+            expander_expanded = "",
+            expander_highlight = "NeoTreeExpander",
+          },
+
+          icon = {
+            folder_empty = "~",
+          },
+          modified = {
+            symbol = "",
+          },
+          name = {
+            use_git_status_colors = true,
+          },
+          git_status = {
+            symbols = {
+              -- Change type
+              added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+              modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+              deleted = "", -- this can only be used in the git_status source
+              renamed = "", -- this can only be used in the git_status source
+              -- Status type
+              untracked = "",
+              ignored = "",
+              unstaged = "",
+              staged = "",
+              conflict = "",
+            },
+          },
+        },
+
+        event_handlers = {
+          {
+            event = "neo_tree_buffer_enter",
+            handler = function()
+              vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", {
+                link = "NeoTreeGitAdded",
+              })
+            end,
+          },
+        },
       })
     end,
   },
