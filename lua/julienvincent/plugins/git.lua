@@ -39,19 +39,41 @@ return {
       kind = "vsplit",
     },
     keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" }
+      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
     },
   },
 
   {
     "sindrets/diffview.nvim",
     keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>",  desc = "Open diff view" },
-      { "q",          "<cmd>DiffviewClose<cr>", desc = "Close diff view" }
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff view" },
+      { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
+      { "<leader>gl", "<cmd>DiffviewFileHistory<cr>", desc = "Git log" },
+      { "q", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
     },
     event = "VeryLazy",
-    opts = {
-      enhanced_diff_hl = true
-    }
-  }
+    config = function()
+      local actions = require("diffview.actions")
+      require("diffview").setup({
+        enhanced_diff_hl = true,
+
+        keymaps = {
+          file_panel = {
+            {
+              "n",
+              "<Right>",
+              actions.select_entry,
+              { desc = "Open the diff for the selected entry" },
+            },
+            {
+              "n",
+              "<cr>",
+              actions.focus_entry,
+              { desc = "Focus the diff entry" },
+            },
+          },
+        },
+      })
+    end,
+  },
 }
