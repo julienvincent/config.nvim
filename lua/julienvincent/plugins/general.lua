@@ -129,21 +129,28 @@ return {
   },
 
   {
-    "easymotion/vim-easymotion",
+    "phaazon/hop.nvim",
     event = "VeryLazy",
-    init = function()
-      vim.g["EasyMotion_do_mapping"] = false
-      vim.g["EasyMotion_smartcase"] = true
-    end,
+    branch = "v2",
     config = function()
       local map = require("julienvincent.helpers.keys").map
-      map("n", "f", "<Plug>(easymotion-s)", "EasyMotion")
-      map("v", "f", "<Plug>(easymotion-s)", "EasyMotion")
 
-      map("n", "s", "<Plug>(easymotion-s2)", "EasyMotion")
-      map("v", "s", "<Plug>(easymotion-s2)", "EasyMotion")
+      local directions = require("hop.hint").HintDirection
+      local hop = require("hop")
 
-      map("n", "F", "<Plug>(easymotion-overwin-f)", "EasyMotion Global")
+      hop.setup({})
+
+      map({ "n", "v" }, "s", hop.hint_char1, "Hop")
+      map("n", "S", function()
+        hop.hint_char1({ multi_windows = true })
+      end, "Hop all windows")
+
+      map({ "n", "v" }, "f", function()
+        hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
+      end, "Hop Line")
+      map({ "n", "v" }, "F", function()
+        hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
+      end, "Hop Line")
     end,
   },
 
