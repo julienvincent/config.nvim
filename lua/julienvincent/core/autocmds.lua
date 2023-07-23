@@ -87,32 +87,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = { "*" },
   callback = function()
-    -- DIAGNOSTICS --
-    vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Comment" })
-    vim.api.nvim_set_hl(0, "ErrorText", {
-      undercurl = true,
-      sp = "#f2594b",
-    })
-    vim.api.nvim_set_hl(0, "HintText", {
-      undercurl = true,
-      sp = "#e9b143",
-    })
-
-    -- DIFF --
-    vim.api.nvim_set_hl(0, "DiffChange", {
-      link = "DiffAdd",
-    })
-    vim.api.nvim_set_hl(0, "DiffText", {
-      bg = "#707553",
-    })
-
-    vim.api.nvim_set_hl(0, "VertSplit", {
-      bg = "#3c3836",
-      fg = "#a89984",
-    })
-
-    vim.api.nvim_set_hl(0, "CursorColumn", {
-      bg = "#504945",
-    })
+    require("julienvincent.core.highlights").setup_highlights()
   end,
 })
