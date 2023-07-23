@@ -49,6 +49,7 @@ autocmd({ "BufNewFile", "BufRead" }, {
   desc = "Set the filetype of .zed files",
   callback = function(event)
     vim.api.nvim_buf_set_option(event.buf, "filetype", "authzed")
+    vim.bo.commentstring = "//%s"
   end,
 })
 
