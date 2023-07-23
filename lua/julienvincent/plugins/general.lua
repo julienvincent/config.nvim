@@ -155,6 +155,12 @@ return {
   },
 
   {
+    "stevearc/dressing.nvim",
+    event = "VeryLazy",
+    config = true,
+  },
+
+  {
     "svermeulen/vim-easyclip",
     event = "VeryLazy",
     init = function()
