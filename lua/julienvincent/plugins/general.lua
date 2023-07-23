@@ -123,6 +123,7 @@ return {
           "TelescopePrompt",
           "neo-tree",
           "neo-tree-popup",
+          "DiffviewFiles",
         },
       })
     end,
