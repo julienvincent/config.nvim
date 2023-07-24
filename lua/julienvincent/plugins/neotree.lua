@@ -162,6 +162,16 @@ return {
           },
         },
       })
+
+      -- I got the inspiration for this override from:
+      -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/351
+      require("neo-tree.ui.inputs").confirm = function(message, callback)
+        vim.ui.select({ "Yes", "No" }, {
+          prompt = message,
+        }, function(choice)
+          callback(choice == "Yes")
+        end)
+      end
     end,
   },
 }
