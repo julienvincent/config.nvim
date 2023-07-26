@@ -203,6 +203,8 @@ return {
     end,
   },
 
+  { "echasnovski/mini.bufremove", event = "VeryLazy" },
+
   { "nvim-tree/nvim-web-devicons", lazy = true },
   { "nvim-lua/plenary.nvim", lazy = true },
   { "MunifTanjim/nui.nvim", lazy = true },
