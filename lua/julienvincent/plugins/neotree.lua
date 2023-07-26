@@ -1,9 +1,9 @@
-local get_neotree_state = function()
-  local bufnr = vim.api.nvim_get_current_buf and vim.api.nvim_get_current_buf() or vim.fn.bufnr()
+local PREVIOUS_WIN = nil
 
-  -- Get all the available sources in neo-tree
+local get_neotree_state = function()
+  local bufnr = vim.api.nvim_get_current_buf()
+
   for _, source in ipairs(require("neo-tree").config.sources) do
-    -- Get each sources state
     local state = require("neo-tree.sources.manager").get_state(source)
 
     local is_open = state and state.bufnr
@@ -19,6 +19,48 @@ local get_neotree_state = function()
     is_open = false,
     is_focused = false,
   }
+end
+
+local function toggle_neotree_focus()
+  local state = get_neotree_state()
+  if state.is_focused then
+    if PREVIOUS_WIN then
+      vim.api.nvim_set_current_win(PREVIOUS_WIN)
+    end
+  else
+    PREVIOUS_WIN = vim.api.nvim_get_current_win()
+    vim.cmd.Neotree("focus")
+  end
+end
+
+local function reveal_file_in_neotree()
+  local state = get_neotree_state()
+  if state.is_focused then
+    return
+  end
+  PREVIOUS_WIN = vim.api.nvim_get_current_win()
+  vim.cmd.Neotree("reveal")
+end
+
+local function register_keymaps()
+  require("which-key").register({
+    ["<leader>"] = {
+      E = {
+        reveal_file_in_neotree,
+        "Reveal current file in Neotree",
+      },
+      e = {
+        toggle_neotree_focus,
+        "Toggle Neotree focus",
+      },
+      k = {
+        function()
+          vim.cmd.Neotree("toggle")
+        end,
+        "Hide or show Neotree",
+      },
+    },
+  })
 end
 
 return {
@@ -39,41 +81,6 @@ return {
         end
       end
     end,
-
-    keys = {
-      {
-        "<leader>E",
-        function()
-          local state = get_neotree_state()
-          if state.is_focused then
-            -- switch back to current buffer
-          else
-            vim.cmd.Neotree("reveal")
-          end
-        end,
-      },
-      {
-        "<leader>e",
-        function()
-          local state = get_neotree_state()
-          if state.is_focused then
-            -- switch back to current buffer
-          else
-            if not state.is_open then
-              vim.cmd.Neotree("toggle")
-            end
-            vim.cmd.Neotree("focus")
-          end
-        end,
-      },
-      {
-        "<leader>k",
-        function()
-          vim.cmd.Neotree("toggle")
-        end,
-      },
-      { "<leader>k", "<cmd>:Neotree toggle<cr>" },
-    },
 
     config = function()
       require("neo-tree").setup({
@@ -172,6 +179,8 @@ return {
           callback(choice == "Yes")
         end)
       end
+
+      register_keymaps()
     end,
   },
 }
