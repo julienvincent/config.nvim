@@ -163,7 +163,7 @@ return {
             event = "neo_tree_buffer_enter",
             handler = function()
               vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", {
-                link = "NeoTreeGitAdded",
+                link = "NeoTreeGitModified",
               })
             end,
           },
