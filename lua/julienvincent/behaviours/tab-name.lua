@@ -2,7 +2,7 @@ local M = {}
 
 local TAB_NAMES = {}
 
-M.init = function()
+M.setup = function()
   local autocmd = vim.api.nvim_create_autocmd
   local augroup = vim.api.nvim_create_augroup
 

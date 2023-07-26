@@ -3,26 +3,6 @@ local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 
-autocmd({ "BufLeave", "FocusLost" }, {
-  desc = "Save current when focus is lost",
-  pattern = "*",
-  group = general,
-  callback = function()
-    local bufname = vim.fn.bufname("%")
-
-    local writable = #bufname > 0
-      and vim.bo.modifiable
-      and vim.fn.filereadable(bufname) == 1
-      and vim.fn.filewritable(bufname) == 1
-
-    if not vim.bo.modified or not writable then
-      return
-    end
-
-    vim.api.nvim_command("write")
-  end,
-})
-
 autocmd("FocusGained", {
   pattern = "*",
   group = general,
