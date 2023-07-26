@@ -4,19 +4,19 @@ return {
     tag = "0.1.1",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader><space>", "<cmd>Telescope find_files<cr>",                desc = "Find files" },
-      { "<leader>:",       "<cmd>Telescope commands<cr>",                  desc = "Grep" },
-      { "<leader>/",       "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find in buffer" },
-      { "<leader>ff",      "<cmd>Telescope live_grep<cr>",                 desc = "Grep" },
-      { "<leader>fc",      "<cmd>Telescope git_commits<CR>",               desc = "commits" },
-      { "<leader>fs",      "<cmd>Telescope git_status<CR>",                desc = "status" },
+      -- { "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+      { "<leader>:", "<cmd>Telescope commands<cr>", desc = "Grep" },
+      { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find in buffer" },
+      { "<leader>ff", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
+      { "<leader>fc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
+      { "<leader>fs", "<cmd>Telescope git_status<CR>", desc = "status" },
     },
     opts = {
       defaults = {
         layout_config = {
-          vertical = { width = 0.9 }
+          vertical = { width = 0.9 },
         },
-        layout_strategy = "vertical"
+        layout_strategy = "vertical",
       },
       pickers = {
         find_files = {
@@ -42,6 +42,29 @@ return {
           },
         },
       },
+    },
+  },
+
+  {
+    "danielfalk/smart-open.nvim",
+    branch = "0.2.x",
+    config = function()
+      require("telescope").load_extension("smart_open")
+    end,
+    keys = {
+      {
+        "<leader><space>",
+        function()
+          require("telescope").extensions.smart_open.smart_open({
+            cwd_only = true,
+          })
+        end,
+        desc = "Find files",
+      },
+    },
+    dependencies = {
+      "kkharji/sqlite.lua",
+      "nvim-telescope/telescope-fzy-native.nvim",
     },
   },
 }
