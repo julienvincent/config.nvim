@@ -3,12 +3,23 @@ local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 
-autocmd("FocusLost", {
+autocmd({ "BufLeave", "FocusLost" }, {
+  desc = "Save current when focus is lost",
   pattern = "*",
   group = general,
-  desc = "Auto save all buffers when focus is lost",
   callback = function()
-    vim.api.nvim_command("wa")
+    local bufname = vim.fn.bufname("%")
+
+    local writable = #bufname > 0
+      and vim.bo.modifiable
+      and vim.fn.filereadable(bufname) == 1
+      and vim.fn.filewritable(bufname) == 1
+
+    if not vim.bo.modified or not writable then
+      return
+    end
+
+    vim.api.nvim_command("write")
   end,
 })
 
@@ -19,17 +30,6 @@ autocmd("FocusGained", {
   callback = function()
     if package.loaded["neo-tree.sources.git_status"] then
       require("neo-tree.sources.git_status").refresh()
-    end
-  end,
-})
-
-autocmd("BufLeave", {
-  pattern = "*",
-  group = general,
-  desc = "Auto save buffers when I leave them",
-  callback = function()
-    if vim.bo.modified and vim.bo.modifiable and #vim.fn.bufname("%") > 0 then
-      vim.api.nvim_command("write")
     end
   end,
 })
