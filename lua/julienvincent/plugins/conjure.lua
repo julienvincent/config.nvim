@@ -9,12 +9,13 @@ return {
       vim.g["conjure#highlight#timeout"] = 200
       vim.g["conjure#eval#inline#highlight"] = "CurrentWord"
 
-      vim.g['conjure#extract#tree_sitter#enabled'] = true
+      vim.g["conjure#extract#tree_sitter#enabled"] = true
 
       vim.g["conjure#client#clojure#nrepl#eval#raw_out"] = true
       vim.g["conjure#log#hud#enabled"] = false
       vim.g["conjure#log#wrap"] = true
       vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
+      vim.g["conjure#client#clojure#nrepl#eval#auto_require"] = false
 
       vim.g["conjure#mapping#doc_word"] = false
 
@@ -64,6 +65,30 @@ return {
       }, {
         prefix = "<leader>",
       })
+
+      wk.register({
+        n = {
+          name = "Clojure Namespace",
+
+          r = {
+            name = "Refreshing",
+            c = {
+              require("conjure.client.clojure.nrepl.action")["refresh-changed"],
+              "Refresh changed namespaces",
+            },
+            a = {
+              require("conjure.client.clojure.nrepl.action")["refresh-all"],
+              "Refresh all namespaces",
+            },
+          },
+        },
+      }, {
+        prefix = "<localleader>",
+      })
+
+      require("conjure.client.clojure.nrepl.action")["require-ns"] = function()
+        print("doing")
+      end
     end,
   },
 }
