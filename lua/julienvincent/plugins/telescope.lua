@@ -47,7 +47,8 @@ return {
 
   {
     "danielfalk/smart-open.nvim",
-    branch = "0.2.x",
+    -- branch = "0.2.x",
+    branch = "main",
     config = function()
       require("telescope").load_extension("smart_open")
     end,
@@ -57,6 +58,8 @@ return {
         function()
           require("telescope").extensions.smart_open.smart_open({
             cwd_only = true,
+            match_algorithm = "fzy",
+            filename_first = false,
           })
         end,
         desc = "Find files",
