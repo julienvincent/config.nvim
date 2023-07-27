@@ -168,6 +168,14 @@ return {
             -- Window transparency (0-100)
             winblend = 0,
           },
+
+          get_config = function(opts)
+            if opts.kind == "center" then
+              return {
+                relative = "editor",
+              }
+            end
+          end,
         },
       })
     end,

@@ -39,10 +39,6 @@ return {
     config = function()
       local wk = require("which-key")
 
-      local function connect_cmd()
-        vim.api.nvim_feedkeys(":ConjureConnect localhost:", "n", false)
-      end
-
       local nrepl = require("julienvincent.lang.clojure.nrepl")
 
       wk.register({
@@ -55,7 +51,7 @@ return {
           },
           c = { require("conjure.client.clojure.nrepl.action")["connect-port-file"], "Connect via port file" },
           d = { require("conjure.client.clojure.nrepl.server")["disconnect"], "Disconnect" },
-          p = { connect_cmd, "Connect via port" },
+          p = { nrepl.direct_connect, "Connect via port" },
 
           l = {
             function()

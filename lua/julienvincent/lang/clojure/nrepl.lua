@@ -1,4 +1,3 @@
-local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local actions = require("telescope.actions")
 local pickers = require("telescope.pickers")
@@ -108,6 +107,29 @@ function M.find_repls()
       end,
     })
     :find()
+end
+
+function M.direct_connect()
+  vim.ui.input({
+    prompt = "Enter connection details",
+    default = "localhost:",
+    kind = "center",
+  }, function(value)
+    if not value then
+      return
+    end
+
+    local host, port = string.match(value, "([^:]+):(.*)")
+    if host == "" or port == "" or not host or not port then
+      print("Invalid input")
+      return
+    end
+
+    connect_to_nrepl_server({
+      host = host,
+      port = port,
+    })
+  end)
 end
 
 return M
