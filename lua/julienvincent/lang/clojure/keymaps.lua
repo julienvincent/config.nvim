@@ -31,9 +31,25 @@ return {
   {
     "<leader>po",
     function()
-      eval_str("user", "(do (require '[portal.api :as p]) (add-tap #'p/submit) (p/open) nil)")
+      eval_str(
+        "user",
+        [[
+          (do
+            (require '[portal.api :as p])
+            (add-tap #'p/submit)
+            (p/open {:theme :portal.colors/gruvbox})
+            nil)
+        ]]
+      )
     end,
     desc = "Open portal",
+  },
+  {
+    "<leader>pc",
+    function()
+      eval_str("user", "(p/clear)")
+    end,
+    desc = "Clear portal",
   },
   {
     "<leader>*",
