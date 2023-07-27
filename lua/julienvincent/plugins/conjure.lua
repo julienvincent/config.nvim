@@ -47,7 +47,8 @@ return {
 
       wk.register({
         c = {
-          name = "NREPL Connect",
+          name = "Repl Connection",
+
           f = {
             nrepl.find_repls,
             "Find and connect to running repls",
@@ -55,19 +56,7 @@ return {
           c = { require("conjure.client.clojure.nrepl.action")["connect-port-file"], "Connect via port file" },
           d = { require("conjure.client.clojure.nrepl.server")["disconnect"], "Disconnect" },
           p = { connect_cmd, "Connect via port" },
-          s = {
-            nrepl.switch_active_repl,
-            "Switch repl session",
-          },
-          n = {
-            function()
-              vim.ui.input({ prompt = "Name: " }, function(name)
-                nrepl.create_new_repl_session(name)
-                nrepl.find_repls()
-              end)
-            end,
-            "Create new nrepl session",
-          },
+
           l = {
             function()
               vim.cmd("ConjureLogCloseVisible")
