@@ -1,7 +1,8 @@
 local M = {}
 
 function M.buf_is_visible(buf)
-  local windows = vim.api.nvim_list_wins()
+  local tabpage = vim.api.nvim_get_current_tabpage()
+  local windows = vim.api.nvim_tabpage_list_wins(tabpage)
 
   for _, win in ipairs(windows) do
     if vim.api.nvim_win_get_buf(win) == buf then
@@ -64,7 +65,7 @@ function M.setup()
   local autocmd = vim.api.nvim_create_autocmd
   local group = vim.api.nvim_create_augroup("AutoSaving", { clear = true })
 
-  autocmd({ "BufLeave", "BufEnter" }, {
+  autocmd({ "BufLeave", "BufEnter", "TabLeave" }, {
     desc = "Save buffers when they are no longer visible",
     pattern = "*",
     group = group,
