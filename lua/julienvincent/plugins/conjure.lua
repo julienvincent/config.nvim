@@ -1,6 +1,8 @@
 return {
   {
     "Olical/conjure",
+    -- Once https://github.com/Olical/conjure/pull/520 lands in master, this can be set back to master
+    branch = "develop",
     ft = { "clojure", "lua" },
     keys = require("julienvincent.lang.clojure.keymaps"),
     init = function()
@@ -41,6 +43,8 @@ return {
       local wk = require("which-key")
 
       local nrepl = require("julienvincent.lang.clojure.nrepl")
+      local action = require("conjure.client.clojure.nrepl.action")
+      local server = require("conjure.client.clojure.nrepl.server")
 
       wk.register({
         c = {
@@ -50,14 +54,14 @@ return {
             nrepl.find_repls,
             "Find and connect to running repls",
           },
-          c = { require("conjure.client.clojure.nrepl.action")["connect-port-file"], "Connect via port file" },
-          d = { require("conjure.client.clojure.nrepl.server")["disconnect"], "Disconnect" },
+          c = { action["connect-port-file"], "Connect via port file" },
+          d = { server["disconnect"], "Disconnect" },
           p = { nrepl.direct_connect, "Connect via port" },
 
           l = {
             function()
-              vim.cmd("ConjureLogCloseVisible")
-              vim.cmd("ConjureLogVSplit")
+              vim.cmd("ConjureLogToggle")
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-W>p", true, true, true), "n", true)
             end,
             "Open the repl log buffer",
           },
@@ -66,29 +70,27 @@ return {
         prefix = "<leader>",
       })
 
-      wk.register({
-        n = {
-          name = "Clojure Namespace",
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("ConjureCommands", { clear = true }),
+        pattern = "clojure",
+        callback = function(event)
+          wk.register({
+            e = {
+              name = "Eval",
+            },
 
-          r = {
-            name = "Refreshing",
-            c = {
-              require("conjure.client.clojure.nrepl.action")["refresh-changed"],
-              "Refresh changed namespaces",
+            n = {
+              name = "Clojure Namespace",
+
+              r = { action["refresh-changed"], "Refresh changed namespaces" },
+              R = { action["refresh-all"], "Refresh all namespaces" },
             },
-            a = {
-              require("conjure.client.clojure.nrepl.action")["refresh-all"],
-              "Refresh all namespaces",
-            },
-          },
-        },
-      }, {
-        prefix = "<localleader>",
+          }, {
+            prefix = "<localleader>",
+            buffer = event.buf,
+          })
+        end,
       })
-
-      require("conjure.client.clojure.nrepl.action")["require-ns"] = function()
-        print("doing")
-      end
     end,
   },
 }
