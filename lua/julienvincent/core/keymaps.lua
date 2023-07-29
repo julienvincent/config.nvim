@@ -37,14 +37,6 @@ map("n", "<C-Down>", "<C-w>j", "Go to lower window")
 map("n", "<C-Up>", "<C-w>k", "Go to upper window")
 map("n", "<C-Right>", "<C-w>l", "Go to right window")
 
--- windows
-map("n", "<leader>ww", "<C-W>p", "Other window")
-map("n", "<leader>wd", "<C-W>c", "Delete window")
-map("n", "<leader>w-", "<C-W>s", "Split window below")
-map("n", "<leader>w|", "<C-W>v", "Split window right")
-map("n", "<leader>-", "<C-W>s", "Split window below")
-map("n", "<leader>|", "<C-W>v", "Split window right")
-
 map("n", "<localleader>d", vim.diagnostic.open_float, "Show diagnostics at cursor")
 
 -- tabs
