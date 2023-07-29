@@ -1,10 +1,29 @@
+local keymaps = {
+  {
+    "<leader>§",
+    function()
+      local eval = require("julienvincent.lang.clojure.eval").eval
+      eval("user", "(do (tap> (reset)))")
+    end,
+    desc = "user/reset",
+  },
+  {
+    "<leader>*",
+    function()
+      local eval = require("julienvincent.lang.clojure.eval").eval
+      eval("user", "(do (require '[clojure.pprint :as pprint]) (pprint/pprint *e) (tap> *e))")
+    end,
+    desc = "Eval last error",
+  },
+}
+
 return {
   {
     "Olical/conjure",
     -- Once https://github.com/Olical/conjure/pull/520 lands in master, this can be set back to master
     branch = "develop",
     ft = { "clojure", "lua" },
-    keys = require("julienvincent.lang.clojure.keymaps"),
+    keys = keymaps,
     init = function()
       vim.g["conjure#highlight#enabled"] = true
       vim.g["conjure#highlight#group"] = "CurrentWord"
