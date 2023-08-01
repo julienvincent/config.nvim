@@ -7,6 +7,10 @@ return {
       config = {
         color = "amaranth",
         invoke_on_body = true,
+        hint = {
+          type = "window",
+          border = "double"
+        }
       },
       body = "<leader>w",
       heads = {
@@ -15,6 +19,9 @@ return {
         { "v", "<C-W>v", { desc = "Split window right", exit = true } },
         { "h", "<C-W>s", { desc = "Split window below", exit = true } },
 
+        { "s", "<C-W>x", { desc = "Swap window with next" } },
+
+        { "=", "<C-W>=", { desc = "Equalize windows" } },
         { ">", "5<C-w>>", { desc = "resize →" } },
         { "<", "5<C-w><", { desc = "resize ←" } },
 
@@ -24,6 +31,7 @@ return {
         { "<Down>", "<C-w>j", { desc = "Go to lower window" } },
 
         { "<Esc>", nil, { desc = "Exit", exit = true } },
+        { "q", nil, { desc = "Exit", exit = true } },
       },
     })
   end,
