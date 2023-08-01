@@ -59,7 +59,7 @@ return {
           files = { "src/parser.c" },
           generate_requires_npm = false,
           requires_generate_from_grammar = false,
-          revision = "44200686802dadf8691ff805068b7842a4afdaec"
+          revision = "44200686802dadf8691ff805068b7842a4afdaec",
         },
         filetype = "authzed",
       }
@@ -70,6 +70,6 @@ return {
 
   {
     "nvim-treesitter/playground",
-    event = { "BufReadPost", "BufNewFile" },
+    cmd = "TSPlaygroundToggle",
   },
 }

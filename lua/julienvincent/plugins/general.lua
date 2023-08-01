@@ -56,6 +56,7 @@ return {
   },
   {
     "psliwka/vim-smoothie",
+    event = "BufReadPost",
     init = function()
       vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
     end,
