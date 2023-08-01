@@ -22,12 +22,13 @@ local function open_portal()
     (do
       (resolve 'portal.api)
       (add-tap #'portal.api/submit)
+      (portal.api/close)
       (def *portal* (portal.api/open {:theme :portal.colors/gruvbox}))
       nil)
   ]])
 end
 
-function clear_portal()
+local function clear_portal()
   eval("(portal.api/clear)")
 end
 
@@ -91,26 +92,42 @@ return {
       copy_edn = portal_copy_edn,
     }
 
+    local hint = [[                                      Portal Manager
+
+   _o_: Open   _c_: Clear                                  _y_: Copy EDN   _<C-y>_: Copy JSON   
+
+   _<Left>_: Select Parent   _<Right>_: Select Child   _r_: Select Root   _e_: Expand           
+   _<Up>_: Select Prev       _<Down>_: Select Next     _<CR>_: Focus      _<Backspace>_: Back   
+
+                                  _q_: Quit   _<Esc>_: Exit   
+]]
+
     Hydra({
       name = "Portal Manager",
       mode = "n",
+      hint = hint,
       config = {
         color = "amaranth",
         invoke_on_body = true,
+        hint = {
+          type = "window",
+          border = "double",
+        },
       },
       body = "<leader>p",
       heads = {
         { "o", portal_cmds.open, { desc = "Clear" } },
         { "c", portal_cmds.clear, { desc = "Clear" } },
+
         { "e", portal_cmds.toggle_expand, { desc = "Toggle expand" } },
 
         { "y", portal_cmds.copy_edn, { desc = "Copy EDN", exit = true } },
         { "<C-y>", portal_cmds.copy_json, { desc = "Copy JSON", exit = true } },
 
-        { "h", portal_cmds.select_parent, { desc = "Select parent" } },
-        { "j", portal_cmds.select_next, { desc = "Select next" } },
-        { "k", portal_cmds.select_prev, { desc = "Select next" } },
-        { "l", portal_cmds.select_child, { desc = "Select child" } },
+        -- { "h", portal_cmds.select_parent, { desc = "Select parent" } },
+        -- { "j", portal_cmds.select_next, { desc = "Select next" } },
+        -- { "k", portal_cmds.select_prev, { desc = "Select next" } },
+        -- { "l", portal_cmds.select_child, { desc = "Select child" } },
 
         { "<Left>", portal_cmds.select_parent, { desc = "Select parent" } },
         { "<Right>", portal_cmds.select_child, { desc = "Select child" } },
@@ -121,14 +138,15 @@ return {
 
         -- { "<S-Down>", portal_cmds.next_viewer, { desc = "Next viewer" } },
         -- { "<S-Up>", portal_cmds.prev_viewer, { desc = "Previous viewer" } },
-        { "<S-Left>", portal_cmds.history_back, { desc = "History back" } },
-        { "<S-Right>", portal_cmds.history_forward, { desc = "History forward" } },
+        -- { "<S-Left>", portal_cmds.history_back, { desc = "History back" } },
+        -- { "<S-Right>", portal_cmds.history_forward, { desc = "History forward" } },
 
         { "<Backspace>", portal_cmds.history_back, { desc = "History back" } },
 
         { "<CR>", portal_cmds.focus_selected, { desc = "Focus selected" } },
 
         { "<Esc>", nil, { desc = "Exit", exit = true } },
+        { "q", nil, { desc = "Exit", exit = true } },
       },
     })
 
