@@ -53,6 +53,11 @@ return {
   {
     "mbbill/undotree",
     event = "VeryLazy",
+    init = function ()
+      vim.g["undotree_WindowLayout"] = 3
+      vim.g["undotree_SplitWidth"] = 60
+      vim.g["undotree_SetFocusWhenToggle"] = 1
+    end
   },
   {
     "psliwka/vim-smoothie",

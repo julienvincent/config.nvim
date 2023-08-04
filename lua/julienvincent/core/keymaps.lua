@@ -15,10 +15,7 @@ map("n", "<C-Tab>", "<C-^>", "Toggle previous buffer")
 map("v", "<leader>y", [["+y]], "Copy to system clipboard")
 map("n", "<leader>yy", [["+yy]], "Copy line under cursor to system clipboard")
 
-map("n", "<leader>u", function()
-  vim.cmd.UndotreeToggle()
-  vim.cmd.UndotreeFocus()
-end, "Toggle UndoTree")
+map("n", "<leader>u", vim.cmd.UndotreeToggle, "Toggle UndoTree")
 
 -- These don't work yet
 map("n", ">)", "<Plug>(sexp_emit_tail_element)")
