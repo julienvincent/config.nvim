@@ -5,7 +5,6 @@ return {
       name = "Window Manager",
       mode = "n",
       config = {
-        color = "amaranth",
         invoke_on_body = true,
         hint = {
           type = "window",
