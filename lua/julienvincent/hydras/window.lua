@@ -21,8 +21,8 @@ return {
         { "s", "<C-W>x", { desc = "Swap window with next" } },
 
         { "=", "<C-W>=", { desc = "Equalize windows" } },
-        { ">", "5<C-w>>", { desc = "resize →" } },
-        { "<", "5<C-w><", { desc = "resize ←" } },
+        { ">", "10<C-w>>", { desc = "resize →" } },
+        { "<", "10<C-w><", { desc = "resize ←" } },
 
         { "<Left>", "<C-w>h", { desc = "Go to left window" } },
         { "<Right>", "<C-w>l", { desc = "Go to right window" } },
