@@ -60,4 +60,3 @@ vim.opt.fillchars:append({
 })
 
 vim.cmd.colorscheme("gruvbox-material")
--- vim.cmd.colorscheme("gruvbox")

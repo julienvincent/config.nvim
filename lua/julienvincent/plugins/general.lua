@@ -1,25 +1,5 @@
 return {
   {
-    "thallada/gruvbox.nvim",
-    enabled = false,
-    lazy = true,
-    config = function()
-      require("gruvbox").setup({
-        contrast = "soft",
-        undercurl = false,
-        underline = false,
-        bold = false,
-        italic = {
-          strings = false,
-          comments = false,
-          operators = false,
-          folds = false,
-        },
-      })
-    end,
-  },
-
-  {
     "sainnhe/gruvbox-material",
     lazy = true,
     init = function()
@@ -53,11 +33,11 @@ return {
   {
     "mbbill/undotree",
     event = "VeryLazy",
-    init = function ()
+    init = function()
       vim.g["undotree_WindowLayout"] = 3
       vim.g["undotree_SplitWidth"] = 60
       vim.g["undotree_SetFocusWhenToggle"] = 1
-    end
+    end,
   },
   {
     "psliwka/vim-smoothie",
