@@ -13,6 +13,7 @@
   "diffview.nvim": { "branch": "main", "commit": "500d8b2013812e05ab87db83a8d22319986519f2" },
   "dressing.nvim": { "branch": "master", "commit": "c0b67f3e2950adc07b555d3e73e38275b4a585ce" },
   "fidget.nvim": { "branch": "main", "commit": "0ba1e16d07627532b6cae915cc992ecac249fb97" },
+  "gh-actions.nvim": { "branch": "main", "commit": "a466e533493975baaf078724a00503f3ff07df56" },
   "gitsigns.nvim": { "branch": "main", "commit": "bae45ef449d8811061cc940459e70e883a3aa83a" },
   "gruvbox-material": { "branch": "master", "commit": "b5f8c6a6c1cda630c53b061b765068a0898d47a3" },
   "hop.nvim": { "branch": "v2", "commit": "90db1b2c61b820e230599a04fedcd2679e64bd07" },
