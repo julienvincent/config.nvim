@@ -20,8 +20,7 @@ local keymaps = {
 return {
   {
     "Olical/conjure",
-    -- Once https://github.com/Olical/conjure/pull/520 lands in master, this can be set back to master
-    branch = "develop",
+    version = "^4.47.0",
     ft = { "clojure", "lua" },
     keys = keymaps,
     init = function()
