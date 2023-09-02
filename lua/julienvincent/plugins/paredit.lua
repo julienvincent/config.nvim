@@ -1,6 +1,7 @@
 return {
   {
     "julienvincent/nvim-paredit",
+    branch = "auto-indentation",
     -- dir = "~/code/nvim-paredit",
     ft = { "clojure" },
     config = function()
