@@ -20,7 +20,7 @@ local keybinds = {
 
 local function glob_exists_in_dir(dir, globs)
   for _, glob in ipairs(globs) do
-    if #vim.fn.glob(vim.api.nvim_call_function('fnamemodify', { dir, ':p' }) .. '/' .. glob) > 0 then
+    if #vim.fn.glob(vim.api.nvim_call_function("fnamemodify", { dir, ":p" }) .. "/" .. glob) > 0 then
       return true
     end
   end
@@ -35,7 +35,7 @@ local function find_furthest_root(globs)
       return root
     end
 
-    local next = vim.fn.fnamemodify(path, ':h')
+    local next = vim.fn.fnamemodify(path, ":h")
 
     if glob_exists_in_dir(path, globs) then
       return traverse(next, path)
@@ -45,7 +45,7 @@ local function find_furthest_root(globs)
   end
 
   return function(start_path)
-    local result = string.match(start_path, '^%w+://')
+    local result = string.match(start_path, "^%w+://")
     if result then
       return nil
     end
@@ -68,7 +68,7 @@ local servers = {
 
     before_init = function(params)
       params.workDoneToken = "enable-progress"
-    end
+    end,
   },
   yamlls = {
     settings = {
@@ -93,8 +93,8 @@ local servers = {
   jsonls = {},
   rust_analyser = {
     settings = {
-      ["rust-analyzer"] = {}
-    }
+      ["rust-analyzer"] = {},
+    },
   },
   lua_ls = {
     settings = {
@@ -127,7 +127,7 @@ local icons = {
     Warn = " ",
     Hint = " ",
     Info = " ",
-  }
+  },
 }
 
 return {
@@ -135,7 +135,6 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
       {
         "williamboman/mason.nvim",
         opts = {
@@ -150,7 +149,6 @@ return {
     },
 
     config = function()
-      local nls = require("null-ls")
       local mason_lspconfig = require("mason-lspconfig")
       local cmplsp = require("cmp_nvim_lsp")
 
@@ -167,13 +165,10 @@ return {
         capabilities = capabilities,
 
         handlers = {
-          ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
-            { signs = true,
-              virtual_text = false,
-              update_in_insert = true,
-              underline = true
-            }
-          )
+          ["textDocument/publishDiagnostics"] = vim.lsp.with(
+            vim.lsp.diagnostic.on_publish_diagnostics,
+            { signs = true, virtual_text = false, update_in_insert = true, underline = true }
+          ),
         },
 
         on_attach = function(client, bufnr)
@@ -194,15 +189,6 @@ return {
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
 
-      nls.setup({
-        save_after_format = false,
-        sources = {
-          nls.builtins.formatting.stylua,
-          nls.builtins.formatting.just,
-          nls.builtins.formatting.prettierd,
-        },
-      })
-
       mason_lspconfig.setup_handlers({
         function(server_name)
           local server_opts = servers[server_name] or {}
@@ -210,7 +196,7 @@ return {
           require("lspconfig")[server_name].setup(opts)
         end,
       })
-    end
+    end,
   },
 
   {
@@ -219,6 +205,6 @@ return {
     event = "BufReadPre",
     config = function()
       require("fidget").setup({})
-    end
-  }
+    end,
+  },
 }
