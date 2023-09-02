@@ -168,23 +168,6 @@ return {
   },
 
   {
-    "svermeulen/vim-easyclip",
-    event = "VeryLazy",
-    init = function()
-      vim.g["EasyClipShareYanks"] = true
-
-      vim.g["EasyClipUseCutDefaults"] = false
-      vim.g["EasyClipEnableBlackHoleRedirect"] = false
-      vim.g["EasyClipUsePasteToggleDefaults"] = false
-    end,
-    config = function()
-      local map = require("julienvincent.helpers.keys").map
-      map("n", "<c-p>", "<Plug>EasyClipSwapPasteBackwards<CR>")
-      map("n", "<c-s-p>", "<Plug>EasyClipSwapPasteForward<CR>")
-    end,
-  },
-
-  {
     "NoahTheDuke/vim-just",
     ft = "just",
   },
