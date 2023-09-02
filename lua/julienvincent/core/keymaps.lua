@@ -1,11 +1,12 @@
 local map = require("julienvincent.helpers.keys").map
+local saving = require("julienvincent.behaviours.auto-save")
 
 map("n", "<leader>qq", function()
-  vim.api.nvim_command("wa")
+  saving.write_all_buffers()
   vim.api.nvim_command("qa")
 end, "Save and quit")
 
-map("n", "<leader>W", "<cmd>wa<cr>", "Save all buffers")
+map("n", "<leader>W", saving.write_all_buffers, "Save all buffers")
 
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", "Escape and clear hlsearch")
 
