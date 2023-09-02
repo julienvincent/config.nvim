@@ -23,10 +23,45 @@ return {
           ["<localleader>r"] = { paredit.api.raise_element, "Raise element" },
           ["<localleader>R"] = { paredit.api.raise_form, "Raise form" },
 
-          ["E"] = { paredit.api.move_to_next_element, "Jump to next element", repeatable = false },
-          ["B"] = { paredit.api.move_to_prev_element, "Jump to previous element", repeatable = false },
-        }
+          ["E"] = {
+            paredit.api.move_to_next_element,
+            "Jump to next element",
+            repeatable = false,
+            mode = { "n", "x", "o", "v" },
+          },
+          ["B"] = {
+            paredit.api.move_to_prev_element,
+            "Jump to previous element",
+            repeatable = false,
+            mode = { "n", "x", "o", "v" },
+          },
+
+          ["af"] = {
+            paredit.api.select_around_form,
+            "Around form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["if"] = {
+            paredit.api.select_in_form,
+            "In form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["ae"] = {
+            paredit.api.select_element,
+            "Around element",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["ie"] = {
+            paredit.api.select_element,
+            "Element",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+        },
       })
-    end
+    end,
   },
 }
