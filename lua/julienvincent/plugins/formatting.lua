@@ -1,6 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
+    event = "BufReadPost",
     config = function()
       local conform = require("conform")
       conform.setup({

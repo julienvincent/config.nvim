@@ -32,13 +32,23 @@ return {
 
   {
     "mbbill/undotree",
-    event = "VeryLazy",
+    cmd = "UndotreeToggle",
+    keys = {
+      {
+        "<leader>u",
+        function()
+          vim.cmd.UndotreeToggle()
+        end,
+        desc = "Toggle UndoTree",
+      },
+    },
     init = function()
       vim.g["undotree_WindowLayout"] = 3
       vim.g["undotree_SplitWidth"] = 60
       vim.g["undotree_SetFocusWhenToggle"] = 1
     end,
   },
+
   {
     "psliwka/vim-smoothie",
     event = "BufReadPost",
@@ -55,7 +65,7 @@ return {
   },
   {
     "numToStr/Comment.nvim",
-    event = "VeryLazy",
+    event = "BufReadPost",
     config = function()
       require("Comment").setup({})
     end,
@@ -117,7 +127,7 @@ return {
 
   {
     "phaazon/hop.nvim",
-    event = "VeryLazy",
+    event = "BufReadPost",
     branch = "v2",
     config = function()
       local map = require("julienvincent.helpers.keys").map
@@ -180,7 +190,7 @@ return {
     end,
   },
 
-  { "echasnovski/mini.bufremove", event = "VeryLazy" },
+  { "echasnovski/mini.bufremove", event = "BufReadPost" },
 
   { "nvim-tree/nvim-web-devicons", lazy = true },
   { "nvim-lua/plenary.nvim", lazy = true },
