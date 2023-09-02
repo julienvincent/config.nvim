@@ -28,17 +28,6 @@ map("n", "<C-Right>", "<C-w>l", "Go to right window")
 map("n", "<localleader>d", vim.diagnostic.open_float, "Show diagnostics at cursor")
 
 -- tabs
-map("n", "<leader><tab><tab>", function()
-  local path = vim.fn.input("Path: ", "~/code/", "file")
-  if path ~= "" then
-    vim.cmd("$tabnew " .. path)
-  end
-end, { desc = "New Tab" })
-
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", "Last Tab")
-map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", "First Tab")
-map("n", "<leader><tab>]", "<cmd>tabnext<cr>", "Next Tab")
 map("n", "<leader><tab><Right>", "<cmd>tabnext<cr>", "Next Tab")
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", "Close Tab")
-map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", "Previous Tab")
 map("n", "<leader><tab><Left>", "<cmd>tabprevious<cr>", "Previous Tab")

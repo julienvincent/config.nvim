@@ -89,7 +89,6 @@ return {
       })
 
       vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("ConjureCommands", { clear = true }),
         pattern = "clojure",
         callback = function(event)
           wk.register({
@@ -107,6 +106,14 @@ return {
             prefix = "<localleader>",
             buffer = event.buf,
           })
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("BufNewFile", {
+        pattern = "conjure-log-*",
+        desc = "Disable diagnostics in conjure log buffer",
+        callback = function(event)
+          vim.diagnostic.disable(event.buf)
         end,
       })
     end,

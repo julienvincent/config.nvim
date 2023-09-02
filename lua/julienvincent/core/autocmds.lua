@@ -3,42 +3,12 @@ local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 
-autocmd("FocusGained", {
-  pattern = "*",
-  group = general,
-  desc = "Refresh NeoTree git status on focus",
-  callback = function()
-    if package.loaded["neo-tree.sources.git_status"] then
-      require("neo-tree.sources.git_status").refresh()
-    end
-  end,
-})
-
 autocmd("FileType", {
   pattern = { "*" },
   group = general,
   desc = "Override the definition of a keyword",
   callback = function()
     vim.cmd("setlocal iskeyword=@,48-57,_,192-255,!,?")
-  end,
-})
-
-autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = { "*.zed" },
-  group = general,
-  desc = "Set the filetype of .zed files",
-  callback = function(event)
-    vim.api.nvim_buf_set_option(event.buf, "filetype", "authzed")
-    vim.bo.commentstring = "//%s"
-  end,
-})
-
-autocmd("BufNewFile", {
-  pattern = "conjure-log-*",
-  group = general,
-  desc = "Disable diagnostics in conjure log buffer",
-  callback = function(event)
-    vim.diagnostic.disable(event.buf)
   end,
 })
 

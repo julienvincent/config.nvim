@@ -170,6 +170,14 @@ return {
         },
       })
 
+      vim.api.nvim_create_autocmd("FocusGained", {
+        pattern = "*",
+        desc = "Refresh NeoTree git status on focus",
+        callback = function()
+          require("neo-tree.sources.git_status").refresh()
+        end,
+      })
+
       -- I got the inspiration for this override from:
       -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/351
       require("neo-tree.ui.inputs").confirm = function(message, callback)
