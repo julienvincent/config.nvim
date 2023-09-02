@@ -10,6 +10,7 @@ return {
       { "<leader>ff", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
       { "<leader>fc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
       { "<leader>b", "<cmd>Telescope buffers<CR>", desc = "Buffers" },
+      { "<leader>fr", "<cmd>Telescope resume<CR>", desc = "Resume previous search" },
     },
     opts = {
       defaults = {
