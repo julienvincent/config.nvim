@@ -11,17 +11,7 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", "Escape and clear hlsearch")
 
 map("n", "<C-Tab>", "<C-^>", "Toggle previous buffer")
 
--- Yank to system clipboard
-map("v", "<leader>y", [["+y]], "Copy to system clipboard")
-map("n", "<leader>yy", [["+yy]], "Copy line under cursor to system clipboard")
-
 map("n", "<leader>u", vim.cmd.UndotreeToggle, "Toggle UndoTree")
-
--- These don't work yet
-map("n", ">)", "<Plug>(sexp_emit_tail_element)")
-map("n", "<)", "<Plug>(sexp_capture_next_element)")
-map("n", ">(", "<Plug>(sexp_emit_head_element)")
-map("n", "<(", "<Plug>(sexp_capture_previous_element)")
 
 ---- Move to window using <ctrl>-hjkl
 map("n", "<C-h>", "<C-w>h", "Go to left window")
