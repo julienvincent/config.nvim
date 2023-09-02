@@ -21,13 +21,12 @@ return {
       cmp.setup({
         -- disable completion in comments
         enabled = function()
-          local context = require 'cmp.config.context'
+          local context = require("cmp.config.context")
           -- keep command mode completion enabled when cursor is in a comment
-          if vim.api.nvim_get_mode().mode == 'c' then
+          if vim.api.nvim_get_mode().mode == "c" then
             return true
           else
-            return not context.in_treesitter_capture("comment")
-                and not context.in_treesitter_capture("string")
+            return not context.in_treesitter_capture("comment") and not context.in_treesitter_capture("string")
           end
         end,
 
@@ -67,24 +66,24 @@ return {
           ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
           ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-d>"] = cmp.mapping.scroll_docs(4),
         },
         sources = {
           { name = "nvim_lsp" },
           -- { name = 'conjure' },
-          { name = 'nvim_lua' },
+          { name = "nvim_lua" },
           { name = "luasnip" },
           { name = "path" },
         },
       })
 
-      cmp.setup.filetype('gitcommit', {
+      cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-          { name = 'git' },
-        })
+          { name = "git" },
+        }),
       })
     end,
-  }
+  },
 }

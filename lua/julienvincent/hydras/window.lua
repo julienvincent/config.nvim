@@ -8,8 +8,8 @@ return {
         invoke_on_body = true,
         hint = {
           type = "window",
-          border = "double"
-        }
+          border = "double",
+        },
       },
       body = "<leader>w",
       heads = {

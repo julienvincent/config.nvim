@@ -20,8 +20,8 @@ vim.g.maplocalleader = ";"
 
 lazy.setup("julienvincent.plugins", {
   change_detection = {
-    enabled = false
-  }
+    enabled = false,
+  },
 })
 
 require("julienvincent.helpers.keys").map("n", "<leader>LL", lazy.show, "Show Lazy")

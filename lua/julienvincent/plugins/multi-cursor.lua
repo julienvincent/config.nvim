@@ -2,6 +2,6 @@ return {
   {
     "mg979/vim-visual-multi",
     event = "BufReadPost",
-    enabled = false
-  }
+    enabled = false,
+  },
 }

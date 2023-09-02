@@ -20,7 +20,7 @@ return {
               "-f",
               "$FILENAME",
             },
-            stdin = false
+            stdin = false,
           },
         },
       })

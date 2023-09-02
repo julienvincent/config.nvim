@@ -33,7 +33,7 @@ return {
           theme = "auto",
         },
         sections = {
-         lualine_a = {
+          lualine_a = {
             "mode",
           },
           lualine_b = {
@@ -50,9 +50,9 @@ return {
               "lsp_client_status",
               fmt = get_lsp_client_status,
               color = {
-                fg = "#b0b846"
-              }
-            }
+                fg = "#b0b846",
+              },
+            },
           },
           lualine_y = {
             {
@@ -61,10 +61,10 @@ return {
             },
           },
           lualine_z = {
-            "filetype"
+            "filetype",
           },
         },
       })
-    end
+    end,
   },
 }

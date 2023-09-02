@@ -38,7 +38,7 @@ local opts = {
   wrap = false,
 
   spell = false,
-  spelllang = 'en_us',
+  spelllang = "en_us",
 }
 
 -- Set options from table
@@ -56,7 +56,7 @@ vim.opt.fillchars:append({
   horiz = "-",
   horizup = "-",
   horizdown = "-",
-  diff = "╱"
+  diff = "╱",
 })
 
 vim.cmd.colorscheme("gruvbox-material")
