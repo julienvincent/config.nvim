@@ -1,15 +1,5 @@
 return {
   {
-    "gbprod/cutlass.nvim",
-    event = "BufReadPost",
-    config = function()
-      require("cutlass").setup({
-        cut_key = "x",
-      })
-    end,
-  },
-
-  {
     "gbprod/yanky.nvim",
     event = "BufReadPost",
     config = function()
