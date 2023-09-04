@@ -6,9 +6,13 @@ local general = augroup("General", { clear = true })
 autocmd("FileType", {
   pattern = { "*" },
   group = general,
-  desc = "Override the definition of a keyword",
+  desc = "Override some buffer local options",
   callback = function()
     vim.cmd("setlocal iskeyword=@,48-57,_,192-255,!,?")
+
+    -- This prevents comments from being inserted when in normal mode and pressing `o` or `O`
+    vim.opt.formatoptions:remove("o")
+    vim.opt.formatoptions:append("r")
   end,
 })
 
