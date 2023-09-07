@@ -11,6 +11,7 @@ return {
         "bash",
         "html",
         "javascript",
+        "http",
         "json",
         "lua",
         "luadoc",

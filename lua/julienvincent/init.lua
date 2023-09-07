@@ -4,6 +4,7 @@ require("julienvincent.core.autocmds")
 require("julienvincent.core.options")
 
 require("julienvincent.lang.authzed").setup()
+require("julienvincent.lang.http").setup()
 
 require("julienvincent.behaviours.buffer-switching").setup()
 require("julienvincent.behaviours.yank-to-clipboard").setup()
