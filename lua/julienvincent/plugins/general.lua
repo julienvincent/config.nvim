@@ -19,14 +19,12 @@ return {
       },
     },
   },
+
   {
-    "windwp/nvim-autopairs",
-    event = "BufReadPost",
+    "echasnovski/mini.pairs",
+    version = "0.9.0",
     config = function()
-      require("nvim-autopairs").setup({
-        check_ts = true,
-        enable_check_bracket_line = false,
-      })
+      require("mini.pairs").setup({})
     end,
   },
 
