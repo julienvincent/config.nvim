@@ -44,6 +44,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "man",
     "spectre_panel",
     "tsplayground",
+    "HttpResult"
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
