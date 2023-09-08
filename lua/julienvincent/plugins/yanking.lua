@@ -40,7 +40,15 @@ return {
         group = group,
         desc = "Write shada file on yank",
         callback = function()
-          vim.cmd("wshada")
+          local timer = vim.loop.new_timer()
+          timer:start(
+            50,
+            0,
+            vim.schedule_wrap(function()
+              timer:close()
+              vim.cmd("wshada")
+            end)
+          )
         end,
       })
 
