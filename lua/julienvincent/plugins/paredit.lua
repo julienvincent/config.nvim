@@ -40,4 +40,13 @@ return {
       })
     end,
   },
+  {
+    "julienvincent/nvim-paredit-fennel",
+    -- dir = "~/code/nvim-paredit-fennel",
+    dependencies = { "julienvincent/nvim-paredit" },
+    ft = { "fennel" },
+    config = function()
+      require("nvim-paredit-fennel").setup()
+    end,
+  },
 }
