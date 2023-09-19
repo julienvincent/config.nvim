@@ -4,12 +4,16 @@ return {
     event = "BufReadPost",
     config = function()
       local conform = require("conform")
+
+      local js_formatter = { "prettierd", "prettier" }
+
       conform.setup({
         formatters_by_ft = {
+          javascript = { js_formatter },
+          typescript = { js_formatter },
+          typescriptreact = { js_formatter },
+
           lua = { "stylua" },
-          javascript = { "prettierd", "prettier" },
-          typescript = { "prettierd", "prettier" },
-          typescriptreact = { "prettierd", "prettier" },
           just = { "just" },
         },
 
