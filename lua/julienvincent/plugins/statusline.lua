@@ -42,7 +42,19 @@ return {
             "diagnostics",
           },
           lualine_c = {
-            { path = 1, "filename" },
+            {
+              path = 1,
+              "filename",
+
+              -- Small attempt to workaround https://github.com/nvim-lualine/lualine.nvim/issues/872
+              -- Upstream issue: https://github.com/neovim/neovim/issues/19464
+              fmt = function(filename)
+                if #filename > 80 then
+                  filename = vim.fs.basename(filename)
+                end
+                return filename
+              end,
+            },
           },
 
           lualine_x = {
