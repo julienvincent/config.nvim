@@ -157,6 +157,11 @@ return {
   },
 
   {
+    "mfussenegger/nvim-jdtls",
+    lazy = true,
+  },
+
+  {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
@@ -166,6 +171,7 @@ return {
 
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
+      local lspconfig = require("lspconfig")
       local cmplsp = require("cmp_nvim_lsp")
 
       local default_capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -209,7 +215,26 @@ return {
         function(server_name)
           local server_opts = servers[server_name] or {}
           local opts = vim.tbl_deep_extend("force", {}, options, server_opts)
-          require("lspconfig")[server_name].setup(opts)
+          lspconfig[server_name].setup(opts)
+        end,
+
+        ["jdtls"] = function()
+          local jdtls = require("jdtls")
+
+          local registry = require("mason-registry")
+          local package = registry.get_package("jdtls")
+
+          local config = vim.tbl_deep_extend("force", {}, options, servers["jdtls"] or {}, {
+            cmd = { package:get_install_path() .. "/bin/jdtls" },
+          })
+
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "java" },
+            desc = "Start and attach jdtls",
+            callback = function()
+              jdtls.start_or_attach(config)
+            end,
+          })
         end,
       })
     end,
