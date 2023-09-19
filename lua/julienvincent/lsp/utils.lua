@@ -40,4 +40,13 @@ function M.find_furthest_root(globs)
   end
 end
 
+function M.find_file_by_glob(dir, glob)
+  local files = vim.fn.globpath(dir, glob, 0, 1)
+  if #files > 0 then
+    return files[1]
+  else
+    return nil
+  end
+end
+
 return M

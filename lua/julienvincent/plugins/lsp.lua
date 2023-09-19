@@ -1,5 +1,6 @@
 local servers = require("julienvincent.lsp.servers")
 local keymaps = require("julienvincent.lsp.keymaps")
+local utils = require("julienvincent.lsp.utils")
 
 local icons = {
   diagnostics = {
@@ -101,9 +102,46 @@ return {
 
           local registry = require("mason-registry")
           local package = registry.get_package("jdtls")
+          local jdtls_install_dir = package:get_install_path()
+
+          local config_dir = "config_mac"
+          if vim.fn.has("linux") == 1 then
+            config_dir = "config_linux"
+          end
+
+          local home_dir = os.getenv("HOME")
+          local project_id = vim.fn.sha256(vim.fn.getcwd())
+          local data_dir = home_dir .. "/.local/share/nvim/jdtls/projects/" .. project_id
+
+          local launcher = utils.find_file_by_glob(jdtls_install_dir .. "/plugins", "org.eclipse.equinox.launcher_*")
+
+          local cmd = {
+            "java",
+
+            "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+            "-Dosgi.bundles.defaultStartLevel=4",
+            "-Declipse.product=org.eclipse.jdt.ls.core.product",
+            "-Dlog.protocol=true",
+            "-Dlog.level=ALL",
+            "-Xmx1g",
+            "--add-modules=ALL-SYSTEM",
+            "--add-opens",
+            "java.base/java.util=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/java.lang=ALL-UNNAMED",
+
+            "-jar",
+            launcher,
+
+            "-configuration",
+            jdtls_install_dir .. "/" .. config_dir,
+
+            "-data",
+            data_dir,
+          }
 
           local config = vim.tbl_deep_extend("force", {}, options, servers["jdtls"] or {}, {
-            cmd = { package:get_install_path() .. "/bin/jdtls" },
+            cmd = cmd,
           })
 
           vim.api.nvim_create_autocmd("FileType", {
