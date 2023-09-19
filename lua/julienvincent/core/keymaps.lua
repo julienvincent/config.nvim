@@ -6,7 +6,8 @@ map("n", "<leader>qq", function()
   vim.api.nvim_command("qa")
 end, "Save and quit")
 
-map("n", "<leader>W", saving.write_all_buffers, "Save all buffers")
+map("n", "<localleader>s", "<Cmd>w<Cr>", "Save buffer")
+map("n", "<localleader>sa", saving.write_all_buffers, "Save all buffers")
 
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", "Escape and clear hlsearch")
 
