@@ -136,20 +136,32 @@ local icons = {
 
 return {
   {
+    "williamboman/mason.nvim",
+    lazy = true,
+    config = function()
+      require("mason").setup({
+        ui = { border = "rounded" },
+      })
+    end,
+  },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    lazy = true,
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = vim.tbl_keys(servers),
+      })
+    end,
+  },
+
+  {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = {
-          ui = { border = "rounded" },
-        },
-      },
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason-lspconfig.nvim",
-      opts = {
-        ensure_installed = vim.tbl_keys(servers),
-      },
     },
 
     config = function()
