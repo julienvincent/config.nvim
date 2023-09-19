@@ -51,9 +51,14 @@ return {
       local cmplsp = require("cmp_nvim_lsp")
 
       local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-      default_capabilities.workspace.workspaceEdit.documentChanges = true
       local cmp_capabilities = cmplsp.default_capabilities(default_capabilities)
-      local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities)
+      local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities, {
+        workspace = {
+          workspaceEdit = {
+            documentChanges = true,
+          },
+        },
+      })
 
       local options = {
         flags = {
@@ -63,22 +68,19 @@ return {
         capabilities = capabilities,
 
         handlers = {
-          ["textDocument/publishDiagnostics"] = vim.lsp.with(
-            vim.lsp.diagnostic.on_publish_diagnostics,
-            { signs = true, virtual_text = false, update_in_insert = true, underline = true }
-          ),
+          ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+            signs = true,
+            virtual_text = false,
+            update_in_insert = true,
+            underline = true,
+          }),
         },
 
-        on_attach = function(client, bufnr)
-          local wk = require("which-key")
-          wk.register(keymaps, { noremap = true, buffer = bufnr })
-
-          if client.name == "tsserver" then
-            client.server_capabilities.documentFormattingProvider = false
-          end
-          if client.name == "lua_ls" then
-            client.server_capabilities.documentFormattingProvider = false
-          end
+        on_attach = function(_, bufnr)
+          require("which-key").register(keymaps, {
+            noremap = true,
+            buffer = bufnr,
+          })
         end,
       }
 
