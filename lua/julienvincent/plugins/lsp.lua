@@ -91,9 +91,13 @@ local servers = {
     },
   },
   jsonls = {},
-  rust_analyser = {
+  rust_analyzer = {
     settings = {
-      ["rust-analyzer"] = {},
+      ["rust-analyzer"] = {
+        files = {
+          excludeDirs = { ".embuild", "target", ".git" },
+        },
+      },
     },
   },
   lua_ls = {
