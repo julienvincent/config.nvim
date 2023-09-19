@@ -9,7 +9,7 @@ return {
         delete = { text = "" },
         topdelete = { text = "" },
         changedelete = { text = "❙" },
-        untracked = { text = "ꜗ" },
+        untracked = { text = "❙" },
       },
       on_attach = function(buffer)
         local gs = require("gitsigns")
