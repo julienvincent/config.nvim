@@ -140,8 +140,15 @@ return {
             data_dir,
           }
 
+          local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
           local config = vim.tbl_deep_extend("force", {}, options, servers["jdtls"] or {}, {
             cmd = cmd,
+
+            init_options = {
+              extendedClientCapabilities = vim.tbl_deep_extend("force", {}, extendedClientCapabilities, {
+                resolveAdditionalTextEditsSupport = true,
+              }),
+            },
           })
 
           vim.api.nvim_create_autocmd("FileType", {
