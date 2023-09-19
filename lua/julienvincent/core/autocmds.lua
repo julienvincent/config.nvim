@@ -36,6 +36,15 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  desc = "Fix shiftwidth for rust",
+  group = general,
+  pattern = { "rust" },
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
   desc = "Close certain filetypes with <q>",
   group = general,
   pattern = {
@@ -44,7 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "man",
     "spectre_panel",
     "tsplayground",
-    "HttpResult"
+    "HttpResult",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
