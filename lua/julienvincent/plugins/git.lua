@@ -4,12 +4,12 @@ return {
     event = { "BufReadPost" },
     opts = {
       signs = {
-        add = { text = "▎" },
-        change = { text = "▎" },
+        add = { text = "❙" },
+        change = { text = "❙" },
         delete = { text = "" },
         topdelete = { text = "" },
-        changedelete = { text = "▎" },
-        untracked = { text = "▎" },
+        changedelete = { text = "❙" },
+        untracked = { text = "ꜗ" },
       },
       on_attach = function(buffer)
         local gs = require("gitsigns")
