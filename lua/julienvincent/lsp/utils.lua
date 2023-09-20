@@ -49,4 +49,72 @@ function M.find_file_by_glob(dir, glob)
   end
 end
 
+function M.find_third_party_libs(m2_dir, project_root)
+  local out
+  local err
+  local job_id = vim.fn.jobstart({ "clojure", "-Stree" }, {
+    on_stdout = function(_, data)
+      out = data
+    end,
+    on_stderr = function(_, data)
+      err = data[1]
+    end,
+    stdout_buffered = true,
+    stderr_buffered = true,
+    cwd = project_root,
+  })
+
+  vim.fn.jobwait({ job_id })
+
+  if err ~= "" then
+    print(err)
+    return {}
+  end
+
+  local filtered = vim.tbl_filter(function(line)
+    return line ~= ""
+  end, out)
+
+  local trimmed = vim.tbl_map(function(item)
+    local trimmed = string.gsub(item, "^%s*(.-)%s*$", "%1")
+    if string.sub(trimmed, 1, 1) == "." then
+      return string.sub(trimmed, 3)
+    end
+    return trimmed
+  end, filtered)
+
+  local items_in_use = vim.tbl_filter(function(line)
+    return line[1] ~= "X"
+  end, trimmed)
+
+  local parsed = vim.tbl_map(function(item)
+    local package_and_version = vim.split(item, " ")
+
+    if string.find(package_and_version[2], "/") then
+      return nil
+    end
+
+    local parts = vim.split(package_and_version[1], "/")
+    local group = parts[1]
+    local artifact = parts[2]
+    local version = package_and_version[2]
+
+    local artifact_path = string.gsub(group, "%.", "/")
+
+    local path_segments = {
+      m2_dir,
+      "repository",
+      artifact_path,
+      artifact,
+      version,
+      artifact .. "-" .. version .. ".jar",
+    }
+    return table.concat(path_segments, "/")
+  end, items_in_use)
+
+  return vim.tbl_filter(function(lib)
+    return lib
+  end, parsed)
+end
+
 return M

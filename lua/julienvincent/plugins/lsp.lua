@@ -151,19 +151,24 @@ return {
             },
           })
 
-          -- TODO:
-          --
-          -- Add a script which analyses the clojure project deps.edn and compiles a list of external dependencies.
-          -- These dependencies can be found on disk (in ~/.m2) and used to construct references.
-          --
-          -- See:
-          -- https://github.com/mfussenegger/nvim-jdtls?tab=readme-ov-file#language-server-doesnt-find-classes-that-should-be-there
-
+          local libs
           vim.api.nvim_create_autocmd("FileType", {
             pattern = { "java" },
             desc = "Start and attach jdtls",
             callback = function()
-              jdtls.start_or_attach(config)
+              local cwd = vim.fn.getcwd()
+              if not libs then
+                libs = utils.find_third_party_libs("/Users/julienvincent/.m2", cwd)
+              end
+              jdtls.start_or_attach(vim.tbl_deep_extend("force", {}, config, {
+                settings = {
+                  java = {
+                    project = {
+                      referencedLibraries = libs,
+                    },
+                  },
+                },
+              }))
             end,
           })
         end,
