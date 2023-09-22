@@ -49,31 +49,10 @@ function M.find_file_by_glob(dir, glob)
   end
 end
 
-function M.find_third_party_libs(m2_dir, project_root)
-  local out
-  local err
-  local job_id = vim.fn.jobstart({ "clojure", "-Stree" }, {
-    on_stdout = function(_, data)
-      out = data
-    end,
-    on_stderr = function(_, data)
-      err = data[1]
-    end,
-    stdout_buffered = true,
-    stderr_buffered = true,
-    cwd = project_root,
-  })
-
-  vim.fn.jobwait({ job_id })
-
-  if err ~= "" then
-    print(err)
-    return {}
-  end
-
+local function parse_s_tree_output(m2_dir, output)
   local filtered = vim.tbl_filter(function(line)
     return line ~= ""
-  end, out)
+  end, output)
 
   local trimmed = vim.tbl_map(function(item)
     local trimmed = string.gsub(item, "^%s*(.-)%s*$", "%1")
@@ -115,6 +94,29 @@ function M.find_third_party_libs(m2_dir, project_root)
   return vim.tbl_filter(function(lib)
     return lib
   end, parsed)
+end
+
+function M.find_third_party_libs(m2_dir, project_root, callback)
+  local file_exists = vim.loop.fs_stat(project_root .. "/deps.edn")
+  if not file_exists then
+    return callback({})
+  end
+
+  return vim.fn.jobstart({ "clojure", "-Stree" }, {
+    on_stdout = function(_, data)
+      local libs = parse_s_tree_output(m2_dir, data)
+      callback(libs)
+    end,
+    on_stderr = function(_, data)
+      if data[1] ~= "" then
+        print("Failed to call clojure -Stree", vim.inspect(data))
+        callback({})
+      end
+    end,
+    stdout_buffered = true,
+    stderr_buffered = true,
+    cwd = project_root,
+  })
 end
 
 return M

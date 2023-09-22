@@ -110,7 +110,8 @@ return {
           end
 
           local home_dir = os.getenv("HOME")
-          local project_id = vim.fn.sha256(vim.fn.getcwd())
+          local cwd = vim.fn.getcwd()
+          local project_id = vim.fn.sha256(cwd)
           local data_dir = home_dir .. "/.local/share/nvim/jdtls/projects/" .. project_id
 
           local launcher = utils.find_file_by_glob(jdtls_install_dir .. "/plugins", "org.eclipse.equinox.launcher_*")
@@ -151,14 +152,22 @@ return {
             },
           })
 
-          local libs
+          local libs = {}
+          local job_id = utils.find_third_party_libs(
+            home_dir .. "/.m2",
+            utils.find_furthest_root({ "deps.edn" })(cwd),
+            function(project_libs)
+              libs = project_libs
+            end
+          )
+
           vim.api.nvim_create_autocmd("FileType", {
             pattern = { "java" },
             desc = "Start and attach jdtls",
             callback = function()
-              local cwd = vim.fn.getcwd()
-              if not libs then
-                libs = utils.find_third_party_libs("/Users/julienvincent/.m2", cwd)
+              if job_id then
+                vim.fn.jobwait({ job_id })
+                job_id = nil
               end
               jdtls.start_or_attach(vim.tbl_deep_extend("force", {}, config, {
                 settings = {
