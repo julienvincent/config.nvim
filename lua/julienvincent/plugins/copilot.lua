@@ -2,7 +2,7 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "InsertEnter",
+    ft = { "clojure", "lua" },
     config = function()
       require("copilot").setup({
         panel = {
