@@ -38,7 +38,7 @@ return {
       end
 
       vim.keymap.set("n", "<localleader>f", format, {
-        desc = "Cycle paste backwards",
+        desc = "Format current buffer",
       })
     end,
   },
