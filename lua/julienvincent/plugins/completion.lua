@@ -1,3 +1,27 @@
+local function is_node_within_type(node, type)
+  if node:type() == type then
+    return true
+  end
+
+  local parent = node:parent()
+  if not parent then
+    return false
+  end
+
+  return is_node_within_type(parent, type)
+end
+
+local function in_ts_capture(type)
+  local ts = require("nvim-treesitter.ts_utils")
+
+  local current_node = ts.get_node_at_cursor()
+  if not current_node then
+    return
+  end
+
+  return is_node_within_type(current_node, type)
+end
+
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -25,9 +49,19 @@ return {
           -- keep command mode completion enabled when cursor is in a comment
           if vim.api.nvim_get_mode().mode == "c" then
             return true
-          else
-            return not context.in_treesitter_capture("comment") and not context.in_treesitter_capture("string")
           end
+
+          if context.in_treesitter_capture("comment") then
+            return false
+          end
+
+          local is_in_string = context.in_treesitter_capture("string")
+          local is_in_import = in_ts_capture("import_statement")
+          if is_in_string and not is_in_import then
+            return false
+          end
+
+          return true
         end,
 
         snippet = {
