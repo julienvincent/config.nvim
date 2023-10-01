@@ -30,6 +30,15 @@ function M.setup_highlights()
   vim.api.nvim_set_hl(0, "CursorColumn", {
     bg = "#504945",
   })
+
+  -- Search
+  vim.api.nvim_set_hl(0, "Search", {
+    bg = "#7c6f64",
+  })
+  vim.api.nvim_set_hl(0, "IncSearch", {
+    bg = "#d79921",
+    fg = "#32302f"
+  })
 end
 
 return M
