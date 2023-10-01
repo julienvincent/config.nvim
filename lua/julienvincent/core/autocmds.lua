@@ -36,9 +36,9 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  desc = "Fix shiftwidth for rust",
+  desc = "Fix shiftwidth for all filetypes",
   group = general,
-  pattern = { "rust" },
+  pattern = { "*" },
   callback = function()
     vim.opt_local.shiftwidth = 2
   end,
