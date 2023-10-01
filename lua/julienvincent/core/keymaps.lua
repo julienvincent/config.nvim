@@ -32,3 +32,6 @@ map("n", "<localleader>d", vim.diagnostic.open_float, "Show diagnostics at curso
 map("n", "<leader><tab><Right>", "<cmd>tabnext<cr>", "Next Tab")
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", "Close Tab")
 map("n", "<leader><tab><Left>", "<cmd>tabprevious<cr>", "Previous Tab")
+
+vim.api.nvim_set_keymap("n", "<S-Down>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<S-Up>", "<Nop>", { noremap = true, silent = true })
