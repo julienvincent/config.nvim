@@ -8,7 +8,6 @@ return {
   t = { ":Telescope lsp_type_definitions<cr>", "Type Definition" },
   ["<leader>"] = {
     l = {
-      f = { vim.lsp.buf.format, "Format" },
       r = { vim.lsp.buf.rename, "Rename" },
       R = { ":LspRestart<cr>", "Lsp Restart" },
       a = { vim.lsp.buf.code_action, "Code Action" },
