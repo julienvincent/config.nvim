@@ -32,6 +32,11 @@ function M.setup_highlights()
   })
 
   -- Search
+  vim.api.nvim_set_hl(0, "CursorLine", {
+    bg = "#46413e",
+  })
+
+  -- Search
   vim.api.nvim_set_hl(0, "Search", {
     bg = "#7c6f64",
   })
