@@ -5,32 +5,12 @@ return {
     event = { "BufReadPost", "BufNewFile" },
 
     config = function()
-      -- Configure treesitter highlights for authzed .zed schema files
-      --
-      -- See https://github.com/mleonidas/tree-sitter-authzed
-      --
-      -- This also has:
-      -- - A related auto-command in julienvincent.core.autocmds
-      -- - A highlights.scm file in ~/.config/nvim/queries/authzed/highlights.scm
-      --
-      -- If the above linked repo ever gets packaged better all of this can be removed
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.authzed = {
-        install_info = {
-          url = "https://github.com/mleonidas/tree-sitter-authzed",
-          files = { "src/parser.c" },
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-          revision = "44200686802dadf8691ff805068b7842a4afdaec",
-        },
-        filetype = "authzed",
-      }
-
       require("nvim-treesitter.configs").setup({
         highlight = { enable = true },
         indent = { enable = true },
         context_commentstring = { enable = true, enable_autocmd = false },
         ensure_installed = {
+          "authzed",
           "bash",
           "html",
           "javascript",
