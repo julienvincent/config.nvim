@@ -1,6 +1,8 @@
-local function is_node_within_type(node, type)
-  if node:type() == type then
-    return true
+local function is_node_within_type(node, types)
+  for _, type in ipairs(types) do
+    if node:type() == type then
+      return true
+    end
   end
 
   local parent = node:parent()
@@ -8,10 +10,10 @@ local function is_node_within_type(node, type)
     return false
   end
 
-  return is_node_within_type(parent, type)
+  return is_node_within_type(parent, types)
 end
 
-local function in_ts_capture(type)
+local function in_ts_capture(types)
   local ts = require("nvim-treesitter.ts_utils")
 
   local current_node = ts.get_node_at_cursor()
@@ -19,7 +21,7 @@ local function in_ts_capture(type)
     return
   end
 
-  return is_node_within_type(current_node, type)
+  return is_node_within_type(current_node, types)
 end
 
 return {
@@ -56,8 +58,8 @@ return {
           end
 
           local is_in_string = context.in_treesitter_capture("string")
-          local is_in_import = in_ts_capture("import_statement")
-          if is_in_string and not is_in_import then
+          local is_in_import_or_export = in_ts_capture({ "import_statement", "export_statement" })
+          if is_in_string and not is_in_import_or_export then
             return false
           end
 
