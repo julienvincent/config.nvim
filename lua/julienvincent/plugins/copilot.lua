@@ -26,7 +26,7 @@ return {
 
       require("which-key").register({
         ["<C-CR>"] = { suggestion.accept, "Copilot accept" },
-        ["<C-Left>"] = { suggestion.next, "Copilot prev" },
+        ["<C-Left>"] = { suggestion.prev, "Copilot prev" },
         ["<C-Right>"] = { suggestion.next, "Copilot next" },
       }, { mode = "i" })
 
