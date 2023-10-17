@@ -28,7 +28,7 @@ local keymaps = {
 return {
   {
     "Olical/conjure",
-    version = "^4.47.0",
+    version = "4.*",
     ft = { "clojure", "lua" },
     keys = keymaps,
     init = function()
