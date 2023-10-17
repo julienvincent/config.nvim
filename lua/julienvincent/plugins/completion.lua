@@ -26,11 +26,23 @@ end
 
 return {
   {
+    "L3MON4D3/LuaSnip",
+    version = "v2.0.*",
+    event = "BufReadPost",
+    config = function()
+      local luasnip = require("luasnip")
+
+      luasnip.setup()
+      luasnip.filetype_extend("typescript", { "javascript" })
+
+      require("luasnip.loaders.from_snipmate").lazy_load()
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      { "L3MON4D3/LuaSnip" },
-      -- { "PaterJason/cmp-conjure" },
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-path",
@@ -108,7 +120,6 @@ return {
         },
         sources = {
           { name = "nvim_lsp" },
-          -- { name = 'conjure' },
           { name = "nvim_lua" },
           { name = "luasnip" },
           { name = "path" },
