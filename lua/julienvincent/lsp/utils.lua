@@ -97,6 +97,10 @@ local function parse_s_tree_output(m2_dir, output)
 end
 
 function M.find_third_party_libs(m2_dir, project_root, callback)
+  if vim.fn.executable("clojure") ~= 1 then
+    return callback({})
+  end
+
   local file_exists = vim.loop.fs_stat(project_root .. "/deps.edn")
   if not file_exists then
     return callback({})
