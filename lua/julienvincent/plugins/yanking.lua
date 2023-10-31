@@ -6,9 +6,11 @@ return {
     },
     event = "BufReadPost",
     config = function()
-      require("yanky").setup({
+      local yanky = require("yanky")
+      yanky.setup({
         ring = {
-          storage = "sqlite"
+          storage = "sqlite",
+          update_register_on_cycle = true,
         },
         system_clipboard = {
           sync_with_ring = false,
@@ -21,6 +23,12 @@ return {
           enabled = false,
         },
       })
+
+      local yank_entry = yanky.history.storage.get(2)
+      if yank_entry.regcontents then
+        vim.fn.setreg('"', yank_entry.regcontents)
+        vim.fn.setreg("0", yank_entry.regcontents)
+      end
 
       vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)", { desc = "Put after" })
       vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)", { desc = "Put before" })

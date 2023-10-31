@@ -37,8 +37,9 @@ local stdout_to_clipboard = function(_, data)
   for _, value in ipairs(data) do
     result = result .. value .. "\n"
   end
-  vim.call("setreg", '"', result)
-  vim.call("setreg", "0", result)
+  vim.fn.setreg('"', result)
+  vim.fn.setreg("0", result)
+  vim.fn.setreg("+", result)
 end
 
 local portal_copy = function(parse_cmd)
