@@ -58,5 +58,3 @@ vim.opt.fillchars:append({
   horizdown = "-",
   diff = "╱",
 })
-
-vim.cmd.colorscheme("gruvbox-material")

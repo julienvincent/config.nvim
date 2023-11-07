@@ -61,10 +61,3 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-  pattern = { "*" },
-  callback = function()
-    require("julienvincent.core.highlights").setup_highlights()
-  end,
-})
