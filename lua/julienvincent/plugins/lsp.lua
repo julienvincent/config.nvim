@@ -28,7 +28,7 @@ return {
     lazy = true,
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = vim.tbl_keys(servers),
+        -- ensure_installed = vim.tbl_keys(servers),
       })
     end,
   },
