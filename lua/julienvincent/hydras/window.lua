@@ -10,13 +10,39 @@ return {
           type = "window",
           border = "double",
         },
+        on_enter = function()
+          local tint = require("tint")
+
+          tint.enable()
+
+          local wins = vim.api.nvim_list_wins()
+          local current_win = vim.api.nvim_get_current_win()
+          for _, win in ipairs(wins) do
+            if win ~= current_win then
+              tint.tint(win)
+            end
+          end
+        end,
+
+        on_exit = function()
+          local tint = require("tint")
+
+          local wins = vim.api.nvim_list_wins()
+          for _, win in ipairs(wins) do
+            tint.untint(win)
+          end
+
+          tint.disable()
+        end,
       },
       body = "<leader>w",
       heads = {
         { "w", "<C-W>p", { desc = "Switch to other window", exit = true } },
-        { "d", "<C-W>c", { desc = "Close window", exit = true } },
-        { "v", "<C-W>v", { desc = "Split window right", exit = true } },
-        { "h", "<C-W>s", { desc = "Split window below", exit = true } },
+        { "d", "<C-W>c", { desc = "Close window" } },
+        { "v", "<C-W>v", { desc = "Split window right" } },
+        { "h", "<C-W>s", { desc = "Split window below" } },
+        { "<S-Right>", "<C-W>v", { desc = "Split window right" } },
+        { "<S-Down>", "<C-W>s", { desc = "Split window below" } },
 
         { "s", "<C-W>x", { desc = "Swap window with next" } },
 
