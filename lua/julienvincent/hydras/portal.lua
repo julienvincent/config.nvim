@@ -13,23 +13,22 @@ end
 
 local function pcmd(command)
   return function()
-    return eval('(portal.api/eval-str "' .. command .. '")')
+    return eval('((requiring-resolve \'portal.api/eval-str) "' .. command .. '")')
   end
 end
 
 local function open_portal()
   eval([[
     (do
-      (resolve 'portal.api)
-      (add-tap #'portal.api/submit)
-      (portal.api/close)
-      (def *portal* (portal.api/open {:theme :portal.colors/gruvbox}))
+      (add-tap (requiring-resolve 'portal.api/submit))
+      ((requiring-resolve 'portal.api/close))
+      (def *portal* ((requiring-resolve 'portal.api/open) {:theme :portal.colors/gruvbox}))
       nil)
   ]])
 end
 
 local function clear_portal()
-  eval("(portal.api/clear)")
+  eval("((requiring-resolve 'portal.api/clear))")
 end
 
 local stdout_to_clipboard = function(_, data)
