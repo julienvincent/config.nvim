@@ -1,6 +1,31 @@
 local M = {}
 
-function M.set_gruvbox_material_dark()
+function M.get_macos_system_theme(cb)
+  vim.fn.jobstart(
+    { "osascript", "-e", 'tell application "System Events" to tell appearance preferences to return dark mode' },
+    {
+      on_stdout = function(_, data)
+        if data[1]:match("true") then
+          cb("dark")
+        else
+          cb("light")
+        end
+      end,
+      stdout_buffered = true,
+    }
+  )
+end
+
+local os_info = vim.loop.os_uname()
+function M.get_system_theme(cb)
+  if os_info.sysname == "Darwin" then
+    M.get_macos_system_theme(cb)
+  end
+end
+
+function M.override_gruvbox_material_dark()
+  local palette = vim.fn["gruvbox_material#get_palette"]("soft", "mix", vim.empty_dict())
+
   -- DIAGNOSTICS --
   vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Comment" })
   vim.api.nvim_set_hl(0, "ErrorText", {
@@ -38,7 +63,7 @@ function M.set_gruvbox_material_dark()
 
   -- Search
   vim.api.nvim_set_hl(0, "Search", {
-    bg = "#7c6f64",
+    bg = palette.grey0[1],
   })
   vim.api.nvim_set_hl(0, "IncSearch", {
     bg = "#d79921",
@@ -46,13 +71,13 @@ function M.set_gruvbox_material_dark()
   })
 end
 
-function M.set_gruvbox_material_light() end
+function M.override_gruvbox_material_light() end
 
 function M.set_gruvbox_material_overrides()
   if vim.o.background == "dark" then
-    M.set_gruvbox_material_dark()
+    M.override_gruvbox_material_dark()
   elseif vim.o.background == "light" then
-    M.set_gruvbox_material_light()
+    M.override_gruvbox_material_light()
   end
 end
 
@@ -61,6 +86,14 @@ function M.set_highlight_overrides()
     vim.cmd.colorscheme("gruvbox-material")
     M.set_gruvbox_material_overrides()
   end
+end
+
+function M.update_theme_from_system()
+  M.get_system_theme(function(theme)
+    if vim.o.background ~= theme then
+      vim.o.background = theme
+    end
+  end)
 end
 
 M.setup = function()
@@ -80,6 +113,10 @@ M.setup = function()
 
   vim.o.background = "dark"
   vim.cmd.colorscheme("gruvbox-material")
+
+  local timer = vim.loop.new_timer()
+  timer:start(0, 10000, vim.schedule_wrap(M.update_theme_from_system))
+  M.update_theme_from_system()
 end
 
 return M
