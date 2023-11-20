@@ -7,7 +7,7 @@ function M.get_macos_system_theme(cb)
       on_stdout = function(_, data)
         if data[1]:match("true") then
           cb("dark")
-        else
+        elseif data[1]:match("false") then
           cb("light")
         end
       end,
