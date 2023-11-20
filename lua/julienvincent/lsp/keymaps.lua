@@ -1,18 +1,35 @@
-return {
-  g = {
-    d = { ":Telescope lsp_definitions<cr>", "Go to Definition" },
-    i = { ":Telescope lsp_implementations<cr>", "Go to Impementations" },
-    r = { ":Telescope lsp_references<cr>", "Symbol References" },
-    t = { ":Telescope lsp_type_definitions<cr>", "Type Definitions" },
-  },
-  t = { ":Telescope lsp_type_definitions<cr>", "Type Definition" },
+local M = {}
+
+M.which_key_keys = {
   ["<leader>"] = {
-    l = {
-      r = { vim.lsp.buf.rename, "Rename" },
-      R = { ":LspRestart<cr>", "Lsp Restart" },
-      a = { vim.lsp.buf.code_action, "Code Action" },
-      I = { ":LspInfo<cr>", "Lsp Info" },
-    },
+    l = { "LSP" },
   },
-  K = { vim.lsp.buf.hover, "Hover doc" },
 }
+
+function M.setup_global_keybinds()
+  vim.keymap.set("n", "<leader>lR", "<Cmd>LspRestart<Cr>", { silent = true, desc = "Restart LSP" })
+  vim.keymap.set("n", "<leader>lI", "<Cmd>LspInfo<Cr>", { silent = true, desc = "Get LSP info" })
+end
+
+local function map(lhs, rhs, bufnr, desc)
+  vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
+end
+
+local function Telescope(cmd)
+  return function()
+    vim.cmd.Telescope(cmd)
+  end
+end
+
+function M.setup_on_attach_keybinds(buf)
+  map("<leader>lr", vim.lsp.buf.rename, buf, "Rename symbol")
+  map("<leader>la", vim.lsp.buf.code_action, buf, "Code actions")
+  map("K", vim.lsp.buf.hover, buf, "Hover doc")
+
+  map("gd", Telescope("lsp_definitions"), buf, "Go to definition")
+  map("gi", Telescope("lsp_implementations"), buf, "Go to implementations")
+  map("gr", Telescope("lsp_references"), buf, "Symbol references")
+  map("gt", Telescope("lsp_type_definitions"), buf, "Type definitions")
+end
+
+return M

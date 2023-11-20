@@ -78,10 +78,7 @@ return {
         },
 
         on_attach = function(_, bufnr)
-          require("which-key").register(keymaps, {
-            noremap = true,
-            buffer = bufnr,
-          })
+          keymaps.setup_on_attach_keybinds(bufnr)
         end,
       }
 
@@ -182,6 +179,9 @@ return {
           })
         end,
       })
+
+      require("which-key").register(keymaps.which_key_keys)
+      keymaps.setup_global_keybinds()
     end,
   },
 
