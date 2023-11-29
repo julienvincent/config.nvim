@@ -1,3 +1,39 @@
+local function get_lsp_client_status()
+  return "LSP"
+end
+
+local function get_lsp_cond()
+  local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+  if client then
+    return true
+  end
+  return false
+end
+
+local function get_lsp_client_color()
+  local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+  if not client or not client.initialized then
+    return {
+      bg = "#928374",
+      fg = "#1b1b1b",
+    }
+  end
+
+  return {
+    bg = "#b0b846",
+    fg = "#1b1b1b",
+  }
+end
+
+local function get_nrepl_status()
+  if vim.bo.filetype ~= "clojure" then
+    return ""
+  end
+
+  local nrepl = require("julienvincent.lang.clojure.nrepl")
+  return nrepl.get_repl_status("Not Connected")
+end
+
 return {
   {
     "nvim-lualine/lualine.nvim",
@@ -6,25 +42,6 @@ return {
 
     config = function()
       local lualine = require("lualine")
-
-      local function get_lsp_client_status()
-        for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-          if client.initialized then
-            return ""
-          else
-            return ""
-          end
-        end
-        return ""
-      end
-
-      local function get_nrepl_status()
-        if vim.bo.filetype == "clojure" then
-          local nrepl = require("julienvincent.lang.clojure.nrepl")
-          return nrepl.get_repl_status("Not Connected")
-        end
-        return ""
-      end
 
       lualine.setup({
         options = {
@@ -59,17 +76,15 @@ return {
 
           lualine_x = {
             {
-              "lsp_client_status",
-              fmt = get_lsp_client_status,
-              color = {
-                fg = "#b0b846",
-              },
+              get_lsp_client_status,
+              cond = get_lsp_cond,
+              color = get_lsp_client_color,
+              separator = { left = "" },
             },
           },
           lualine_y = {
             {
-              fmt = get_nrepl_status,
-              "repl_status",
+              get_nrepl_status,
             },
           },
           lualine_z = {
