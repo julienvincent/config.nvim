@@ -14,16 +14,31 @@ M.servers = {
       params.workDoneToken = "enable-progress"
     end,
   },
-  yamlls = {
-    settings = {
-      yaml = {
-        schemas = {
-          "https://json.schemastore.org/github-workflow.json",
-          ".github/workflows/*",
+  yamlls = function()
+    return {
+      settings = {
+        yaml = {
+          schemaStore = {
+            enable = false,
+            url = "",
+          },
+          schemas = require("schemastore").yaml.schemas({
+            select = { "GitHub Workflow" },
+          }),
         },
       },
-    },
-  },
+    }
+  end,
+  jsonls = function()
+    return {
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    }
+  end,
   tsserver = {},
   jdtls = {
     single_file_support = true,
@@ -34,7 +49,6 @@ M.servers = {
       },
     },
   },
-  jsonls = {},
   rust_analyzer = {
     settings = {
       ["rust-analyzer"] = {

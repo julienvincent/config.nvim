@@ -39,6 +39,11 @@ return {
   },
 
   {
+    "b0o/schemastore.nvim",
+    lazy = true,
+  },
+
+  {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
