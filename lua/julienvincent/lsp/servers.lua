@@ -58,29 +58,41 @@ M.servers = {
       },
     },
   },
-  lua_ls = {
-    settings = {
-      Lua = {
-        format = {
-          enable = false,
-          defaultConfig = {
-            indent_style = "space",
-            indent_size = "2",
+  lua_ls = function()
+    local runtime_path = vim.split(package.path, ";")
+    table.insert(runtime_path, "lua/?.lua")
+    table.insert(runtime_path, "lua/?/init.lua")
+
+    return {
+      settings = {
+        Lua = {
+          format = {
+            enable = false,
+            defaultConfig = {
+              indent_style = "space",
+              indent_size = "2",
+            },
           },
+          runtime = {
+            version = "LuaJIT",
+            path = runtime_path,
+          },
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              -- Make the server aware of Neovim runtime files
+              vim.fn.expand("$VIMRUNTIME/lua"),
+              vim.fn.stdpath("config") .. "/lua",
+            },
+          },
+          telemetry = { enable = false },
         },
-        runtime = {
-          version = "LuaJIT",
-        },
-        diagnostics = {
-          globals = { "vim" },
-        },
-        workspace = {
-          checkThirdParty = false,
-        },
-        telemetry = { enable = false },
       },
-    },
-  },
+    }
+  end,
 }
 
 function M.resolve_server_configs()
