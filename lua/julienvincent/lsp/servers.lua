@@ -97,11 +97,11 @@ M.servers = {
 
 function M.resolve_server_configs()
   local servers = {}
-  for name, config in ipairs(M.servers) do
+  for name, config in pairs(M.servers) do
     if type(config) == "function" then
-      table.insert(servers, name, config())
+      servers[name] = config()
     else
-      table.insert(servers, name, config)
+      servers[name] = config
     end
   end
 
