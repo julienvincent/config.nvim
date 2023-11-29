@@ -64,7 +64,9 @@ function M.override_gruvbox_material_dark()
   })
 end
 
-function M.override_gruvbox_material_light() end
+function M.override_gruvbox_material_light()
+  vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Comment" })
+end
 
 function M.set_gruvbox_material_overrides()
   if vim.o.background == "dark" then
