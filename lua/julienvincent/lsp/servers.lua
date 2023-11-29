@@ -1,6 +1,8 @@
 local utils = require("julienvincent.lsp.utils")
 
-return {
+local M = {}
+
+M.servers = {
   clojure_lsp = {
     root_dir = utils.find_furthest_root({ "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" }),
     single_file_support = true,
@@ -66,3 +68,18 @@ return {
     },
   },
 }
+
+function M.resolve_server_configs()
+  local servers = {}
+  for name, config in ipairs(M.servers) do
+    if type(config) == "function" then
+      table.insert(servers, name, config())
+    else
+      table.insert(servers, name, config)
+    end
+  end
+
+  return servers
+end
+
+return M

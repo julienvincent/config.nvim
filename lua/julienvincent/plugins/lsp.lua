@@ -87,9 +87,11 @@ return {
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
 
+      local server_configs = servers.resolve_server_configs()
+
       mason_lspconfig.setup_handlers({
         function(server_name)
-          local server_opts = servers[server_name] or {}
+          local server_opts = server_configs[server_name] or {}
           local opts = vim.tbl_deep_extend("force", {}, options, server_opts)
           lspconfig[server_name].setup(opts)
         end,
@@ -139,7 +141,7 @@ return {
           }
 
           local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
-          local config = vim.tbl_deep_extend("force", {}, options, servers["jdtls"] or {}, {
+          local config = vim.tbl_deep_extend("force", {}, options, server_configs["jdtls"] or {}, {
             cmd = cmd,
 
             init_options = {
