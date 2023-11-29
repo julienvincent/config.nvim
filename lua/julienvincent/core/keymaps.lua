@@ -35,9 +35,3 @@ map("n", "<leader><tab><Left>", "<cmd>tabprevious<cr>", "Previous Tab")
 
 vim.api.nvim_set_keymap("n", "<S-Down>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<S-Up>", "<Nop>", { noremap = true, silent = true })
-
--- vim.keymap.set("n", "<C-u>", "<C-u>zz", {desc = "Scroll up half-page"})
--- vim.keymap.set("n", "<C-d>", "<C-d>zz", {desc = "Scroll down half-page"})
-
-vim.keymap.set("n", "}", "10j", {desc = "Move down 10 lines"})
-vim.keymap.set("n", "{", "10k", {desc = "Move up 10 lines"})
