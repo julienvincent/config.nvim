@@ -49,9 +49,12 @@ function M.override_gruvbox_material_dark()
     bg = "#504945",
   })
 
-  -- Search
   vim.api.nvim_set_hl(0, "CursorLine", {
     bg = "#46413e",
+  })
+
+  vim.api.nvim_set_hl(0, "MatchParen", {
+    bg = palette.grey0[1],
   })
 
   -- Search
