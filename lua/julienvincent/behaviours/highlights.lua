@@ -1,25 +1,18 @@
 local M = {}
 
-function M.get_macos_system_theme(cb)
-  vim.fn.jobstart(
-    { "osascript", "-e", 'tell application "System Events" to tell appearance preferences to return dark mode' },
-    {
-      on_stdout = function(_, data)
-        if data[1]:match("true") then
-          cb("dark")
-        elseif data[1]:match("false") then
-          cb("light")
-        end
-      end,
-      stdout_buffered = true,
-    }
-  )
+function M.get_macos_system_theme()
+  local cmd = [[defaults read -g AppleInterfaceStyle]]
+  local res = vim.fn.system(cmd)
+  if res:match("Dark") then
+    return "dark"
+  end
+  return "light"
 end
 
 local os_info = vim.loop.os_uname()
-function M.get_system_theme(cb)
+function M.get_system_theme()
   if os_info.sysname == "Darwin" then
-    M.get_macos_system_theme(cb)
+    return M.get_macos_system_theme()
   end
 end
 
@@ -89,11 +82,14 @@ function M.set_highlight_overrides()
 end
 
 function M.update_theme_from_system()
-  M.get_system_theme(function(theme)
-    if vim.o.background ~= theme then
-      vim.o.background = theme
-    end
-  end)
+  local theme = M.get_system_theme()
+  if not theme then
+    return
+  end
+
+  if vim.o.background ~= theme then
+    vim.o.background = theme
+  end
 end
 
 M.setup = function()
@@ -111,7 +107,7 @@ M.setup = function()
     end,
   })
 
-  vim.o.background = "dark"
+  vim.o.background = M.get_system_theme() or "dark"
   vim.cmd.colorscheme("gruvbox-material")
 
   local timer = vim.loop.new_timer()
