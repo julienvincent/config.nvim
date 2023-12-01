@@ -51,6 +51,7 @@ return {
       { "<leader>gl", "<cmd>DiffviewFileHistory<cr>", desc = "Git log" },
       { "q", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
     },
+    cmd = { "DiffviewOpen" },
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup({
