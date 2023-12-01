@@ -44,8 +44,13 @@ local function scroll_conjure_log_to_bottom()
       if not win then
         return
       end
-      local line_count = vim.api.nvim_buf_line_count(bufnr)
-      vim.api.nvim_win_set_cursor(win, { line_count, 0 })
+
+      local current_win = vim.api.nvim_get_current_win()
+
+      vim.api.nvim_set_current_win(win)
+      vim.api.nvim_command("normal! G")
+
+      vim.api.nvim_set_current_win(current_win)
     end
   end
 end
