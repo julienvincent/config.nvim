@@ -1,15 +1,38 @@
 local M = {}
 
+local function is_file_empty(file_path)
+  local file = io.open(file_path, "r")
+  if not file then
+    return true
+  end
+
+  local size = file:seek("end")
+  file:close()
+
+  return size == 0
+end
+
 function M.glob_exists_in_dir(dir, globs)
   for _, glob in ipairs(globs) do
-    if #vim.fn.glob(vim.api.nvim_call_function("fnamemodify", { dir, ":p" }) .. "/" .. glob) > 0 then
+    local res = vim.fn.glob(vim.api.nvim_call_function("fnamemodify", { dir, ":p" }) .. "/" .. glob)
+    local files = vim.split(res, "\n")
+
+    local non_empty_files = {}
+    for i, file in ipairs(files) do
+      if not is_file_empty(file) then
+        non_empty_files[i] = file
+      end
+    end
+
+    if #non_empty_files > 0 then
       return true
     end
   end
+
   return false
 end
 
-function M.find_furthest_root(globs)
+function M.find_furthest_root(globs, fallback_fn)
   local home = vim.fn.expand("~")
 
   local function traverse(path, root)
@@ -36,8 +59,21 @@ function M.find_furthest_root(globs)
     if furthest_root then
       return furthest_root
     end
-    return vim.fn.getcwd()
+
+    if fallback_fn and type(fallback_fn) == "function" then
+      return fallback_fn()
+    end
   end
+end
+
+function M.fallback_fn_cwd()
+  return vim.fn.cwd()
+end
+
+function M.fallback_fn_tmp_dir()
+  local tmp_dir = vim.fn.getenv("TMPDIR") .. "nvim-lsp-tmp/"
+  vim.fn.mkdir(tmp_dir, "p")
+  return tmp_dir
 end
 
 function M.find_file_by_glob(dir, glob)
