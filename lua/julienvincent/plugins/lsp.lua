@@ -160,7 +160,7 @@ return {
           local project_root = utils.find_furthest_root({ "deps.edn" })(cwd)
           local job_id = nil
           if project_root then
-            job_id = utils.find_third_party_libs(home_dir .. "/.m2", project_root, function(project_libs)
+            job_id = utils.find_third_party_libs(project_root, function(project_libs)
               libs = project_libs
             end)
           end

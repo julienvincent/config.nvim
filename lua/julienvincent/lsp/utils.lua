@@ -85,71 +85,41 @@ function M.find_file_by_glob(dir, glob)
   end
 end
 
-local function parse_s_tree_output(m2_dir, output)
-  local filtered = vim.tbl_filter(function(line)
-    return line ~= ""
-  end, output)
+local function parse_s_path_output(raw_paths)
+  local paths = vim.split(raw_paths, ":")
 
-  local trimmed = vim.tbl_map(function(item)
-    local trimmed = string.gsub(item, "^%s*(.-)%s*$", "%1")
-    if string.sub(trimmed, 1, 1) == "." then
-      return string.sub(trimmed, 3)
+  local jar_paths = vim.tbl_filter(function(line)
+    if not line or line == "" then
+      return false
     end
-    return trimmed
-  end, filtered)
-
-  local items_in_use = vim.tbl_filter(function(line)
-    return line[1] ~= "X"
-  end, trimmed)
-
-  local parsed = vim.tbl_map(function(item)
-    local package_and_version = vim.split(item, " ")
-
-    if string.find(package_and_version[2], "/") then
-      return nil
+    if not string.find(line, ".jar") then
+      return false
     end
+    return true
+  end, paths)
 
-    local parts = vim.split(package_and_version[1], "/")
-    local group = parts[1]
-    local artifact = parts[2]
-    local version = package_and_version[2]
-
-    local artifact_path = string.gsub(group, "%.", "/")
-
-    local path_segments = {
-      m2_dir,
-      "repository",
-      artifact_path,
-      artifact,
-      version,
-      artifact .. "-" .. version .. ".jar",
-    }
-    return table.concat(path_segments, "/")
-  end, items_in_use)
-
-  return vim.tbl_filter(function(lib)
-    return lib
-  end, parsed)
+  return jar_paths
 end
 
-function M.find_third_party_libs(m2_dir, project_root, callback)
+function M.find_third_party_libs(project_root, callback)
   if vim.fn.executable("clojure") ~= 1 then
     return callback({})
   end
 
-  local file_exists = vim.loop.fs_stat(project_root .. "/deps.edn")
-  if not file_exists then
+  local deps_file = project_root .. "/deps.edn"
+  local file_exists = vim.loop.fs_stat(deps_file)
+  if not file_exists or is_file_empty(deps_file) then
     return callback({})
   end
 
-  return vim.fn.jobstart({ "clojure", "-Stree" }, {
+  return vim.fn.jobstart({ "clojure", "-Spath" }, {
     on_stdout = function(_, data)
-      local libs = parse_s_tree_output(m2_dir, data)
+      local libs = parse_s_path_output(data[1])
       callback(libs)
     end,
     on_stderr = function(_, data)
       if data[1] ~= "" then
-        print("Failed to call clojure -Stree", vim.inspect(data))
+        print("Failed to call clojure -Spath", vim.inspect(data))
         callback({})
       end
     end,
