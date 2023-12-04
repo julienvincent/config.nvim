@@ -67,7 +67,7 @@ function M.find_furthest_root(globs, fallback_fn)
 end
 
 function M.fallback_fn_cwd()
-  return vim.fn.cwd()
+  return vim.fn.getcwd()
 end
 
 function M.fallback_fn_tmp_dir()
