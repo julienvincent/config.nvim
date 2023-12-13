@@ -54,7 +54,7 @@ function M.override_gruvbox_material_dark()
   })
 
   vim.api.nvim_set_hl(0, "MatchParen", {
-    bg = palette.grey0[1],
+    bg = palette.bg5[1],
   })
 
   -- Search
