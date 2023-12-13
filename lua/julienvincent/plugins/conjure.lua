@@ -58,7 +58,7 @@ end
 return {
   {
     "Olical/conjure",
-    version = "4.*",
+    version = "v4.*",
     ft = { "clojure", "lua" },
     keys = keymaps,
     init = function()
