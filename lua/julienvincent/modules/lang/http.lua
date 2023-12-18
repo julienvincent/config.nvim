@@ -2,7 +2,7 @@ local map = require("julienvincent.helpers.keys").map
 
 local M = {}
 
-function M.select_env()
+local function select_env()
   vim.ui.input({
     prompt = "Select env file",
     default = ".env.",
@@ -27,7 +27,7 @@ function M.setup()
       map("n", "<localleader>rr", "<Plug>RestNvim<Cr>", { desc = "Run HTTP request", buffer = event.buf })
       map("n", "<localleader>rp", "<Plug>RestNvimPreview<Cr>", { desc = "Preview HTTP request", buffer = event.buf })
       map("n", "<localleader>rl", "<Plug>RestNvimLast<Cr>", { desc = "Rerun last request", buffer = event.buf })
-      map("n", "<localleader>rs", M.select_env, { desc = "Select env", buffer = event.buf })
+      map("n", "<localleader>rs", select_env, { desc = "Select env", buffer = event.buf })
     end,
   })
 end

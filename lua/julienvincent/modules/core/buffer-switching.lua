@@ -131,6 +131,12 @@ M.setup = function()
     silent = true,
     desc = "Buffer quick-switch",
   })
+
+  vim.keymap.set("n", "<C-Tab>", "<C-^>", {
+    noremap = true,
+    silent = true,
+    desc = "Toggle previous buffer",
+  })
 end
 
 return M

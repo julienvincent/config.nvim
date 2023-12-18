@@ -1,3 +1,5 @@
+local map = require("julienvincent.helpers.keys").map
+
 local M = {}
 
 function M.buf_is_visible(buf)
@@ -78,6 +80,9 @@ function M.setup()
     group = group,
     callback = M.write_all_buffers,
   })
+
+  map("n", "<localleader>s", "<Cmd>w<Cr>", "Save buffer")
+  map("n", "<localleader>sa", M.write_all_buffers, "Save all buffers")
 end
 
 return M
