@@ -14,7 +14,10 @@ M.setup = function()
       if vim.v.operator ~= "y" then
         return
       end
-      vim.fn.setreg("+", vim.fn.getreg(vim.v.register, 1, 1))
+
+      local value = vim.fn.getreg(vim.v.register, 1, 1)
+      local type = vim.fn.getregtype(vim.v.register)
+      vim.fn.setreg("+", value, type)
     end,
   })
 end
