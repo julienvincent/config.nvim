@@ -110,24 +110,22 @@ return {
     event = "BufReadPost",
     branch = "v2",
     config = function()
-      local map = require("julienvincent.helpers.keys").map
-
       local directions = require("hop.hint").HintDirection
       local hop = require("hop")
 
       hop.setup({})
 
-      map({ "n", "v" }, "s", hop.hint_char1, "Hop")
-      map("n", "S", function()
+      vim.keymap.set({ "n", "v" }, "s", hop.hint_char1, { desc = "Hop" })
+      vim.keymap.set("n", "S", function()
         hop.hint_char1({ multi_windows = true })
-      end, "Hop all windows")
+      end, { desc = "Hop all windows" })
 
-      map({ "n", "v" }, "f", function()
+      vim.keymap.set({ "n", "v" }, "f", function()
         hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
-      end, "Hop Line")
-      map({ "n", "v" }, "F", function()
+      end, { desc = "Hop Line" })
+      vim.keymap.set({ "n", "v" }, "F", function()
         hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
-      end, "Hop Line")
+      end, { desc = "Hop Line" })
     end,
   },
 

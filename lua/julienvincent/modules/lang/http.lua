@@ -1,5 +1,3 @@
-local map = require("julienvincent.helpers.keys").map
-
 local M = {}
 
 local function select_env()
@@ -23,6 +21,8 @@ function M.setup()
     callback = function(event)
       vim.api.nvim_buf_set_option(event.buf, "filetype", "http")
       vim.bo.commentstring = "#%s"
+
+      local map = vim.keymap.set
 
       map("n", "<localleader>rr", "<Plug>RestNvim<Cr>", { desc = "Run HTTP request", buffer = event.buf })
       map("n", "<localleader>rp", "<Plug>RestNvimPreview<Cr>", { desc = "Preview HTTP request", buffer = event.buf })

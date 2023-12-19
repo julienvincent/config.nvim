@@ -1,5 +1,3 @@
-local map = require("julienvincent.helpers.keys").map
-
 local M = {}
 
 function M.buf_is_visible(buf)
@@ -81,8 +79,8 @@ function M.setup()
     callback = M.write_all_buffers,
   })
 
-  map("n", "<localleader>s", "<Cmd>w<Cr>", "Save buffer")
-  map("n", "<localleader>sa", M.write_all_buffers, "Save all buffers")
+  vim.keymap.set("n", "<localleader>s", "<Cmd>w<Cr>", { desc = "Save buffer" })
+  vim.keymap.set("n", "<localleader>sa", M.write_all_buffers, { desc = "Save all buffers" })
 end
 
 return M
