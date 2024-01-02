@@ -22,6 +22,11 @@ M.setup = function()
   vim.api.nvim_set_keymap("n", "<S-Up>", "<Nop>", { noremap = true, silent = true })
 
   map("n", "<leader>LL", lazy.show, { desc = "Show Lazy" })
+
+  map("v", "<localleader>s", '"zy:%s/<C-r>z//g<Left><Left>', {
+    noremap = true,
+    desc = "Replace selection",
+  })
 end
 
 return M
