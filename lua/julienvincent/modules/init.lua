@@ -15,6 +15,7 @@ local modules = {
 
   mod("lang.authzed"),
   mod("lang.http"),
+  mod("lang.nftables"),
 }
 
 local M = {}
