@@ -11,25 +11,6 @@ return {
   },
 
   {
-    "mbbill/undotree",
-    cmd = "UndotreeToggle",
-    keys = {
-      {
-        "<leader>u",
-        function()
-          vim.cmd.UndotreeToggle()
-        end,
-        desc = "Toggle UndoTree",
-      },
-    },
-    init = function()
-      vim.g["undotree_WindowLayout"] = 3
-      vim.g["undotree_SplitWidth"] = 60
-      vim.g["undotree_SetFocusWhenToggle"] = 1
-    end,
-  },
-
-  {
     "psliwka/vim-smoothie",
     event = "BufReadPost",
     init = function()
