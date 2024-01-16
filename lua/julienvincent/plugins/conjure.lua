@@ -8,6 +8,14 @@ local keymaps = {
     desc = "user/reset",
   },
   {
+    "<leader>`",
+    function()
+      local eval = require("julienvincent.lang.clojure.eval").eval
+      eval("user", "(do (tap> (reset)))")
+    end,
+    desc = "user/reset",
+  },
+  {
     "<leader>!",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
