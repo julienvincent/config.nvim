@@ -1,3 +1,7 @@
+local function file_exists(file)
+  return vim.loop.fs_stat(vim.fn.getcwd() .. "/" .. file) ~= nil
+end
+
 return {
   {
     "stevearc/conform.nvim",
@@ -5,13 +9,18 @@ return {
     config = function()
       local conform = require("conform")
 
-      local js_formatter = { "prettierd", "prettier" }
+      local js_formatter = function()
+        if file_exists("biome.json") and not file_exists(".prettierrc") then
+          return { "biome" }
+        end
+        return { { "prettierd", "prettier" } }
+      end
 
       conform.setup({
         formatters_by_ft = {
-          javascript = { js_formatter },
-          typescript = { js_formatter },
-          typescriptreact = { js_formatter },
+          javascript = js_formatter,
+          typescript = js_formatter,
+          typescriptreact = js_formatter,
 
           lua = { "stylua" },
           just = { "just" },
