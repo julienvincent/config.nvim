@@ -35,6 +35,7 @@ return {
 
   {
     "NeogitOrg/neogit",
+    cmd = { "Neogit" },
     opts = {
       kind = "vsplit",
     },
