@@ -4,6 +4,10 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
 
+    -- nvim-treesitter has changed it's capture groups after this version. Updating requires colorschemes to support
+    -- the new capture group names. Confirm this before changing this version.
+    version = "v0.9.2",
+
     config = function()
       require("nvim-treesitter.configs").setup({
         highlight = { enable = true },
