@@ -14,6 +14,7 @@ M.setup = function()
   map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
   -- tabs
+  map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "Next Tab" })
   map("n", "<leader><tab><Right>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
   map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
   map("n", "<leader><tab><Left>", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
