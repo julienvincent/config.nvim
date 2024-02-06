@@ -94,7 +94,7 @@ M.servers = {
             path = runtime_path,
           },
           diagnostics = {
-            globals = { "vim" },
+            globals = { "vim", "hs" },
           },
           workspace = {
             checkThirdParty = false,
@@ -102,6 +102,9 @@ M.servers = {
               -- Make the server aware of Neovim runtime files
               vim.fn.expand("$VIMRUNTIME/lua"),
               vim.fn.stdpath("config") .. "/lua",
+
+              -- Make the server aware of hammerspoon
+              ["/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/"] = true,
             },
           },
           telemetry = { enable = false },
