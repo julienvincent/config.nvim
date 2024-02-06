@@ -147,6 +147,9 @@ return {
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
+    init = function ()
+      vim.g["mkdp_auto_close"] = 0
+    end
   },
 
   { "echasnovski/mini.bufremove", event = "BufReadPost" },
