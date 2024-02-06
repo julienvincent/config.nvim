@@ -12,6 +12,8 @@ return {
       { "<leader>fc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
       { "<leader>b", "<cmd>Telescope buffers<CR>", desc = "Buffers" },
       { "<leader>fr", "<cmd>Telescope resume<CR>", desc = "Resume previous search" },
+      { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Search for all symbols defined in the buffer" },
+      { "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<CR>", desc = "Search for all symbols defined in the workspace" },
     },
     opts = {
       defaults = {
