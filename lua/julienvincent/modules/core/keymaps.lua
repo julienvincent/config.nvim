@@ -13,9 +13,6 @@ M.setup = function()
 
   map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
-  map("n", "<Cr>", "o<Esc>", { desc = "Insert a new line below without entering insert mode" })
-  map("n", "<S-Cr>", "O<Esc>", { desc = "Insert a new line above without entering insert mode" })
-
   -- tabs
   map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "Next Tab" })
   map("n", "<leader><tab><Right>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
