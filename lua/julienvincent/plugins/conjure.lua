@@ -31,6 +31,15 @@ local keymaps = {
     end,
     desc = "Eval last error",
   },
+
+  {
+    "<localleader>nr",
+    function()
+      local eval = require("julienvincent.lang.clojure.eval").eval
+      eval("user", "(reload-namespaces)")
+    end,
+    desc = "user/reload-namespaces",
+  },
 }
 
 local function get_win_by_buf(bufnr)
@@ -161,7 +170,7 @@ return {
             n = {
               name = "Clojure Namespace",
 
-              r = { action["refresh-changed"], "Refresh changed namespaces" },
+              -- r = { action["refresh-changed"], "Refresh changed namespaces" },
               R = { action["refresh-all"], "Refresh all namespaces" },
             },
           }, {
