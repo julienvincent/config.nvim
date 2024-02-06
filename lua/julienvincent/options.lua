@@ -38,7 +38,7 @@ local opts = {
   wrap = false,
 
   spell = false,
-  spelllang = "en_us",
+  spelllang = "en_gb",
 }
 
 -- Set options from table

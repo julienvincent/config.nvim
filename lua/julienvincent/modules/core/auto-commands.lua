@@ -24,7 +24,7 @@ M.setup = function()
     group = general,
     pattern = { "gitcommit", "markdown" },
     callback = function()
-      vim.opt_local.spell = true
+      -- vim.opt_local.spell = true
     end,
   })
 

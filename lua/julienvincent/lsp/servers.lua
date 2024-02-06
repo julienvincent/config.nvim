@@ -3,6 +3,19 @@ local utils = require("julienvincent.lsp.utils")
 local M = {}
 
 M.servers = {
+  ltex = {
+    settings = {
+      ltex = {
+        checkFrequency = "save",
+        diagnosticSeverity = "warning",
+        language = "en-GB",
+        additionalRules = {
+          enablePickyRules = true,
+          motherTongue = "en-GB",
+        },
+      },
+    },
+  },
   clojure_lsp = {
     root_dir = utils.find_furthest_root(
       { "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" },
