@@ -18,8 +18,8 @@ M.servers = {
   },
   clojure_lsp = {
     root_dir = utils.find_furthest_root(
-      { "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" },
-      utils.fallback_fn_tmp_dir
+      { "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" }
+      -- utils.fallback_fn_tmp_dir
     ),
     single_file_support = true,
     init_options = {
