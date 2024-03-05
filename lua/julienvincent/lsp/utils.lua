@@ -117,12 +117,12 @@ function M.find_third_party_libs(project_root, callback)
       local libs = parse_s_path_output(data[1])
       callback(libs)
     end,
-    on_stderr = function(_, data)
-      if data[1] ~= "" then
-        print("Failed to call clojure -Spath", vim.inspect(data))
-        callback({})
-      end
-    end,
+    -- on_stderr = function(_, data)
+    --   if data[1] ~= "" then
+    --     print("Failed to call clojure -Spath", vim.inspect(data))
+    --     callback({})
+    --   end
+    -- end,
     stdout_buffered = true,
     stderr_buffered = true,
     cwd = project_root,
