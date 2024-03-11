@@ -28,6 +28,8 @@ function M.setup_on_attach_keybinds(buf)
   map("<localleader>d", vim.diagnostic.open_float, buf, "Show diagnostics at cursor")
 
   map("gd", Telescope("lsp_definitions"), buf, "Go to definition")
+  map("gD", ":vsp<CR><cmd>lua vim.lsp.buf.definition()<CR>", buf, "Go to definition vertical split")
+
   map("gi", Telescope("lsp_implementations"), buf, "Go to implementations")
   map("gr", Telescope("lsp_references"), buf, "Symbol references")
   map("gt", Telescope("lsp_type_definitions"), buf, "Type definitions")
