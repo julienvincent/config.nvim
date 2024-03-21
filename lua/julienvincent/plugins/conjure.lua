@@ -3,7 +3,7 @@ local keymaps = {
     "<leader>§",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (tap> (reset)))")
+      eval("user", "(do (reset) nil)")
     end,
     desc = "user/reset",
   },
@@ -11,7 +11,7 @@ local keymaps = {
     "<leader>`",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (tap> (reset)))")
+      eval("user", "(do (reset) nil)")
     end,
     desc = "user/reset",
   },
@@ -19,19 +19,18 @@ local keymaps = {
     "<leader>!",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (tap> (stop)))")
+      eval("user", "(do (stop) nil)")
     end,
-    desc = "user/reset",
+    desc = "user/stop",
   },
   {
     "<leader>*",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (require '[clojure.pprint :as pprint]) (pprint/pprint *e) (tap> *e))")
+      eval("user", "(do ((requiring-resolve 'clojure.stacktrace/print-stack-trace) *e 6) (tap> *e))")
     end,
     desc = "Eval last error",
   },
-
   {
     "<localleader>nr",
     function()
