@@ -65,6 +65,7 @@ M.servers = {
       },
     },
   },
+  spicedb = {},
   rust_analyzer = {
     settings = {
       ["rust-analyzer"] = {

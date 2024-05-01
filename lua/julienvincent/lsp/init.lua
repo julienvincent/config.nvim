@@ -73,6 +73,9 @@ function M.setup()
     end,
   })
 
+  -- SpiceDB is not included in mason
+  setup_server("spicedb")
+
   require("which-key").register(keymaps.which_key_keys)
   keymaps.setup_global_keybinds()
 end
