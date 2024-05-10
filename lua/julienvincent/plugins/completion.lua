@@ -56,6 +56,8 @@ return {
       local lspkind = require("lspkind")
       local cmp = require("cmp")
 
+      local compare = require("cmp.config.compare")
+
       cmp.setup({
         -- disable completion in comments
         enabled = function()
@@ -127,11 +129,23 @@ return {
           ["<C-u>"] = cmp.mapping.scroll_docs(-4),
           ["<C-d>"] = cmp.mapping.scroll_docs(4),
         },
+
         sources = {
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
           { name = "luasnip" },
           { name = "path" },
+        },
+
+        sorting = {
+          priority_weight = 1.0,
+          comparators = {
+            compare.locality,
+            compare.recently_used,
+            compare.score,
+            compare.offset,
+            compare.order,
+          },
         },
       })
 
