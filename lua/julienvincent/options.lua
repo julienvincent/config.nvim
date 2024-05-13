@@ -39,6 +39,8 @@ local opts = {
 
   spell = false,
   spelllang = "en_gb",
+
+  shell = "/bin/bash",
 }
 
 -- Set options from table
