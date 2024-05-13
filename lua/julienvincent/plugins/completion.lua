@@ -88,20 +88,8 @@ return {
         formatting = {
           format = lspkind.cmp_format({
             mode = "symbol",
-            maxwidth = 80,
-            ellipsis_char = "...",
-            before = function(_, vim_item)
-              return vim_item
-            end,
-            menu = {
-              conjure = "[conjure]",
-              buffer = "[Buffer]",
-              nvim_lsp = "[LSP]",
-              luasnip = "[Snip]",
-              nvim_lua = "[Lua]",
-            },
           }),
-          fields = { "menu", "abbr", "kind" },
+          fields = { "abbr", "kind" },
         },
 
         preselect = "item",
@@ -141,8 +129,8 @@ return {
           priority_weight = 1.0,
           comparators = {
             compare.locality,
-            compare.recently_used,
             compare.score,
+            compare.recently_used,
             compare.offset,
             compare.order,
           },
