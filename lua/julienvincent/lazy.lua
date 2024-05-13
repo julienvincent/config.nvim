@@ -21,4 +21,14 @@ lazy.setup("julienvincent.plugins", {
   change_detection = {
     enabled = false,
   },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "netrw",
+        "netrwPlugin",
+        "netrwSettings",
+        "netrwFileHandlers",
+      },
+    },
+  },
 })
