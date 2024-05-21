@@ -16,20 +16,40 @@ M.servers = {
       },
     },
   },
-  clojure_lsp = {
-    root_dir = utils.find_furthest_root(
-      { "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" },
-      utils.fallback_fn_tmp_dir
-    ),
-    single_file_support = true,
-    init_options = {
-      codeLens = true,
-    },
+  clojure_lsp = function()
+    return {
+      root_dir = utils.find_furthest_root(
+        { "deps.edn", "bb.edn", "project.clj", "shadow-cljs.edn" },
+        utils.fallback_fn_tmp_dir
+      ),
+      single_file_support = true,
+      init_options = {
+        codeLens = true,
+      },
 
-    before_init = function(params)
-      params.workDoneToken = "enable-progress"
-    end,
-  },
+      before_init = function(params)
+        local file = io.open(params.rootPath .. "/deps.edn", "r")
+        local deps_content
+        if file then
+          deps_content = file:read("*all")
+          file:close()
+        end
+
+        -- If this is a kmono workspace then we configure clojure-lsp classpath using
+        -- kmono cp
+        if deps_content and string.find(deps_content, ":kmono/workspace") then
+          params.initializationOptions["project-specs"] = {
+            {
+              ["project-path"] = "deps.edn",
+              ["classpath-cmd"] = { "kmono", "cp", "-P", ":*/test" },
+            },
+          }
+        end
+
+        params.workDoneToken = "enable-progress"
+      end,
+    }
+  end,
   yamlls = function()
     return {
       settings = {
