@@ -3,7 +3,7 @@ local keymaps = {
     "<leader>§",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (reset) nil)")
+      eval("user", "(do (restart-system) nil)")
     end,
     desc = "user/reset",
   },
@@ -11,7 +11,7 @@ local keymaps = {
     "<leader>`",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (reset) nil)")
+      eval("user", "(do (restart-system) nil)")
     end,
     desc = "user/reset",
   },
@@ -19,7 +19,7 @@ local keymaps = {
     "<leader>!",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (stop) nil)")
+      eval("user", "(do (stop-system) nil)")
     end,
     desc = "user/stop",
   },
