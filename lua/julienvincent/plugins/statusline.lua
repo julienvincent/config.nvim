@@ -34,6 +34,16 @@ local function get_nrepl_status()
   return nrepl.get_repl_status("Not Connected")
 end
 
+local function show_recording()
+  local reg = vim.fn.reg_recording()
+
+  if reg == "" then
+    return ""
+  end
+
+  return "RECORDING @" .. reg
+end
+
 return {
   {
     "nvim-lualine/lualine.nvim",
@@ -52,6 +62,7 @@ return {
         sections = {
           lualine_a = {
             "mode",
+            { show_recording, color = { bg = "#d79921" } },
           },
           lualine_b = {
             "branch",
