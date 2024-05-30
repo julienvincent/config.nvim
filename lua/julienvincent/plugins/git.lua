@@ -40,7 +40,6 @@ return {
       { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff view" },
       { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
       { "<leader>gl", "<cmd>DiffviewFileHistory<cr>", desc = "Git log" },
-      { "q", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
     },
     cmd = { "DiffviewOpen" },
     config = function()
@@ -49,7 +48,11 @@ return {
         enhanced_diff_hl = true,
 
         keymaps = {
+          view = {
+            ["q"] = "<cmd>DiffviewClose<cr>",
+          },
           file_panel = {
+            ["q"] = "<cmd>DiffviewClose<cr>",
             {
               "n",
               "<Right>",
