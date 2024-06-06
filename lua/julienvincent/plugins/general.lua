@@ -33,19 +33,6 @@ return {
   },
 
   {
-    "nvim-pack/nvim-spectre",
-    keys = {
-      {
-        "<leader>sr",
-        function()
-          require("spectre").open()
-        end,
-        desc = "Spectre find and replace",
-      },
-    },
-  },
-
-  {
     "petertriho/nvim-scrollbar",
     event = "BufReadPost",
     config = function()

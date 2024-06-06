@@ -16,6 +16,7 @@
   "gh-actions.nvim": { "branch": "main", "commit": "ff6314d71dd86a96e1cdb5132bb9145d16e5b255" },
   "gitsigns.nvim": { "branch": "main", "commit": "75dc649106827183547d3bedd4602442340d2f7f" },
   "global-note.nvim": { "branch": "main", "commit": "1e0d4bba425d971ed3ce40d182c574a25507115c" },
+  "grug-far.nvim": { "branch": "main", "commit": "6b76bef24436e0c38e1723599f00c196d3cf7c2e" },
   "gruvbox-material": { "branch": "master", "commit": "848b4de6ab014d689d5c20790afebd7c32c1581b" },
   "hop.nvim": { "branch": "v2", "commit": "90db1b2c61b820e230599a04fedcd2679e64bd07" },
   "hydra.nvim": { "branch": "master", "commit": "3ced42c0b6a6c85583ff0f221635a7f4c1ab0dd0" },
