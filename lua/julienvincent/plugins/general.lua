@@ -44,17 +44,6 @@ return {
       },
     },
   },
-  {
-    "folke/trouble.nvim",
-    cmd = { "TroubleToggle", "Trouble" },
-    keys = {
-      { "<localleader>D", "<cmd>Trouble<cr>", desc = "Open Trouble Diagnostics" },
-    },
-    opts = {
-      use_diagnostic_signs = true,
-      mode = "document_diagnostics",
-    },
-  },
 
   {
     "petertriho/nvim-scrollbar",
