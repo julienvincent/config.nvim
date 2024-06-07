@@ -56,6 +56,6 @@
   "vim-jjdescription": { "branch": "main", "commit": "ca14325202f3cd894d01ba833451017624249222" },
   "vim-just": { "branch": "main", "commit": "152d4f62e16140183d6b4500b689f6bf851a6029" },
   "vim-smoothie": { "branch": "master", "commit": "df1e324e9f3395c630c1c523d0555a01d2eb1b7e" },
-  "which-key.nvim": { "branch": "main", "commit": "ccf027625df6c4e22febfdd786c5e1f7521c2ccb" },
+  "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
   "yanky.nvim": { "branch": "main", "commit": "79338563e85a868e59cda02c51b54d90a5514a12" }
 }
