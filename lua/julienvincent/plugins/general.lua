@@ -48,6 +48,10 @@ return {
         handlers = {
           gitsigns = true,
         },
+        hide_if_all_visible = true,
+        excluded_buftypes = {
+          "nofile",
+        },
         excluded_filetypes = {
           "cmp_docs",
           "cmp_menu",
@@ -123,9 +127,9 @@ return {
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-    init = function ()
+    init = function()
       vim.g["mkdp_auto_close"] = 0
-    end
+    end,
   },
 
   { "echasnovski/mini.bufremove", event = "BufReadPost" },
