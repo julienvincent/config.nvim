@@ -65,6 +65,18 @@ function M.override_gruvbox_material_dark()
     bg = "#d79921",
     fg = "#32302f",
   })
+
+  vim.api.nvim_set_hl(0, "NormalFloat", {
+    bg = palette.bg1[1],
+  })
+  vim.api.nvim_set_hl(0, "FloatBorder", {
+    bg = palette.bg1[1],
+    fg = palette.grey2[1],
+  })
+  vim.api.nvim_set_hl(0, "FloatTitle", {
+    bg = palette.bg1[1],
+    fg = palette.grey2[1],
+  })
 end
 
 function M.override_gruvbox_material_light()
