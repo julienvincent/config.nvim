@@ -15,6 +15,7 @@ return {
       })
     end,
   },
+  { "nvim-neotest/nvim-nio", lazy = true },
   { "nvim-lua/plenary.nvim", lazy = true },
   { "kkharji/sqlite.lua", lazy = true },
 }

@@ -108,6 +108,8 @@ return {
       vim.g["conjure#client#clojure#nrepl#mapping#session_next"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#session_prev"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#session_select"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#run_current_ns_tests"] = false
+      vim.g["conjure#client#clojure#nrepl#mapping#run_all_tests"] = false
 
       vim.g["conjure#client#clojure#nrepl#mapping#refresh_changed"] = false
       vim.g["conjure#client#clojure#nrepl#mapping#refresh_all"] = false
