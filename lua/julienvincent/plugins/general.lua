@@ -57,7 +57,6 @@ return {
           "cmp_menu",
           "noice",
           "prompt",
-          "TelescopePrompt",
           "neo-tree",
           "neo-tree-popup",
           "DiffviewFiles",
