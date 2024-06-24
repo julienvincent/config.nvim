@@ -57,6 +57,31 @@ local function get_files_for_picker(win)
   return results
 end
 
+local function included_in_table(tbl, element)
+  for _, item in ipairs(tbl) do
+    if item == element then
+      return true
+    end
+  end
+  return false
+end
+
+local function remove_files_from_stack(win, files)
+  local results = {}
+
+  for _, buf in ipairs(PREV_BUFS[win]) do
+    local is_valid = vim.api.nvim_buf_is_valid(buf)
+    if is_valid then
+      local filename = vim.api.nvim_buf_get_name(buf)
+      if not included_in_table(files, filename) then
+        table.insert(results, buf)
+      end
+    end
+  end
+
+  PREV_BUFS[win] = results
+end
+
 M.switch_to_prev_buf = function()
   local win = vim.api.nvim_get_current_win()
   local bufs = PREV_BUFS[win]
@@ -67,36 +92,56 @@ M.switch_to_prev_buf = function()
 end
 
 function M.pick_buffer()
-  local make_entry = require("telescope.make_entry")
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local themes = require("telescope.themes")
-  local config = require("telescope.config").values
+  local fzf = require("fzf-lua")
 
   local win = vim.api.nvim_get_current_win()
-  local files = get_files_for_picker(win)
 
-  local theme = themes.get_dropdown({
-    layout_config = {
-      width = function(_, max_columns, _)
-        return math.min(max_columns, 120)
-      end,
+  local opts = {
+    prompt = "Quick Switch❯ ",
+    previewer = "builtin",
+    winopts = {
+      height = 0.60,
+      width = 0.40,
+      row = 0.1,
     },
-  })
+    fzf_opts = {
+      ["--layout"] = "reverse",
+    },
+    keymap = {
+      fzf = {
+        ["tab"] = "down",
+        ["shift-tab"] = "up",
+      },
+    },
+    actions = {
+      ["default"] = fzf.actions.file_edit,
 
-  pickers
-    .new(theme, {
-      prompt_title = "Quick Switch",
+      ["ctrl-d"] = {
+        function(selected)
+          local paths = {}
+          for _, path in ipairs(selected) do
+            local new_path = string.sub(path, 7)
+            table.insert(paths, vim.loop.cwd() .. "/" .. new_path)
+          end
+          remove_files_from_stack(win, paths)
+        end,
+        fzf.actions.resume,
+      },
+    },
+  }
 
-      finder = finders.new_table({
-        results = files,
-        entry_maker = make_entry.gen_from_file({}),
-      }),
+  local function builder(cb)
+    local files = get_files_for_picker(win)
+    for _, file in ipairs(files) do
+      cb(fzf.make_entry.file(string.gsub(file, vim.loop.cwd() .. "/", ""), {
+        file_icons = true,
+        color_icons = true,
+      }))
+    end
+    cb()
+  end
 
-      sorter = config.file_sorter(theme),
-      previewer = config.file_previewer(theme),
-    })
-    :find()
+  fzf.fzf_exec(builder, opts)
 end
 
 M.setup = function()

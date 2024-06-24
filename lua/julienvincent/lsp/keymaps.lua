@@ -4,12 +4,6 @@ local function map(lhs, rhs, bufnr, desc)
   vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
 end
 
-local function Telescope(cmd)
-  return function()
-    vim.cmd.Telescope(cmd)
-  end
-end
-
 M.which_key_keys = {
   ["<leader>"] = {
     l = { "LSP" },
@@ -27,12 +21,26 @@ function M.setup_on_attach_keybinds(buf)
   map("K", vim.lsp.buf.hover, buf, "Hover doc")
   map("<localleader>d", vim.diagnostic.open_float, buf, "Show diagnostics at cursor")
 
-  map("gd", Telescope("lsp_definitions"), buf, "Go to definition")
+  map("gd", vim.lsp.buf.definition, buf, "Go to definition")
   map("gD", ":vsp<CR><cmd>lua vim.lsp.buf.definition()<CR>", buf, "Go to definition vertical split")
 
-  map("gi", Telescope("lsp_implementations"), buf, "Go to implementations")
-  map("gr", Telescope("lsp_references"), buf, "Symbol references")
-  map("gt", Telescope("lsp_type_definitions"), buf, "Type definitions")
+  map("gi", function()
+    require("fzf-lua").lsp_implementations()
+  end, buf, "Go to implementations")
+  map("gr", function()
+    require("fzf-lua").lsp_references({
+      ignore_current_line = true,
+      includeDeclaration = true,
+    })
+  end, buf, "Go to references")
+
+  map("gs", function()
+    require("fzf-lua").lsp_workspace_symbols()
+  end, buf, "Symbol references")
+
+  map("gS", function()
+    require("fzf-lua").lsp_document_symbols()
+  end, buf, "Symbol references")
 end
 
 return M
