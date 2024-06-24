@@ -122,6 +122,13 @@ M.setup = function()
         return
       end
 
+      local bufname = vim.api.nvim_buf_get_name(buf)
+      local stat = vim.loop.fs_stat(bufname)
+
+      if not stat or stat.type == "directory" then
+        return
+      end
+
       append_buffer_to_stack(win, buf)
     end,
   })
