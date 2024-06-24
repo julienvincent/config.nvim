@@ -21,7 +21,8 @@ function M.setup()
 
   local default_capabilities = vim.lsp.protocol.make_client_capabilities()
   local cmp_capabilities = cmplsp.default_capabilities(default_capabilities)
-  local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities, {
+  local file_rename_capabilities = require("lsp-file-operations").default_capabilities()
+  local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities, file_rename_capabilities, {
     workspace = {
       workspaceEdit = {
         documentChanges = true,
