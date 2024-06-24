@@ -1,10 +1,3 @@
-local action_state = require("telescope.actions.state")
-local actions = require("telescope.actions")
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local themes = require("telescope.themes")
-local config = require("telescope.config")
-
 local M = {}
 
 function M.get_repl_status(not_connected_msg)
@@ -57,7 +50,7 @@ local function read_nrepl_ports(dirs)
       local port = file:read("*all")
       file:close()
       if port ~= "" then
-        table.insert(results, { dir = dir, port = port })
+        results[dir .. ":" .. port] = { dir = dir, port = port }
       end
     end
   end
@@ -79,34 +72,27 @@ local function find_nrepl_processes()
 end
 
 function M.find_repls()
-  local opts = themes.get_dropdown({})
+  local processes = find_nrepl_processes()
 
-  pickers
-    .new(opts, {
-      prompt_title = "Find Repls",
+  local keys = {}
+  for key, _ in pairs(processes) do
+    table.insert(keys, key)
+  end
 
-      sorter = config.values.generic_sorter(opts),
-      finder = finders.new_table({
-        results = find_nrepl_processes(),
-        entry_maker = function(entry)
-          return {
-            value = entry,
-            display = entry.dir .. " :: " .. entry.port,
-            ordinal = entry.dir,
-          }
-        end,
-      }),
+  vim.ui.select(keys, {
+    prompt = "Select NRepl",
+  }, function(result)
+    if not result then
+      return
+    end
 
-      attach_mappings = function(prompt_bufnr)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          connect_to_nrepl_server(selection.value)
-        end)
-        return true
-      end,
-    })
-    :find()
+    local server = processes[result]
+    if not server then
+      return
+    end
+
+    connect_to_nrepl_server(server)
+  end)
 end
 
 function M.direct_connect()
