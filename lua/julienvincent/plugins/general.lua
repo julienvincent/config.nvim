@@ -94,6 +94,18 @@ return {
     event = "VeryLazy",
     config = function()
       require("dressing").setup({
+        select = {
+          fzf_lua = {
+            previewer = false,
+            winopts = {
+              preview = {
+                hidden = "hidden"
+              },
+              height = 10,
+              width = 0.33,
+            },
+          },
+        },
         input = {
           insert_only = false,
           start_in_insert = true,
