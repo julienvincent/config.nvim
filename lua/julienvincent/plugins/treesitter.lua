@@ -17,6 +17,7 @@ return {
           "javascript",
           "http",
           "json",
+          "csv",
           "lua",
           "luadoc",
           "luap",
