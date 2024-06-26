@@ -34,6 +34,9 @@ local keymaps = {
   {
     "<localleader>nr",
     function()
+      local saving = require("julienvincent.modules.core.auto-save")
+      saving.write_all_buffers()
+
       local eval = require("julienvincent.lang.clojure.eval").eval
       eval("user", "(reload-namespaces)")
     end,
