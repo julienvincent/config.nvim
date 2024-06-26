@@ -66,6 +66,7 @@ end
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    version = "3.*",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
@@ -195,7 +196,6 @@ return {
   {
     "antosha417/nvim-lsp-file-operations",
     dependencies = {
-      "nvim-lua/plenary.nvim",
       "nvim-neo-tree/neo-tree.nvim",
     },
     config = function()
