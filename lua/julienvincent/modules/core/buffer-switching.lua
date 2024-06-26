@@ -2,6 +2,17 @@
 
 local M = {}
 
+local function starts_with(str, prefix)
+  return string.sub(str, 1, string.len(prefix)) == prefix
+end
+
+local function as_relative_path(source, base)
+  if not starts_with(source, base) then
+    return source
+  end
+  return string.sub(source, #base + 1)
+end
+
 local MAX_DEPTH = 20
 
 -- Keeps a 'stack' of previously visited buffers for each window. This is stored as a stack as intermediary
@@ -50,7 +61,7 @@ local function get_files_for_picker(win)
     local is_valid = vim.api.nvim_buf_is_valid(buf)
     if is_valid then
       local filename = vim.api.nvim_buf_get_name(buf)
-      table.insert(results, filename)
+      table.insert(results, { filename = filename, buf = buf })
     end
   end
 
@@ -67,13 +78,14 @@ local function included_in_table(tbl, element)
 end
 
 local function remove_files_from_stack(win, files)
+  local cwd = vim.loop.cwd() .. "/"
   local results = {}
 
   for _, buf in ipairs(PREV_BUFS[win]) do
     local is_valid = vim.api.nvim_buf_is_valid(buf)
     if is_valid then
       local filename = vim.api.nvim_buf_get_name(buf)
-      if not included_in_table(files, filename) then
+      if not included_in_table(files, as_relative_path(filename, cwd)) then
         table.insert(results, buf)
       end
     end
@@ -95,14 +107,18 @@ function M.pick_buffer()
   local fzf = require("fzf-lua")
 
   local win = vim.api.nvim_get_current_win()
+  local cwd = vim.loop.cwd() .. "/"
 
   local opts = {
     prompt = "Quick Switch❯ ",
-    previewer = "builtin",
+    previewer = false,
     winopts = {
-      height = 0.60,
+      preview = {
+        hidden = "hidden",
+      },
+      height = 0.30,
       width = 0.40,
-      row = 0.1,
+      row = 0.3,
     },
     fzf_opts = {
       ["--layout"] = "reverse",
@@ -114,14 +130,26 @@ function M.pick_buffer()
       },
     },
     actions = {
-      ["default"] = fzf.actions.file_edit,
+      ["default"] = function(selected)
+        local bufnr
+        for _, file in ipairs(get_files_for_picker(win)) do
+          local as_entry = fzf.make_entry.file(as_relative_path(file.filename, cwd), {
+            file_icons = true,
+          })
+          if as_entry == selected[1] then
+            bufnr = file.buf
+            break
+          end
+        end
+        vim.api.nvim_set_current_buf(bufnr)
+      end,
 
       ["ctrl-d"] = {
         function(selected)
           local paths = {}
           for _, path in ipairs(selected) do
-            local new_path = string.sub(path, 7)
-            table.insert(paths, vim.loop.cwd() .. "/" .. new_path)
+            local without_icon = path:gsub("^[^%w%s]+", "")
+            table.insert(paths, without_icon)
           end
           remove_files_from_stack(win, paths)
         end,
@@ -133,7 +161,7 @@ function M.pick_buffer()
   local function builder(cb)
     local files = get_files_for_picker(win)
     for _, file in ipairs(files) do
-      cb(fzf.make_entry.file(string.gsub(file, vim.loop.cwd() .. "/", ""), {
+      cb(fzf.make_entry.file(as_relative_path(file.filename, cwd), {
         file_icons = true,
         color_icons = true,
       }))
@@ -169,8 +197,9 @@ M.setup = function()
 
       local bufname = vim.api.nvim_buf_get_name(buf)
       local stat = vim.loop.fs_stat(bufname)
+      local special_file = string.match(bufname, "^[%a][%w+.-]*://") ~= nil
 
-      if not stat or stat.type == "directory" then
+      if (not stat or stat.type == "directory") and not special_file then
         return
       end
 
