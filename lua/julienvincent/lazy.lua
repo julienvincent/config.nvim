@@ -5,7 +5,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=v10.24.3",
+    "--branch=v11.5.0",
     lazypath,
   })
 end
@@ -18,7 +18,7 @@ require("lazy").setup({
   spec = {
     {
       "folke/lazy.nvim",
-      version = "10.24.*",
+      version = "11.5.*",
     },
     {
       import = "julienvincent.plugins",
