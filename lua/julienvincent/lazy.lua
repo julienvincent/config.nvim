@@ -5,19 +5,25 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=v10.3.0",
+    "--branch=v10.24.3",
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
-local lazy = require("lazy")
-
--- We have to set the leader keys here for lazy.nvim to work
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
 
-lazy.setup("julienvincent.plugins", {
+require("lazy").setup({
+  spec = {
+    {
+      "folke/lazy.nvim",
+      version = "10.24.*",
+    },
+    {
+      import = "julienvincent.plugins",
+    },
+  },
   change_detection = {
     enabled = false,
   },
