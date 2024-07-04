@@ -28,6 +28,11 @@ M.setup = function()
     noremap = true,
     desc = "Replace selection",
   })
+
+  map("n", "gx", [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], {
+    noremap = true,
+    desc = "Open URI under cursor",
+  })
 end
 
 return M
