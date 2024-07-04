@@ -131,16 +131,22 @@ function M.pick_buffer()
     },
     actions = {
       ["default"] = function(selected)
+        local entry = selected[1]
+        if not entry then
+          return
+        end
+
         local bufnr
         for _, file in ipairs(get_files_for_picker(win)) do
           local as_entry = fzf.make_entry.file(as_relative_path(file.filename, cwd), {
             file_icons = true,
           })
-          if as_entry == selected[1] then
+          if as_entry == entry then
             bufnr = file.buf
             break
           end
         end
+
         vim.api.nvim_set_current_buf(bufnr)
       end,
 
