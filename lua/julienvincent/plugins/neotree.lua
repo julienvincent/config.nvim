@@ -93,7 +93,9 @@ return {
 
         filesystem = {
           bind_to_cwd = true,
-          follow_current_file = false,
+          follow_current_file = {
+            enabled = false,
+          },
           use_libuv_file_watcher = true,
 
           filtered_items = {
