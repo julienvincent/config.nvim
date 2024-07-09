@@ -13,7 +13,7 @@ end
 
 local function pcmd(command)
   return function()
-    return eval('((requiring-resolve \'portal.api/eval-str) "' .. command .. '")')
+    return eval("((requiring-resolve 'portal.api/eval-str) \"" .. command .. '")')
   end
 end
 
