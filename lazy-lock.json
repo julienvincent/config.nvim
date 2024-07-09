@@ -20,7 +20,7 @@
   "grug-far.nvim": { "branch": "main", "commit": "3e40d89830c315b267e327b7546da73b8ad59285" },
   "gruvbox-material": { "branch": "master", "commit": "767b5471b8145ec071426341988c7af563f078d1" },
   "hop.nvim": { "branch": "v2", "commit": "90db1b2c61b820e230599a04fedcd2679e64bd07" },
-  "hydra.nvim": { "branch": "master", "commit": "3ced42c0b6a6c85583ff0f221635a7f4c1ab0dd0" },
+  "hydra.nvim": { "branch": "main", "commit": "8578056a2226ed49fc608167edc143a87f75d809" },
   "kulala.nvim": { "branch": "main", "commit": "939025ce5357d1d534a01faf454e012d87874f59" },
   "lazy.nvim": { "branch": "main", "commit": "ec95702ae617308df35f35ad93c469c86d47346f" },
   "lspkind.nvim": { "branch": "master", "commit": "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" },

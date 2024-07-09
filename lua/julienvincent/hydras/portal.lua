@@ -111,7 +111,9 @@ return {
         invoke_on_body = true,
         hint = {
           type = "window",
-          border = "double",
+          float_opts = {
+            border = "rounded",
+          },
         },
       },
       body = "<leader>p",
