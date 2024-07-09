@@ -63,9 +63,4 @@ return {
       })
     end,
   },
-
-  {
-    "nvim-treesitter/playground",
-    cmd = "TSPlaygroundToggle",
-  },
 }
