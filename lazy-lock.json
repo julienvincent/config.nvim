@@ -51,7 +51,6 @@
   "schemastore.nvim": { "branch": "main", "commit": "a1be387e7c5d5f4f503515b170b79626a0644b4a" },
   "sqlite.lua": { "branch": "master", "commit": "d0ffd703b56d090d213b497ed4eb840495f14a11" },
   "undotree": { "branch": "master", "commit": "56c684a805fe948936cda0d1b19505b84ad7e065" },
-  "vim-dirdiff": { "branch": "master", "commit": "84bc8999fde4b3c2d8b228b560278ab30c7ea4c9" },
   "vim-illuminate": { "branch": "master", "commit": "5eeb7951fc630682c322e88a9bbdae5c224ff0aa" },
   "vim-jjdescription": { "branch": "main", "commit": "ca14325202f3cd894d01ba833451017624249222" },
   "vim-just": { "branch": "main", "commit": "8c3f95d5f784972e2e8823d89cd6e1757f055ed8" },
