@@ -109,9 +109,8 @@ M.servers = {
             checkThirdParty = false,
             library = {
               -- Make the server aware of Neovim runtime files
-              -- TODO: This no longer works in neovim 0.10.x
-              -- vim.fn.expand("$VIMRUNTIME/lua"),
-              -- vim.fn.stdpath("config") .. "/lua",
+              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.stdpath("config") .. "/lua"] = true,
 
               -- Make the server aware of hammerspoon
               ["/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/"] = true,
