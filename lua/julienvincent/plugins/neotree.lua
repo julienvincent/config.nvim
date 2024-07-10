@@ -66,7 +66,6 @@ end
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
-    version = "3.*",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
