@@ -100,7 +100,7 @@ return {
             previewer = false,
             winopts = {
               preview = {
-                hidden = "hidden"
+                hidden = "hidden",
               },
               height = 10,
               width = 0.33,

@@ -47,10 +47,15 @@ return {
 
   {
     "j-hui/fidget.nvim",
-    tag = "legacy",
     event = "BufReadPre",
     config = function()
-      require("fidget").setup({})
+      require("fidget").setup({
+        progress = {
+          lsp = {
+            progress_ringbuf_size = 1024,
+          },
+        },
+      })
     end,
   },
 }
