@@ -66,9 +66,10 @@ return {
   },
 
   {
-    "phaazon/hop.nvim",
+    -- The original plugin (https://github.com/hadronized/hop.nvim) is now unmaintained. The plugin below
+    -- is a fork that seems to be more actively maintained.
+    "smoka7/hop.nvim",
     event = "BufReadPost",
-    branch = "v2",
     config = function()
       local directions = require("hop.hint").HintDirection
       local hop = require("hop")
