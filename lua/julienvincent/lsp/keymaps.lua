@@ -23,6 +23,9 @@ function M.setup_on_attach_keybinds(buf)
 
   map("gd", vim.lsp.buf.definition, buf, "Go to definition")
   map("gD", ":vsp<CR><cmd>lua vim.lsp.buf.definition()<CR>", buf, "Go to definition vertical split")
+  map("<leader>gD", function()
+    require("fzf-lua").diagnostics_workspace()
+  end, buf, "Show project diagnostics")
 
   map("gi", function()
     require("fzf-lua").lsp_implementations()
