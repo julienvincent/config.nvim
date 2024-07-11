@@ -5,7 +5,9 @@ function M.setup()
     pattern = { "*.nft" },
     desc = "Set the filetype of .nft files",
     callback = function(event)
-      vim.api.nvim_buf_set_option(event.buf, "filetype", "nftables")
+      vim.api.nvim_set_option_value("filetype", "nftables", {
+        buf = event.buf,
+      })
       vim.bo.commentstring = "#%s"
     end,
   })

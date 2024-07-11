@@ -195,7 +195,7 @@ M.setup = function()
 
       local is_valid = vim.api.nvim_buf_is_valid(buf)
       local is_loaded = vim.api.nvim_buf_is_loaded(buf)
-      local is_named = vim.api.nvim_buf_get_option(buf, "buftype") ~= ""
+      local is_named = vim.api.nvim_get_option_value("buftype", { buf = buf }) ~= ""
 
       if not is_valid or not is_loaded or is_named then
         return

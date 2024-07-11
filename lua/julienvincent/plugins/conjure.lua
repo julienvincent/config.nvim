@@ -186,7 +186,9 @@ return {
         pattern = "conjure-log-*",
         desc = "Disable diagnostics in conjure log buffer",
         callback = function(event)
-          vim.diagnostic.disable(event.buf)
+          vim.diagnostic.enable(false, {
+            bufnr = event.buf,
+          })
         end,
       })
     end,

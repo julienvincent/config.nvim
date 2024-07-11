@@ -5,7 +5,9 @@ function M.setup()
     pattern = { "*.bb" },
     desc = "Set the filetype of .bb files",
     callback = function(event)
-      vim.api.nvim_buf_set_option(event.buf, "filetype", "clojure")
+      vim.api.nvim_set_option_value("filetype", "clojure", {
+        buf = event.buf,
+      })
     end,
   })
 end

@@ -5,7 +5,9 @@ function M.setup()
     pattern = { "*.http" },
     desc = "Set the filetype of .http files",
     callback = function(event)
-      vim.api.nvim_buf_set_option(event.buf, "filetype", "http")
+      vim.api.nvim_set_option_value("filetype", "http", {
+        buf = event.buf,
+      })
       vim.bo.commentstring = "#%s"
     end,
   })

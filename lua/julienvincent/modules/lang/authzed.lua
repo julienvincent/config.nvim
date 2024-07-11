@@ -5,7 +5,9 @@ function M.setup()
     pattern = { "*.zed" },
     desc = "Set the filetype of .zed files",
     callback = function(event)
-      vim.api.nvim_buf_set_option(event.buf, "filetype", "authzed")
+      vim.api.nvim_set_option_value("filetype", "authzed", {
+        buf = event.buf,
+      })
       vim.bo.commentstring = "//%s"
     end,
   })

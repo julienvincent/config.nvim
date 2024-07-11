@@ -17,11 +17,11 @@ function M.buf_is_writable(buf)
   local bufname = vim.api.nvim_buf_get_name(buf)
 
   local writable = #bufname > 0
-    and vim.api.nvim_buf_get_option(buf, "modifiable")
+    and vim.api.nvim_get_option_value("modifiable", { buf = buf })
     and vim.fn.filereadable(bufname) == 1
     and vim.fn.filewritable(bufname) == 1
 
-  return vim.api.nvim_buf_get_option(buf, "modified") and writable
+  return vim.api.nvim_get_option_value("modified", { buf = buf }) and writable
 end
 
 function M.get_hidden_buffers()
