@@ -1,6 +1,6 @@
 local M = {}
 
-local function is_file_empty(file_path)
+function M.is_file_empty(file_path)
   local file = io.open(file_path, "r")
   if not file then
     return true
@@ -19,7 +19,7 @@ function M.glob_exists_in_dir(dir, globs)
 
     local non_empty_files = {}
     for i, file in ipairs(files) do
-      if not is_file_empty(file) then
+      if not M.is_file_empty(file) then
         non_empty_files[i] = file
       end
     end
@@ -61,7 +61,40 @@ function M.find_furthest_root(globs, fallback_fn)
     end
 
     if fallback_fn and type(fallback_fn) == "function" then
-      return fallback_fn()
+      return fallback_fn(start_path)
+    end
+  end
+end
+
+function M.find_closest_root(globs, fallback_fn)
+  local home = vim.fn.expand("~")
+
+  local function traverse(path)
+    if path == home or path == "/" then
+      return
+    end
+
+    if M.glob_exists_in_dir(path, globs) then
+      return path
+    end
+
+    local next = vim.fn.fnamemodify(path, ":h")
+    return traverse(next)
+  end
+
+  return function(start_path)
+    local result = string.match(start_path, "^%w+://")
+    if result then
+      return nil
+    end
+
+    local furthest_root = traverse(start_path)
+    if furthest_root then
+      return furthest_root
+    end
+
+    if fallback_fn and type(fallback_fn) == "function" then
+      return fallback_fn(start_path)
     end
   end
 end
@@ -83,50 +116,6 @@ function M.find_file_by_glob(dir, glob)
   else
     return nil
   end
-end
-
-local function parse_s_path_output(raw_paths)
-  local paths = vim.split(raw_paths, ":")
-
-  local jar_paths = vim.tbl_filter(function(line)
-    if not line or line == "" then
-      return false
-    end
-    if not string.find(line, ".jar") then
-      return false
-    end
-    return true
-  end, paths)
-
-  return jar_paths
-end
-
-function M.find_third_party_libs(project_root, callback)
-  if vim.fn.executable("clojure") ~= 1 then
-    return callback({})
-  end
-
-  local deps_file = project_root .. "/deps.edn"
-  local file_exists = vim.loop.fs_stat(deps_file)
-  if not file_exists or is_file_empty(deps_file) then
-    return callback({})
-  end
-
-  return vim.fn.jobstart({ "clojure", "-Spath" }, {
-    on_stdout = function(_, data)
-      local libs = parse_s_path_output(data[1])
-      callback(libs)
-    end,
-    -- on_stderr = function(_, data)
-    --   if data[1] ~= "" then
-    --     print("Failed to call clojure -Spath", vim.inspect(data))
-    --     callback({})
-    --   end
-    -- end,
-    stdout_buffered = true,
-    stderr_buffered = true,
-    cwd = project_root,
-  })
 end
 
 return M

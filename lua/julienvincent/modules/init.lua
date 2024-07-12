@@ -13,11 +13,14 @@ local modules = {
   mod("core.auto-save"),
   mod("core.buffer-switching"),
   mod("core.highlights"),
+  mod("core.diagnostics"),
 
   mod("lang.authzed"),
   mod("lang.http"),
   mod("lang.nftables"),
   mod("lang.babashka"),
+
+  mod("lsp"),
 }
 
 local M = {}
