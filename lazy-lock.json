@@ -12,7 +12,7 @@
   "conjure": { "branch": "master", "commit": "a81977726f726b21d4bd75cea5bbbb7022005507" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dressing.nvim": { "branch": "master", "commit": "6741f1062d3dc6e4755367a7e9b347b553623f04" },
-  "fidget.nvim": { "branch": "main", "commit": "c12f8a58ee472ce5983c3a3f3aad0ff6c49a6a83" },
+  "fidget.nvim": { "branch": "jv/uninitialized-progress", "commit": "60985b617561dd1ada7d9fa34dc55647d17e609b" },
   "fzf-lua": { "branch": "main", "commit": "975534f4861e2575396716225c1202572645583d" },
   "gh-actions.nvim": { "branch": "main", "commit": "2bc7957706064763e1499c0b9ca741a673dc27f3" },
   "gitsigns.nvim": { "branch": "main", "commit": "375c44bdfdde25585466a966f00c2e291db74f2d" },
