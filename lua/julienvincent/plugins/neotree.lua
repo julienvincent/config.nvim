@@ -43,24 +43,11 @@ local function reveal_file_in_neotree()
 end
 
 local function register_keymaps()
-  require("which-key").register({
-    ["<leader>"] = {
-      E = {
-        reveal_file_in_neotree,
-        "Reveal current file in Neotree",
-      },
-      e = {
-        toggle_neotree_focus,
-        "Toggle Neotree focus",
-      },
-      k = {
-        function()
-          vim.cmd.Neotree("toggle")
-        end,
-        "Hide or show Neotree",
-      },
-    },
-  })
+  vim.keymap.set("n", "<leader>E", reveal_file_in_neotree, { desc = "Reveal current file in Neotree" })
+  vim.keymap.set("n", "<leader>e", toggle_neotree_focus, { desc = "Toggle Neotree focus" })
+  vim.keymap.set("n", "<leader>k", function()
+    vim.cmd.Neotree("toggle")
+  end, { desc = "Show or hide Neotree" })
 end
 
 return {

@@ -44,9 +44,6 @@ local function create_client(buf, server_config)
 
     on_attach = function(_, bufnr)
       keymaps.setup_on_attach_keybinds(bufnr)
-      require("which-key").register(keymaps.which_key_keys, {
-        buffer = bufnr,
-      })
     end,
   })
 

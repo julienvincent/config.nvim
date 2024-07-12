@@ -80,7 +80,7 @@ function M.setup()
   })
 
   vim.keymap.set("n", "<localleader>s", "<Cmd>w<Cr>", { desc = "Save buffer" })
-  vim.keymap.set("n", "<localleader>sa", M.write_all_buffers, { desc = "Save all buffers" })
+  vim.keymap.set("n", "<localleader>S", M.write_all_buffers, { desc = "Save all buffers" })
 end
 
 return M

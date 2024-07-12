@@ -53,6 +53,10 @@ function M.setup()
     })
   end
 
+  require("which-key").add({
+    { "<leader>l", group = "lsp" },
+  })
+
   vim.keymap.set("n", "<leader>lR", function()
     local buf = vim.api.nvim_get_current_buf()
     api.select_client(buf, function(client)

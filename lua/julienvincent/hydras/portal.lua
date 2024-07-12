@@ -152,10 +152,8 @@ return {
       },
     })
 
-    require("which-key").register({
-      p = {
-        name = "Portal",
-      },
-    }, { prefix = "<leader>" })
+    require("which-key").add({
+      { "<leader>p", group = "Portal" },
+    })
   end,
 }

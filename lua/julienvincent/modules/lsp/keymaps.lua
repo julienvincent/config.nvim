@@ -4,12 +4,6 @@ local function map(lhs, rhs, bufnr, desc)
   vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
 end
 
-M.which_key_keys = {
-  ["<leader>"] = {
-    l = { "LSP" },
-  },
-}
-
 function M.setup_global_keybinds()
   vim.keymap.set("n", "<leader>lR", "<Cmd>LspRestart<Cr>", { silent = true, desc = "Restart LSP" })
   vim.keymap.set("n", "<leader>lI", "<Cmd>LspInfo<Cr>", { silent = true, desc = "Get LSP info" })

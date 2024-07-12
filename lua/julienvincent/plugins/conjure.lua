@@ -122,62 +122,31 @@ return {
       local action = require("conjure.client.clojure.nrepl.action")
       local server = require("conjure.client.clojure.nrepl.server")
 
-      wk.register({
-        c = {
-          name = "Repl Connection",
-
-          f = {
-            nrepl.find_repls,
-            "Find and connect to running repls",
-          },
-          c = { action["connect-port-file"], "Connect via port file" },
-          d = { server["disconnect"], "Disconnect" },
-          p = { nrepl.direct_connect, "Connect via port" },
-
-          l = {
-            function()
-              vim.cmd("ConjureLogToggle")
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-W>p", true, true, true), "n", true)
-            end,
-            "Open the repl log buffer",
-          },
-        },
-      }, {
-        prefix = "<leader>",
+      wk.add({
+        { "<leader>c", group = "Repl" },
+        { "<localleader>l", group = "Conjure Log" },
       })
+
+      vim.keymap.set("n", "<leader>cf", nrepl.find_repls, { desc = "Find and connect to running repls" })
+      vim.keymap.set("n", "<leader>cc", action["connect-port-file"], { desc = "Connect via .nrepl-port file" })
+      vim.keymap.set("n", "<leader>cd", server["disconnect"], { desc = "Disconnect" })
+      vim.keymap.set("n", "<leader>cp", nrepl.direct_connect, { desc = "Connect via port" })
+      vim.keymap.set("n", "<leader>cl", function()
+        vim.cmd("ConjureLogToggle")
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-W>p", true, true, true), "n", true)
+      end, { desc = "Open the repl log buffer" })
 
       -- I register my own implementation of the `log_jump_to_latest` '<localleader>ll' mapping
       -- as the default conjure mapping jumpts to the start of the last eval'd expression instead
       -- of the end. This can be very annoying as it does not re-enable auto-scroll.
-      wk.register({
-        l = {
-          name = "Conjure Log",
-          l = {
-            scroll_conjure_log_to_bottom,
-            "Scroll conjure log to bottom",
-          },
-        },
-      }, {
-        prefix = "<localleader>",
-      })
+      vim.keymap.set("n", "<localleader>ll", scroll_conjure_log_to_bottom, { desc = "Scroll conjure log to bottom" })
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "clojure",
         callback = function(event)
-          wk.register({
-            e = {
-              name = "Eval",
-            },
-
-            n = {
-              name = "Clojure Namespace",
-
-              -- r = { action["refresh-changed"], "Refresh changed namespaces" },
-              R = { action["refresh-all"], "Refresh all namespaces" },
-            },
-          }, {
-            prefix = "<localleader>",
-            buffer = event.buf,
+          wk.add({
+            { "<localleader>e", group = "Eval", buffer = event.buf },
+            { "<localleader>n", group = "Clojure Namespace", buffer = event.buf },
           })
         end,
       })
