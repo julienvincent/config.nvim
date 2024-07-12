@@ -16,9 +16,11 @@ return {
       body = "<leader>w",
       heads = {
         { "w", "<C-W>p", { desc = "Switch to other window", exit = true } },
+
         { "d", "<C-W>c", { desc = "Close window" } },
         { "v", "<C-W>v", { desc = "Split window right" } },
         { "h", "<C-W>s", { desc = "Split window below" } },
+
         { "<S-Right>", "<C-W>v", { desc = "Split window right" } },
         { "<S-Down>", "<C-W>s", { desc = "Split window below" } },
 
@@ -27,6 +29,9 @@ return {
         { "=", "<C-W>=", { desc = "Equalize windows" } },
         { ">", "10<C-w>>", { desc = "resize →" } },
         { "<", "10<C-w><", { desc = "resize ←" } },
+        { "+", "10<C-w>+", { desc = "resize ↑" } },
+        { "-", "10<C-w>-", { desc = "resize ↓" } },
+        { "_", "10<C-w>-", { desc = "resize ↓" } },
 
         { "<Left>", "<C-w>h", { desc = "Go to left window" } },
         { "<Right>", "<C-w>l", { desc = "Go to right window" } },
