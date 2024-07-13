@@ -39,7 +39,7 @@ local function create_client(buf, server_config)
     },
 
     on_error = function()
-      vim.notify("Failed")
+      vim.notify("LSP failed to start")
     end,
 
     on_attach = function(_, bufnr)
@@ -67,11 +67,6 @@ local function remove_client(client_id)
       table.remove(CLIENTS, i)
     end
   end
-end
-
-function M.stop_client(client_id)
-  vim.lsp.stop_client(client_id)
-  remove_client(client_id)
 end
 
 function M.attach_client(buf, server_config)
@@ -147,6 +142,11 @@ function M.attach_client(buf, server_config)
   })
 end
 
+function M.stop_client(client_id)
+  vim.lsp.stop_client(client_id)
+  remove_client(client_id)
+end
+
 function M.restart_client(buf, client)
   M.stop_client(client.id)
   M.attach_client(buf, client.config)
@@ -169,6 +169,10 @@ function M.select_client(buf, cb)
         table.insert(clients, client)
       end
     end
+  end
+
+  if #clients == 1 then
+    return cb(clients[1])
   end
 
   local function as_name(client)
