@@ -4,11 +4,6 @@ local function map(lhs, rhs, bufnr, desc)
   vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
 end
 
-function M.setup_global_keybinds()
-  vim.keymap.set("n", "<leader>lR", "<Cmd>LspRestart<Cr>", { silent = true, desc = "Restart LSP" })
-  vim.keymap.set("n", "<leader>lI", "<Cmd>LspInfo<Cr>", { silent = true, desc = "Get LSP info" })
-end
-
 function M.setup_on_attach_keybinds(buf)
   map("<leader>lr", vim.lsp.buf.rename, buf, "Rename symbol")
   map("<leader>la", vim.lsp.buf.code_action, buf, "Code actions")
