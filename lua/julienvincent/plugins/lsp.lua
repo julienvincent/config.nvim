@@ -21,8 +21,7 @@ return {
 
   {
     -- The original can be used once https://github.com/j-hui/fidget.nvim/pull/252 is merged
-    "julienvincent/fidget.nvim",
-    branch = "jv/uninitialized-progress",
+    "j-hui/fidget.nvim",
     event = "BufReadPre",
     config = function()
       require("fidget").setup({
