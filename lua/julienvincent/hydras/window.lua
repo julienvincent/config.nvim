@@ -31,7 +31,8 @@ return {
         { "<", "10<C-w><", { desc = "resize ←" } },
         { "+", "10<C-w>+", { desc = "resize ↑" } },
         { "-", "10<C-w>-", { desc = "resize ↓" } },
-        { "_", "10<C-w>-", { desc = "resize ↓" } },
+        -- This is just an alias for `-` incase it gets mistyped (no S- modifier)
+        { "_", "10<C-w>-", { desc = false } },
 
         { "<Left>", "<C-w>h", { desc = "Go to left window" } },
         { "<Right>", "<C-w>l", { desc = "Go to right window" } },
