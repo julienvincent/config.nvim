@@ -33,35 +33,51 @@ function M.setup()
       pattern = server_config.filetypes,
       desc = "Automatically start a language server when entering a buffer",
       callback = function(event)
-        local buf = event.buf
+        vim.schedule(function()
+          local buf = event.buf
 
-        local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
-        local bufname = vim.api.nvim_buf_get_name(buf)
+          local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+          local bufname = vim.api.nvim_buf_get_name(buf)
 
-        if not vim.api.nvim_buf_is_valid(buf) then
-          return
-        end
+          if not vim.api.nvim_buf_is_valid(buf) then
+            return
+          end
 
-        if buftype == "nofile" then
-          return
-        end
+          if buftype == "nofile" then
+            return
+          end
 
-        if #bufname == 0 and not server_config.single_file_support then
-          return
-        end
+          if #bufname == 0 and not server_config.single_file_support then
+            return
+          end
 
-        if #bufname ~= 0 and not bufname_valid(bufname) then
-          return
-        end
+          if #bufname ~= 0 and not bufname_valid(bufname) then
+            return
+          end
 
-        api.attach_client(buf, server_config)
+          api.attach_client(buf, server_config)
+        end)
       end,
     })
   end
 
-  require("which-key").add({
-    { "<leader>l", group = "lsp" },
-  })
+  local function start()
+    local server_names = vim.tbl_map(function(server)
+      return server.name
+    end, server_configs)
+
+    vim.ui.select(server_names, { prompt = "Select server" }, function(server_name)
+      local server_config = vim.tbl_filter(function(server_config)
+        return server_config.name == server_name
+      end, server_configs)[1]
+
+      if not server_config then
+        return
+      end
+
+      api.attach_client(vim.api.nvim_get_current_buf(), server_config)
+    end)
+  end
 
   local function restart()
     local buf = vim.api.nvim_get_current_buf()
@@ -83,30 +99,17 @@ function M.setup()
     end)
   end
 
+  require("which-key").add({
+    { "<leader>l", group = "lsp" },
+  })
+
   vim.keymap.set("n", "<leader>lR", restart, { desc = "Restart client" })
   vim.keymap.set("n", "<leader>lI", info.show_lsp_info, { desc = "Show LSP info" })
 
-  vim.api.nvim_create_user_command("LspRestart", restart, { nargs = 0 })
+  vim.api.nvim_create_user_command("LspStart", start, { nargs = 0 })
   vim.api.nvim_create_user_command("LspStop", stop, { nargs = 0 })
+  vim.api.nvim_create_user_command("LspRestart", restart, { nargs = 0 })
   vim.api.nvim_create_user_command("LspInfo", info.show_lsp_info, { nargs = 0 })
-
-  vim.api.nvim_create_user_command("LspStart", function()
-    local server_names = vim.tbl_map(function(server)
-      return server.name
-    end, server_configs)
-
-    vim.ui.select(server_names, { prompt = "Select server" }, function(server_name)
-      local server_config = vim.tbl_filter(function(server_config)
-        return server_config.name == server_name
-      end, server_configs)[1]
-
-      if not server_config then
-        return
-      end
-
-      api.attach_client(vim.api.nvim_get_current_buf(), server_config)
-    end)
-  end, { nargs = 0 })
 end
 
 return M
