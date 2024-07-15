@@ -19,6 +19,7 @@
   "global-note.nvim": { "branch": "main", "commit": "1e0d4bba425d971ed3ce40d182c574a25507115c" },
   "gruvbox-material": { "branch": "master", "commit": "91f8170a31ae6e31670629cd339df297dbd5fd5f" },
   "hop.nvim": { "branch": "master", "commit": "036462a345792279c58f2f6445756efab706f04a" },
+  "hunk.nvim": { "branch": "master", "commit": "938b1f217af281810b958a99f4e3065149a2c42b" },
   "hydra.nvim": { "branch": "main", "commit": "8578056a2226ed49fc608167edc143a87f75d809" },
   "kulala.nvim": { "branch": "main", "commit": "6ebb042addcb95b4b8d8ec0bc39fb4fb79778ae1" },
   "lazy.nvim": { "branch": "main", "commit": "ec95702ae617308df35f35ad93c469c86d47346f" },
