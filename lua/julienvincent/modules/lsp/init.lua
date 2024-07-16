@@ -29,15 +29,23 @@ function M.setup()
   local server_configs = resolve_server_configs()
 
   for _, server_config in ipairs(server_configs) do
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = server_config.filetypes,
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
       desc = "Automatically start a language server when entering a buffer",
       callback = function(event)
         vim.schedule(function()
           local buf = event.buf
 
+          local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
           local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
           local bufname = vim.api.nvim_buf_get_name(buf)
+
+          local matches = vim.tbl_filter(function(ft)
+            return filetype == ft
+          end, server_config.filetypes)
+
+          if #matches == 0 then
+            return
+          end
 
           if not vim.api.nvim_buf_is_valid(buf) then
             return
