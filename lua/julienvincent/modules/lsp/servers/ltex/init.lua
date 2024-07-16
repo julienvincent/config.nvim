@@ -27,13 +27,16 @@ return function()
           plaintext = true,
         },
         dictionary = {
-          [lang] = fs.read_file(fs.dict_file("en-GB")),
+          [lang] = fs.read_file(fs.dict_file(lang)),
+        },
+        disabledRules = {
+          [lang] = fs.read_file(fs.disabled_rules_file(lang)),
         },
         checkFrequency = "save",
         diagnosticSeverity = "warning",
         language = lang,
         additionalRules = {
-          enablePickyRules = false,
+          enablePickyRules = true,
           motherTongue = lang,
         },
       },
@@ -42,6 +45,10 @@ return function()
     on_init = function(client)
       vim.lsp.commands["_ltex.addToDictionary"] = function(params)
         api.add_to_dict(client, params)
+      end
+
+      vim.lsp.commands["_ltex.disableRules"] = function(params)
+        api.add_to_disabled_rules(client, params)
       end
 
       vim.api.nvim_create_user_command("UpdateDict", function()

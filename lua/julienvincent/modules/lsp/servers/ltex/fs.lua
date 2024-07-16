@@ -1,8 +1,16 @@
 local M = {}
 
-function M.dict_file(lang)
+local function ltex_path(type, lang)
   local data_dir = vim.fn.stdpath("data")
-  return data_dir .. "/dict/" .. lang .. ".txt"
+  return data_dir .. "/ltex/" .. type .. "/" .. lang .. ".txt"
+end
+
+function M.dict_file(lang)
+  return ltex_path("dict", lang)
+end
+
+function M.disabled_rules_file(lang)
+  return ltex_path("disabled-rules", lang)
 end
 
 function M.read_file(file_path)

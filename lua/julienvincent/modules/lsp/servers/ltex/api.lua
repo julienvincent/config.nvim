@@ -5,6 +5,7 @@ local M = {}
 local function update_client_config(client, lang)
   local settings = client.config.settings
   settings.ltex.dictionary[lang] = fs.read_file(fs.dict_file(lang))
+  settings.ltex.disabledRules[lang] = fs.read_file(fs.disabled_rules_file(lang))
   client.notify("workspace/didChangeConfiguration", settings)
 end
 
@@ -12,6 +13,16 @@ function M.add_to_dict(client, params)
   local args = params.arguments[1].words
   for lang, words in pairs(args) do
     fs.append_file(fs.dict_file(lang), words)
+    vim.schedule(function()
+      update_client_config(client, lang)
+    end)
+  end
+end
+
+function M.add_to_disabled_rules(client, params)
+  local args = params.arguments[1].ruleIds
+  for lang, rules in pairs(args) do
+    fs.append_file(fs.disabled_rules_file(lang), rules)
     vim.schedule(function()
       update_client_config(client, lang)
     end)
