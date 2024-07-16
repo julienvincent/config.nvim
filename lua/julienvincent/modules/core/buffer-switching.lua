@@ -78,7 +78,7 @@ local function included_in_table(tbl, element)
 end
 
 local function remove_files_from_stack(win, files)
-  local cwd = vim.loop.cwd() .. "/"
+  local cwd = vim.fn.getcwd() .. "/"
   local results = {}
 
   for _, buf in ipairs(PREV_BUFS[win]) do
@@ -107,7 +107,7 @@ function M.pick_buffer()
   local fzf = require("fzf-lua")
 
   local win = vim.api.nvim_get_current_win()
-  local cwd = vim.loop.cwd() .. "/"
+  local cwd = vim.fn.getcwd() .. "/"
 
   local opts = {
     prompt = "Quick Switch❯ ",

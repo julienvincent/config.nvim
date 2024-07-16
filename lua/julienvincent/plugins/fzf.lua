@@ -16,6 +16,7 @@ return {
         fzf_opts = {
           ["--cycle"] = true,
           ["--pointer"] = "❯",
+          ["--marker"] = "❯",
           ["--layout"] = "default",
         },
 
