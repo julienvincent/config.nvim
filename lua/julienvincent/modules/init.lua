@@ -14,6 +14,7 @@ local modules = {
   mod("core.buffer-switching"),
   mod("core.highlights"),
   mod("core.diagnostics"),
+  mod("core.find-and-replace"),
 
   mod("lang.authzed"),
   mod("lang.http"),
