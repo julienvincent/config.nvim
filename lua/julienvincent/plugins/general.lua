@@ -147,8 +147,4 @@ return {
   },
 
   { "echasnovski/mini.bufremove", event = "BufReadPost" },
-
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  { "nvim-lua/plenary.nvim", lazy = true },
-  { "MunifTanjim/nui.nvim", lazy = true },
 }

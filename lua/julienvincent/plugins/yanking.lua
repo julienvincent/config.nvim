@@ -1,9 +1,6 @@
 return {
   {
     "gbprod/yanky.nvim",
-    dependencies = {
-      "kkharji/sqlite.lua",
-    },
     event = "BufReadPost",
     config = function()
       local yanky = require("yanky")

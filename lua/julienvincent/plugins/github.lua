@@ -4,7 +4,6 @@ return {
   {
     "topaxi/gh-actions.nvim",
     cmd = "GhActions",
-    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
     config = function()
       require("gh-actions").setup({})
     end,

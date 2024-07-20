@@ -20,7 +20,6 @@ return {
   },
 
   {
-    -- The original can be used once https://github.com/j-hui/fidget.nvim/pull/252 is merged
     "j-hui/fidget.nvim",
     event = "BufReadPre",
     config = function()
