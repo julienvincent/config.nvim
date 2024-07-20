@@ -31,6 +31,7 @@ M.setup = function()
 
   map("n", "gx", [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], {
     noremap = true,
+    silent = true,
     desc = "Open URI under cursor",
   })
 end
