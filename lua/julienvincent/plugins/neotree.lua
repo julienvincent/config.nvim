@@ -92,7 +92,9 @@ return {
             ["<Right>"] = function(state)
               local node = state.tree:get_node()
               if require("neo-tree.utils").is_expandable(node) then
-                state.commands["toggle_node"](state)
+                if not node:is_expanded() then
+                  state.commands["toggle_node"](state)
+                end
               else
                 state.commands["open"](state)
                 vim.cmd("Neotree reveal")
@@ -101,7 +103,7 @@ return {
 
             ["<Left>"] = function(state)
               local node = state.tree:get_node()
-              if require("neo-tree.utils").is_expandable(node) then
+              if node:is_expanded() and require("neo-tree.utils").is_expandable(node) then
                 state.commands["toggle_node"](state)
               end
             end,
