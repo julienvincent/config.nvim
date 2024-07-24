@@ -13,7 +13,7 @@ return {
         if file_exists("biome.json") and not file_exists(".prettierrc") then
           return { "biome" }
         end
-        return { { "prettierd", "prettier" } }
+        return { "prettierd", "prettier", stop_after_first = true }
       end
 
       conform.setup({
