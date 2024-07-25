@@ -50,6 +50,30 @@ local function register_keymaps()
   end, { desc = "Show or hide Neotree" })
 end
 
+local function expand_node_or_nearest_parent(state, node)
+  node = node or state.tree:get_node()
+  if not node then
+    return
+  end
+
+  local is_expandable = require("neo-tree.utils").is_expandable(node)
+
+  if not node:is_expanded() or not is_expandable then
+    local parent_id = node:get_parent_id()
+    if not parent_id then
+      return
+    end
+    expand_node_or_nearest_parent(state, state.tree:get_node(parent_id))
+    return
+  end
+
+  if node:is_expanded() and is_expandable then
+    local _, line = state.tree:get_node(node:get_id())
+    vim.api.nvim_win_set_cursor(0, { line, 0 })
+    state.commands["toggle_node"](state)
+  end
+end
+
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -94,6 +118,32 @@ return {
               if require("neo-tree.utils").is_expandable(node) then
                 if not node:is_expanded() then
                   state.commands["toggle_node"](state)
+
+                  local entered = false
+                  local function try_enter_node()
+                    if not node:has_children() or entered then
+                      return
+                    end
+
+                    entered = true
+
+                    local pos = vim.api.nvim_win_get_cursor(0)
+                    vim.api.nvim_win_set_cursor(0, { pos[1] + 1, pos[2] })
+                  end
+
+                  try_enter_node()
+
+                  -- This is an almighty hack. It seems that neotree will lazy load the files/directories
+                  -- within a node when it is first opened. This means that when we first expand a node
+                  -- the has_children() function check will return false.
+                  --
+                  -- Running it again after a short delay accounts for the first-load scenario.
+                  --
+                  -- To be honest it would probably be good enough to just always jump the cursor to the
+                  -- next line as the only edge case is empty directories but.. shrug.
+                  vim.defer_fn(function()
+                    try_enter_node()
+                  end, 20)
                 end
               else
                 state.commands["open"](state)
@@ -102,10 +152,7 @@ return {
             end,
 
             ["<Left>"] = function(state)
-              local node = state.tree:get_node()
-              if node:is_expanded() and require("neo-tree.utils").is_expandable(node) then
-                state.commands["toggle_node"](state)
-              end
+              expand_node_or_nearest_parent(state)
             end,
           },
         },
