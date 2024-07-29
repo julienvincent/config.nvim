@@ -10,7 +10,7 @@ return {
         indent = { enable = true },
         context_commentstring = { enable = true, enable_autocmd = false },
         ensure_installed = {
-          "authzed",
+          -- "authzed",
           "bash",
           "html",
           "javascript",
@@ -37,6 +37,18 @@ return {
           "go",
         },
       })
+
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      parser_config.spicedb = {
+        install_info = {
+          url = "https://github.com/authzed/tree-sitter-spicedb",
+          files = { "src/parser.c" },
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+          branch = "main",
+        },
+        filetype = "authzed",
+      }
     end,
   },
 
