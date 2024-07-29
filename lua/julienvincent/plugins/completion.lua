@@ -145,7 +145,7 @@ return {
 
       cmp.setup.filetype("clojure", {
         sources = cmp.config.sources({
-          { name = "nvim_lsp", trigger_characters = { ".", "/", ":" } },
+          { name = "nvim_lsp", trigger_characters = { ".", "/", ":", "*" } },
         }),
       })
     end,
