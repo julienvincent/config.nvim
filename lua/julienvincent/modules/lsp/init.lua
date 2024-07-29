@@ -35,6 +35,10 @@ function M.setup()
         vim.schedule(function()
           local buf = event.buf
 
+          if not vim.api.nvim_buf_is_valid(buf) then
+            return
+          end
+
           local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
           local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
           local bufname = vim.api.nvim_buf_get_name(buf)
@@ -44,10 +48,6 @@ function M.setup()
           end, server_config.filetypes)
 
           if #matches == 0 then
-            return
-          end
-
-          if not vim.api.nvim_buf_is_valid(buf) then
             return
           end
 
