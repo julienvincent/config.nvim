@@ -57,12 +57,8 @@ return function()
 
     start = function(config, opts)
       local libs = {}
-      local job_id = nil
       if config.root_dir then
-        job_id = deps.find_third_party_libs(config.root_dir, function(project_libs)
-          libs = project_libs
-        end)
-        vim.fn.jobwait({ job_id })
+        libs = deps.find_third_party_libs(config.root_dir)
       end
 
       return jdtls.start_or_attach(
