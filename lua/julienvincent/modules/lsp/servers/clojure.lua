@@ -23,6 +23,25 @@ return {
     },
   },
 
+  handlers = {
+    ["textDocument/rename"] = function(...)
+      local _, rename_data = ...
+      local doc_changes = rename_data.documentChanges[1]
+      if doc_changes and doc_changes.kind == "rename" then
+        local data = {
+          old_name = vim.uri_to_fname(doc_changes.oldUri),
+          new_name = vim.uri_to_fname(doc_changes.newUri),
+        }
+        require("lsp-file-operations.will-rename").callback(data)
+        vim.lsp.handlers["textDocument/rename"](...)
+        require("lsp-file-operations.did-rename").callback(data)
+        return
+      end
+
+      vim.lsp.handlers["textDocument/rename"](...)
+    end,
+  },
+
   before_init = function(params)
     params.workDoneToken = "enable-progress"
   end,
