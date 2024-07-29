@@ -15,7 +15,6 @@ return {
         desc = "Set the filetype of .http files",
         callback = function()
           vim.keymap.set("n", "<localleader>rr", function()
-            print("but why")
             kulala.run()
           end, { desc = "Execute request under cursor" })
 
