@@ -1,18 +1,27 @@
+local function reload_namespaces()
+  local saving = require("julienvincent.modules.core.auto-save")
+  saving.write_all_buffers()
+
+  local eval = require("julienvincent.lang.clojure.eval").eval
+  eval("user", "(reload-namespaces)")
+end
+
+local function reset()
+  reload_namespaces()
+
+  local eval = require("julienvincent.lang.clojure.eval").eval
+  eval("user", "(do (restart-system) nil)")
+end
+
 local keymaps = {
   {
     "<leader>§",
-    function()
-      local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (restart-system) nil)")
-    end,
+    reset,
     desc = "user/reset",
   },
   {
     "<leader>`",
-    function()
-      local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (restart-system) nil)")
-    end,
+    reset,
     desc = "user/reset",
   },
   {
@@ -27,19 +36,13 @@ local keymaps = {
     "<leader>*",
     function()
       local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do ((requiring-resolve 'clojure.stacktrace/print-stack-trace) *e 6) (tap> *e))")
+      eval("user", "(do ((requiring-resolve 'clojure.stacktrace/print-stack-trace) *e 12) (tap> *e))")
     end,
     desc = "Eval last error",
   },
   {
     "<localleader>nr",
-    function()
-      local saving = require("julienvincent.modules.core.auto-save")
-      saving.write_all_buffers()
-
-      local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(reload-namespaces)")
-    end,
+    reload_namespaces,
     desc = "user/reload-namespaces",
   },
 }
