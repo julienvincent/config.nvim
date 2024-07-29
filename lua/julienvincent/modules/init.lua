@@ -20,6 +20,7 @@ local modules = {
   mod("lang.http"),
   mod("lang.nftables"),
   mod("lang.babashka"),
+  mod("lang.numscript"),
 
   mod("lsp"),
 }
