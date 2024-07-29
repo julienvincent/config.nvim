@@ -14,7 +14,11 @@ function M.setup_on_attach_keybinds(buf)
   map("K", vim.lsp.buf.hover, buf, "Hover doc")
   map("<localleader>d", vim.diagnostic.open_float, buf, "Show diagnostics at cursor")
 
-  map("gd", vim.lsp.buf.definition, buf, "Go to definition")
+  map("gd", function()
+    require("fzf-lua").lsp_definitions({
+      jump_to_single_result = true,
+    })
+  end, buf, "Go to definition")
   map("gD", ":vsp<CR><cmd>lua vim.lsp.buf.definition()<CR>", buf, "Go to definition vertical split")
   map("<leader>gD", function()
     require("fzf-lua").diagnostics_workspace()
