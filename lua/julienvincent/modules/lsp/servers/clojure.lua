@@ -25,6 +25,8 @@ return {
 
   handlers = {
     ["textDocument/rename"] = function(...)
+      local saving = require("julienvincent.modules.core.auto-save")
+
       local _, rename_data = ...
       local doc_changes = rename_data.documentChanges[1]
       if doc_changes and doc_changes.kind == "rename" then
@@ -35,10 +37,12 @@ return {
         require("lsp-file-operations.will-rename").callback(data)
         vim.lsp.handlers["textDocument/rename"](...)
         require("lsp-file-operations.did-rename").callback(data)
+        saving.write_all_buffers()
         return
       end
 
       vim.lsp.handlers["textDocument/rename"](...)
+      saving.write_all_buffers()
     end,
   },
 
