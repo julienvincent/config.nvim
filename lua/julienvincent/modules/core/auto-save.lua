@@ -16,10 +16,16 @@ end
 function M.buf_is_writable(buf)
   local bufname = vim.api.nvim_buf_get_name(buf)
 
+  local buftype = vim.api.nvim_get_option_value("buftype", {
+    buf = buf,
+  })
+
   local writable = #bufname > 0
     and vim.api.nvim_get_option_value("modifiable", { buf = buf })
     and vim.fn.filereadable(bufname) == 1
     and vim.fn.filewritable(bufname) == 1
+    and buftype ~= "nofile"
+    and buftype ~= "nowrite"
 
   return vim.api.nvim_get_option_value("modified", { buf = buf }) and writable
 end
