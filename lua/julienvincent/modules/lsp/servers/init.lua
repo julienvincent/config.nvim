@@ -12,4 +12,5 @@ return {
   mod("jdtls"),
   mod("rust_analyzer"),
   mod("ltex"),
+  mod("clangd"),
 }
