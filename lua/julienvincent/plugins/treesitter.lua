@@ -23,6 +23,7 @@ return {
           "luap",
           "markdown",
           "markdown_inline",
+          "kdl",
           "mermaid",
           "regex",
           "tsx",
