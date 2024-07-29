@@ -25,41 +25,53 @@ local function resolve_server_configs()
   end, servers)
 end
 
+local function buf_is_valid(buf, server_config)
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+  local bufname = vim.api.nvim_buf_get_name(buf)
+
+  if buftype == "nofile" then
+    return
+  end
+
+  if #bufname == 0 and not server_config.single_file_support then
+    return
+  end
+
+  if #bufname ~= 0 and not bufname_valid(bufname) then
+    return
+  end
+
+  return true
+end
+
 function M.setup()
   local server_configs = resolve_server_configs()
 
   for _, server_config in ipairs(server_configs) do
-    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    local buf_is_valid_fn = buf_is_valid
+    if server_config.buf_is_valid then
+      buf_is_valid_fn = server_config.buf_is_valid
+    end
+
+    vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
       desc = "Automatically start a language server when entering a buffer",
       callback = function(event)
+        local buf = event.buf
+
+        if not vim.api.nvim_buf_is_valid(buf) then
+          return
+        end
+
+        local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
+        local matches = vim.tbl_filter(function(ft)
+          return filetype == ft
+        end, server_config.filetypes)
+        if #matches == 0 then
+          return
+        end
+
         vim.schedule(function()
-          local buf = event.buf
-
-          if not vim.api.nvim_buf_is_valid(buf) then
-            return
-          end
-
-          local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
-          local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
-          local bufname = vim.api.nvim_buf_get_name(buf)
-
-          local matches = vim.tbl_filter(function(ft)
-            return filetype == ft
-          end, server_config.filetypes)
-
-          if #matches == 0 then
-            return
-          end
-
-          if buftype == "nofile" then
-            return
-          end
-
-          if #bufname == 0 and not server_config.single_file_support then
-            return
-          end
-
-          if #bufname ~= 0 and not bufname_valid(bufname) then
+          if not buf_is_valid_fn(buf, server_config) then
             return
           end
 

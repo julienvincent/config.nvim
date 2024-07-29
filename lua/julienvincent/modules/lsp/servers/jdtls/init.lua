@@ -55,6 +55,11 @@ return function()
     end,
     root_dir = fs.find_furthest_root({ "deps.edn", ".git" }, fs.fallback_fn_cwd),
 
+    -- JDTLS handles all java files so far - so this just returns true for now
+    buf_is_valid = function()
+      return true
+    end,
+
     start = function(config, opts)
       local libs = {}
       if config.root_dir then
