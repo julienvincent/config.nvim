@@ -43,6 +43,10 @@ local function create_client(buf, server_config)
     end,
 
     on_attach = function(_, bufnr)
+      vim.bo[bufnr].formatexpr = nil
+      vim.bo[bufnr].omnifunc = nil
+      vim.keymap.del("n", "K", { buffer = bufnr })
+
       keymaps.setup_on_attach_keybinds(bufnr)
     end,
   })
