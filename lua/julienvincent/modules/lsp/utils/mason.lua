@@ -5,7 +5,10 @@ function M.get_package(pkg, bin)
   local registry = require("mason-registry")
 
   local bin_name = bin or pkg
-  local mason_package = registry.get_package(pkg)
+  local success, mason_package = pcall(registry.get_package, pkg)
+  if not success then
+    return
+  end
 
   if not mason_package:is_installed() then
     return
