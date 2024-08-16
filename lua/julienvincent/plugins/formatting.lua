@@ -24,6 +24,8 @@ return {
 
           lua = { "stylua" },
           just = { "just" },
+
+          nix = { "nix" },
         },
 
         formatters = {
@@ -36,6 +38,12 @@ return {
               "$FILENAME",
             },
             stdin = false,
+          },
+
+          nix = {
+            command = "nixfmt",
+            args = { },
+            stdin = true,
           },
         },
       })
