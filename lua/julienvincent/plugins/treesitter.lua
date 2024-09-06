@@ -82,7 +82,7 @@ return {
         separator = "-",
       })
 
-      vim.keymap.set("n", "<leader>c", "<Cmd>TSContextToggle<Cr>", {
+      vim.keymap.set("n", "<localleader>C", "<Cmd>TSContextToggle<Cr>", {
         desc = "Toggle treesitter context",
       })
     end,
