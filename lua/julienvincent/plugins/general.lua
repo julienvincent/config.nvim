@@ -2,12 +2,16 @@ return {
   {
     "kylechui/nvim-surround",
     event = "BufReadPost",
-    opts = {
-      keymaps = {
-        visual = "gS",
-        visual_line = "gS",
-      },
-    },
+    config = function()
+      require("nvim-surround").setup({
+        keymaps = {
+          visual = "gs",
+          visual_line = "gs",
+        },
+
+        indent_lines = false,
+      })
+    end,
   },
 
   {
