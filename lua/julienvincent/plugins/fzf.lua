@@ -42,7 +42,13 @@ return {
       end, { silent = true, desc = "Find files" })
 
       vim.keymap.set("n", "<leader>ff", function()
-        fzf.grep_project()
+        fzf.grep_project({
+          keymap = {
+            fzf = {
+              ["ctrl-q"] = "select-all+accept",
+            },
+          },
+        })
       end, { silent = true, desc = "Find" })
 
       vim.keymap.set("n", "<leader>fr", function()
