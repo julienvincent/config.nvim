@@ -33,14 +33,6 @@ local keymaps = {
     desc = "user/stop",
   },
   {
-    "<leader>*",
-    function()
-      local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do ((requiring-resolve 'clojure.stacktrace/print-stack-trace) *e 12) (tap> *e))")
-    end,
-    desc = "Eval last error",
-  },
-  {
     "<localleader>nr",
     reload_namespaces,
     desc = "user/reload-namespaces",
