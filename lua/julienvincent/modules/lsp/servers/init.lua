@@ -13,4 +13,5 @@ return {
   mod("rust_analyzer"),
   mod("ltex"),
   mod("clangd"),
+  mod("nim"),
 }
