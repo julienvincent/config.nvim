@@ -12,10 +12,10 @@ return {
         hooks = {
           before_run = function()
             local saving = require("julienvincent.modules.core.auto-save")
-            local eval = require("julienvincent.lang.clojure.eval").eval
+            local nrepl = require("julienvincent.modules.clojure.nrepl.api")
 
             saving.write_all_buffers()
-            eval("user", "(reload-namespaces)")
+            nrepl.eval("user", "(reload-namespaces)")
           end,
         },
       })

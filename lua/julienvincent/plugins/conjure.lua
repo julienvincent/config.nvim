@@ -1,44 +1,3 @@
-local function reload_namespaces()
-  local saving = require("julienvincent.modules.core.auto-save")
-  saving.write_all_buffers()
-
-  local eval = require("julienvincent.lang.clojure.eval").eval
-  eval("user", "(reload-namespaces)")
-end
-
-local function reset()
-  reload_namespaces()
-
-  local eval = require("julienvincent.lang.clojure.eval").eval
-  eval("user", "(do (restart-system) nil)")
-end
-
-local keymaps = {
-  {
-    "<leader>§",
-    reset,
-    desc = "user/reset",
-  },
-  {
-    "<leader>`",
-    reset,
-    desc = "user/reset",
-  },
-  {
-    "<leader>!",
-    function()
-      local eval = require("julienvincent.lang.clojure.eval").eval
-      eval("user", "(do (stop-system) nil)")
-    end,
-    desc = "user/stop",
-  },
-  {
-    "<localleader>nr",
-    reload_namespaces,
-    desc = "user/reload-namespaces",
-  },
-}
-
 local function get_win_by_buf(bufnr)
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
@@ -74,7 +33,6 @@ return {
     "Olical/conjure",
     version = "v4.*",
     ft = { "clojure", "lua" },
-    keys = keymaps,
     init = function()
       vim.g["conjure#highlight#enabled"] = true
       vim.g["conjure#highlight#group"] = "CurrentWord"
@@ -113,21 +71,11 @@ return {
       vim.g["conjure#log#jump_to_latest#cursor_scroll_position"] = "none"
     end,
     config = function()
-      local wk = require("which-key")
-
-      local nrepl = require("julienvincent.lang.clojure.nrepl")
       local action = require("conjure.client.clojure.nrepl.action")
       local server = require("conjure.client.clojure.nrepl.server")
 
-      wk.add({
-        { "<leader>c", group = "Repl" },
-        { "<localleader>l", group = "Conjure Log" },
-      })
-
-      vim.keymap.set("n", "<leader>cf", nrepl.find_repls, { desc = "Find and connect to running repls" })
       vim.keymap.set("n", "<leader>cc", action["connect-port-file"], { desc = "Connect via .nrepl-port file" })
       vim.keymap.set("n", "<leader>cd", server["disconnect"], { desc = "Disconnect" })
-      vim.keymap.set("n", "<leader>cp", nrepl.direct_connect, { desc = "Connect via port" })
       vim.keymap.set("n", "<leader>cl", function()
         vim.cmd("ConjureLogToggle")
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-W>p", true, true, true), "n", true)
@@ -137,16 +85,6 @@ return {
       -- as the default conjure mapping jumpts to the start of the last eval'd expression instead
       -- of the end. This can be very annoying as it does not re-enable auto-scroll.
       vim.keymap.set("n", "<localleader>ll", scroll_conjure_log_to_bottom, { desc = "Scroll conjure log to bottom" })
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "clojure",
-        callback = function(event)
-          wk.add({
-            { "<localleader>e", group = "Eval", buffer = event.buf },
-            { "<localleader>n", group = "Clojure Namespace", buffer = event.buf },
-          })
-        end,
-      })
 
       vim.api.nvim_create_autocmd("BufNewFile", {
         pattern = "conjure-log-*",

@@ -1,7 +1,7 @@
-local clojure = require("julienvincent.lang.clojure.eval")
+local nrepl = require("julienvincent.modules.clojure.nrepl.api")
 
 local function eval(code, opts)
-  clojure.eval(
+  nrepl.eval(
     "user",
     code,
     vim.tbl_extend("force", {

@@ -22,6 +22,8 @@ local modules = {
   mod("lang.babashka"),
   mod("lang.numscript"),
 
+  mod("clojure.nrepl"),
+
   mod("lsp"),
 }
 

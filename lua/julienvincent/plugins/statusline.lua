@@ -30,7 +30,7 @@ local function get_nrepl_status()
     return ""
   end
 
-  local nrepl = require("julienvincent.lang.clojure.nrepl")
+  local nrepl = require("julienvincent.modules.clojure.nrepl.api")
   return nrepl.get_repl_status("Not Connected")
 end
 

@@ -1,5 +1,22 @@
 local M = {}
 
+function M.eval(ns, code, opts)
+  opts = opts or {}
+
+  local client = require("conjure.client")
+  local fn = require("conjure.eval")["eval-str"]
+
+  client["with-filetype"](
+    "clojure",
+    fn,
+    vim.tbl_extend("force", {
+      origin = "julienvincent.modules.clojure.nrepl.api",
+      context = ns,
+      code = code,
+    }, opts)
+  )
+end
+
 function M.get_repl_status(not_connected_msg)
   if vim.bo.filetype ~= "clojure" then
     return not_connected_msg
