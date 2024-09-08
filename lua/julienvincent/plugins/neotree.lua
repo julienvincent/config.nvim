@@ -143,7 +143,7 @@ return {
                   -- next line as the only edge case is empty directories but.. shrug.
                   vim.defer_fn(function()
                     try_enter_node()
-                  end, 20)
+                  end, 30)
                 end
               else
                 state.commands["open"](state)
