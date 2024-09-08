@@ -23,6 +23,7 @@ local modules = {
   mod("lang.numscript"),
 
   mod("clojure.nrepl"),
+  mod("clojure.format"),
 
   mod("lsp"),
 }
