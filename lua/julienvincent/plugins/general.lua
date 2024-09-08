@@ -1,16 +1,38 @@
 return {
   {
-    "kylechui/nvim-surround",
+    "echasnovski/mini.surround",
     event = "BufReadPost",
     config = function()
-      require("nvim-surround").setup({
-        keymaps = {
-          visual = "gs",
-          visual_line = "gs",
-        },
+      require("mini.surround").setup({
+        mappings = {
+          add = "ys",
+          delete = "ds",
+          replace = "cs",
 
-        indent_lines = false,
+          find = "",
+          find_left = "",
+          highlight = "",
+          update_n_lines = "",
+        },
+        custom_surroundings = {
+          -- This is a modification of the original source taken from here:
+          -- https://github.com/echasnovski/mini.surround/blob/0e67c4bc147f2a15cee94e7c94dcc0e115b9f55e/lua/mini/surround.lua#L1076
+          --
+          -- This simply swaps the brackets - for example the `(` keybinding becomes `)`. I do this because I prefer pressing
+          -- `(` and I don't want empty spaces added when I do that.
+          [")"] = { input = { "%b()", "^.%s*().-()%s*.$" }, output = { left = "( ", right = " )" } },
+          ["("] = { input = { "%b()", "^.().*().$" }, output = { left = "(", right = ")" } },
+          ["]"] = { input = { "%b[]", "^.%s*().-()%s*.$" }, output = { left = "[ ", right = " ]" } },
+          ["["] = { input = { "%b[]", "^.().*().$" }, output = { left = "[", right = "]" } },
+          ["}"] = { input = { "%b{}", "^.%s*().-()%s*.$" }, output = { left = "{ ", right = " }" } },
+          ["{"] = { input = { "%b{}", "^.().*().$" }, output = { left = "{", right = "}" } },
+          [">"] = { input = { "%b<>", "^.%s*().-()%s*.$" }, output = { left = "< ", right = " >" } },
+          ["<"] = { input = { "%b<>", "^.().*().$" }, output = { left = "<", right = ">" } },
+        },
       })
+
+      vim.keymap.del("x", "ys")
+      vim.keymap.set("x", "gs", [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
     end,
   },
 
