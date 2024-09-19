@@ -94,6 +94,7 @@ return {
 
         preselect = "item",
         completion = {
+          keyword_length = 2,
           completeopt = "menu,menuone,noinsert",
         },
         mapping = {
