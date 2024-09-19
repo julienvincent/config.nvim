@@ -3,7 +3,7 @@ local fs = require("julienvincent.modules.lsp.utils.fs")
 
 return {
   name = "clangd",
-  filetypes = { "cpp"  },
+  filetypes = { "cpp", "c" },
 
   cmd = mason.command("clangd"),
   root_dir = fs.find_furthest_root({
