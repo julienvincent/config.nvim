@@ -14,7 +14,7 @@ local function get_node_at_cursor()
   return ts.get_node_at_cursor()
 end
 
-local root_forms = {"defn", "defmacro", "defprotocol"}
+local root_forms = { "defn", "defn-", "defmacro", "defprotocol" }
 
 function M.get_root_form()
   local node = get_node_at_cursor()
@@ -41,7 +41,7 @@ function M.get_root_form()
 
   local form_type = root_form:named_child(0)
   local type = vim.treesitter.get_node_text(form_type, 0)
-  if not table_contains(root_forms, type)  then
+  if not table_contains(root_forms, type) then
     return
   end
 
@@ -70,24 +70,6 @@ local function is_whitespace(str)
   return str:match("^%s*$") ~= nil
 end
 
-local function is_list(str)
-  -- Pattern for unordered list items: '-', '+', or '*'
-  local unordered_list_pattern = "^%s*[-+*]%s+"
-
-  -- Pattern for ordered list items: '1)', '2.', etc.
-  local ordered_list_pattern = "^%s*%d+[).]%s+"
-
-  if string.match(str, unordered_list_pattern) then
-    return true
-  end
-
-  if string.match(str, ordered_list_pattern) then
-    return true
-  end
-
-  return false
-end
-
 local function lines_to_paragrapphs(lines)
   local paragraphs = {}
 
@@ -110,21 +92,76 @@ local function lines_to_paragrapphs(lines)
   return paragraphs
 end
 
+local function is_list(str)
+  -- Pattern for unordered list items: '-', '+', or '*'
+  local unordered_list_pattern = "^%s*[-+*]%s+"
+
+  -- Pattern for ordered list items: '1)', '2.', etc.
+  local ordered_list_pattern = "^%s*%d+[).]%s+"
+
+  if string.match(str, unordered_list_pattern) then
+    return true
+  end
+
+  if string.match(str, ordered_list_pattern) then
+    return true
+  end
+
+  return false
+end
+
+local function is_block(str)
+  local trimmed = vim.fn.trim(str)
+  return string.sub(trimmed, 1, 3) == "```"
+end
+
 local function paragraphs_to_words(paragraphs)
+  local currently_in_block = false
   return vim.tbl_map(function(paragraph)
     local lines = {}
 
     local words = {}
     for _, line in ipairs(paragraph) do
-      if is_list(line) then
-        if #words > 0 then
-          table.insert(lines, words)
-          words = {}
-        end
-      end
+      if is_block(line) or currently_in_block then
+        local block_start = is_block(line) and not currently_in_block
+        local block_end = is_block(line) and currently_in_block
 
-      for _, word in ipairs(vim.fn.split(line, " ")) do
-        table.insert(words, word)
+        if block_start then
+          if #words > 0 then
+            table.insert(lines, words)
+            words = {}
+          end
+          currently_in_block = true
+        end
+
+        if currently_in_block then
+          local word = line
+          if block_start or block_end then
+            word = vim.fn.trim(word)
+          end
+          table.insert(lines, {
+            word,
+            block_start = block_start,
+            block_end = block_end,
+          })
+        end
+
+        if block_end then
+          currently_in_block = false
+        end
+      else
+        if is_list(line) then
+          if #words > 0 then
+            table.insert(lines, words)
+            words = {}
+          end
+        end
+
+        for _, word in ipairs(vim.fn.split(line, " ")) do
+          if word ~= "" then
+            table.insert(words, word)
+          end
+        end
       end
     end
 
@@ -143,7 +180,10 @@ local function rewrite_paragraph(paragraph, opts)
   local new_paragraph = {}
 
   for _, line in ipairs(paragraph) do
-    local current_line = {}
+    local current_line = {
+      block_start = line.block_start,
+      block_end = line.block_end,
+    }
     local current_line_count = 0
 
     for _, word in ipairs(line) do
@@ -180,13 +220,24 @@ local function format_string(input, opts)
   local rewritten = rewrite_paragraphs(as_words, opts)
 
   local lines = {}
+  local in_block = false
   for _, paragraph in ipairs(rewritten) do
     if #lines > 0 then
       table.insert(lines, "")
     end
 
     for _, line in ipairs(paragraph) do
-      table.insert(lines, string.rep(" ", offset) .. table.concat(line, " "))
+      local offset_padding = ""
+      if line.block_end then
+        in_block = false
+      end
+      if not in_block then
+        offset_padding = string.rep(" ", offset)
+      end
+      if line.block_start then
+        in_block = true
+      end
+      table.insert(lines, offset_padding .. table.concat(line, " "))
     end
   end
 
