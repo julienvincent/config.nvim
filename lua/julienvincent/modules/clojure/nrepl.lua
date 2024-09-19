@@ -28,6 +28,10 @@ function M.setup()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "clojure",
     callback = function(event)
+      vim.api.nvim_set_option_value("textwidth", 80, {
+        buf = event.buf,
+      })
+
       wk.add({
         { "<localleader>e", group = "Eval", buffer = event.buf },
         { "<localleader>n", group = "Clojure Namespace", buffer = event.buf },
