@@ -40,6 +40,7 @@ return {
           cljfmt = require("julienvincent.modules.formatters.cljfmt"),
           prettierd = require("julienvincent.modules.formatters.prettierd"),
           prettier = require("julienvincent.modules.formatters.prettier"),
+          markdown_native = require("julienvincent.modules.formatters.markdown"),
         },
       })
 

@@ -1,71 +1,5 @@
 local M = {}
 
-local function table_contains(table, elem)
-  for _, item in ipairs(table) do
-    if item == elem then
-      return true
-    end
-  end
-  return false
-end
-
-local function get_node_at_cursor()
-  local ts = require("nvim-treesitter.ts_utils")
-  return ts.get_node_at_cursor()
-end
-
-local root_forms = { "defn", "defn-", "defmacro", "defprotocol" }
-
-function M.get_root_form()
-  local node = get_node_at_cursor()
-  if not node then
-    return
-  end
-
-  local tree = node:tree()
-  local root = tree:root()
-
-  local root_form = node
-  while true do
-    local parent = root_form:parent()
-    if not parent then
-      break
-    end
-
-    if parent:id() == root:id() then
-      break
-    end
-
-    root_form = parent
-  end
-
-  local form_type = root_form:named_child(0)
-  local type = vim.treesitter.get_node_text(form_type, 0)
-  if not table_contains(root_forms, type) then
-    return
-  end
-
-  return root_form
-end
-
-local function find_docstring(node, index)
-  index = index or 0
-  if index < 0 or index >= node:named_child_count() then
-    return
-  end
-  local child = node:named_child(index)
-  if not child then
-    return
-  end
-  if child:type() == "str_lit" then
-    return child
-  end
-  if child:type() == "vec_lit" then
-    return
-  end
-  return find_docstring(node, index + 1)
-end
-
 local function is_whitespace(str)
   return str:match("^%s*$") ~= nil
 end
@@ -110,9 +44,14 @@ local function is_list(str)
   return false
 end
 
+local function is_html_tag(line)
+    return string.match(line, "^%s*<%/?%s*[%w:-]+%s*>") ~= nil
+end
+
 local function is_block(str)
   local trimmed = vim.fn.trim(str)
-  return string.sub(trimmed, 1, 3) == "```"
+  local is_code_block = string.sub(trimmed, 1, 3) == "```"
+  return is_code_block or is_html_tag(trimmed)
 end
 
 local function paragraphs_to_words(paragraphs)
@@ -211,10 +150,10 @@ local function rewrite_paragraphs(paragraphs, opts)
   end, paragraphs)
 end
 
-local function format_string(input, opts)
+function M.format_string(input_lines, opts)
   local offset = opts.offset or 0
 
-  local paragraphs = lines_to_paragrapphs(vim.fn.split(input, "\n"))
+  local paragraphs = lines_to_paragrapphs(input_lines)
   local as_words = paragraphs_to_words(paragraphs)
 
   local rewritten = rewrite_paragraphs(as_words, opts)
@@ -242,43 +181,6 @@ local function format_string(input, opts)
   end
 
   return lines
-end
-
-function M.format_docstring()
-  local root_form = M.get_root_form()
-  if not root_form then
-    print("no root form")
-    return
-  end
-
-  local docstring = find_docstring(root_form)
-  if not docstring then
-    print("no docstring")
-    return
-  end
-
-  local docstring_text = vim.treesitter.get_node_text(docstring, 0)
-
-  local range = { docstring:range() }
-
-  local formatted = format_string(docstring_text, {
-    text_width = 80,
-    offset = range[2],
-  })
-
-  vim.api.nvim_buf_set_text(0, range[1], 0, range[3], range[4], formatted)
-end
-
-function M.setup()
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "clojure",
-    callback = function(event)
-      vim.keymap.set("n", "gq", M.format_docstring, {
-        desc = "Format fn docstring",
-        buffer = event.buf,
-      })
-    end,
-  })
 end
 
 return M
