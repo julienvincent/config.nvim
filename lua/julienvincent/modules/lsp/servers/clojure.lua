@@ -1,17 +1,34 @@
 local mason = require("julienvincent.modules.lsp.utils.mason")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
+local function contains_kmono_project(path)
+  local file_path = path .. "/deps.edn"
+  local file = io.open(file_path, "r")
+  if not file then
+    return false
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  if string.find(content, "kmono/workspace") then
+    return true
+  else
+    return false
+  end
+end
+
 return {
   name = "clojure-lsp",
   filetypes = { "clojure", "edn" },
 
   cmd = mason.command("clojure-lsp"),
   root_dir = fs.find_furthest_root({
-    "deps.edn",
+    { "deps.edn", is_root = contains_kmono_project },
     "bb.edn",
     "project.clj",
     "shadow-cljs.edn",
-  }, fs.fallback_fn_tmp_dir),
+  }),
 
   single_file_support = true,
   init_options = {
