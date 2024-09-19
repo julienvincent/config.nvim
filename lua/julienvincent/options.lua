@@ -60,3 +60,7 @@ vim.opt.fillchars:append({
   horizdown = "-",
   diff = "╱",
 })
+
+-- This prevents comments from being inserted when in normal mode and pressing `o` or `O`
+vim.opt.formatoptions:remove("o")
+vim.opt.formatoptions:append("r")

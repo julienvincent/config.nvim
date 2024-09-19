@@ -7,22 +7,18 @@ M.setup = function()
   local general = augroup("General", { clear = true })
 
   autocmd("FileType", {
-    pattern = { "*" },
+    pattern = { "clojure" },
     group = general,
-    desc = "Override some buffer local options",
+    desc = "Override the iskeyword opt for some languages",
     callback = function()
-      vim.cmd("setlocal iskeyword=@,48-57,_,192-255,!,?")
-
-      -- This prevents comments from being inserted when in normal mode and pressing `o` or `O`
-      vim.opt.formatoptions:remove("o")
-      vim.opt.formatoptions:append("r")
+      vim.opt_local.iskeyword = "@,48-57,_,192-255,!,?"
     end,
   })
 
   vim.api.nvim_create_autocmd("FileType", {
     desc = "Enable line wrapping for certain filetypes",
     group = general,
-    pattern = { "markdown" },
+    pattern = { "markdown", "mdx" },
     callback = function()
       vim.opt_local.wrap = true
       vim.opt_local.linebreak = true
