@@ -1,4 +1,4 @@
-local mason = require("julienvincent.modules.lsp.utils.mason")
+local mason = require("julienvincent.modules.core.mason")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
 return {

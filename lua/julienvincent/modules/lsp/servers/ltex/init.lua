@@ -1,6 +1,6 @@
 local api = require("julienvincent.modules.lsp.servers.ltex.api")
 local fs = require("julienvincent.modules.lsp.servers.ltex.fs")
-local mason = require("julienvincent.modules.lsp.utils.mason")
+local mason = require("julienvincent.modules.core.mason")
 
 return function()
   local lang = "en-GB"
