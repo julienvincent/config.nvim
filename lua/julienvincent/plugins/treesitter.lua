@@ -42,6 +42,7 @@ return {
       })
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
       parser_config.spicedb = {
         install_info = {
           url = "https://github.com/authzed/tree-sitter-spicedb",
@@ -52,7 +53,22 @@ return {
         },
         filetype = "authzed",
       }
+
+      parser_config.numscript = {
+        install_info = {
+          url = "https://github.com/julienvincent/tree-sitter-numscript",
+          files = { "src/parser.c" },
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+          branch = "master",
+        },
+        filetype = "numscript",
+      }
     end,
+  },
+
+  {
+    "julienvincent/tree-sitter-numscript",
   },
 
   {
