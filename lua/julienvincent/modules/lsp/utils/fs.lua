@@ -14,7 +14,12 @@ end
 
 function M.glob_exists_in_dir(dir, globs)
   for _, glob in ipairs(globs) do
-    local res = vim.fn.glob(vim.api.nvim_call_function("fnamemodify", { dir, ":p" }) .. "/" .. glob)
+    local filename = glob
+    if type(glob) == "table" then
+      filename = glob[1]
+    end
+
+    local res = vim.fn.glob(vim.api.nvim_call_function("fnamemodify", { dir, ":p" }) .. "/" .. filename)
     local files = vim.split(res, "\n")
 
     local non_empty_files = {}
@@ -25,7 +30,7 @@ function M.glob_exists_in_dir(dir, globs)
     end
 
     if #non_empty_files > 0 then
-      return true
+      return true, glob
     end
   end
 
@@ -42,7 +47,12 @@ function M.find_furthest_root(globs, fallback_fn)
 
     local next = vim.fn.fnamemodify(path, ":h")
 
-    if M.glob_exists_in_dir(path, globs) then
+    local exists, glob = M.glob_exists_in_dir(path, globs)
+    if exists then
+      if glob and glob.is_root and glob.is_root(path) then
+        return path
+      end
+
       return traverse(next, path)
     end
 
