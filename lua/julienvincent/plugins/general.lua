@@ -43,6 +43,7 @@ return {
       vim.g["smoothie_remapped_commands"] = { "<C-D>", "<C-U>" }
     end,
   },
+
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -64,13 +65,6 @@ return {
       end, {
         desc = "Buffer Local Keymaps (which-key)",
       })
-    end,
-  },
-  {
-    "numToStr/Comment.nvim",
-    event = "BufReadPost",
-    config = function()
-      require("Comment").setup({})
     end,
   },
 
