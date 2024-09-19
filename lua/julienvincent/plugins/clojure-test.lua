@@ -1,6 +1,7 @@
 return {
   {
     "julienvincent/clojure-test.nvim",
+    ft = { "clojure" },
     config = function()
       local clojure_test = require("clojure-test")
       local api = require("clojure-test.api")
@@ -20,13 +21,7 @@ return {
         },
       })
 
-      vim.keymap.set(
-        "n",
-        "<localleader>tl",
-        api.load_tests,
-        { desc = "Find and load test namespaces in classpath" }
-      )
-
+      vim.keymap.set("n", "<localleader>tl", api.load_tests, { desc = "Find and load test namespaces in classpath" })
       vim.keymap.set("n", "<localleader>ta", api.run_all_tests, { desc = "Run all tests" })
       vim.keymap.set("n", "<localleader>tr", api.run_tests, { desc = "Run tests" })
       vim.keymap.set("n", "<localleader>tn", api.run_tests_in_ns, { desc = "Run tests in a namespace" })

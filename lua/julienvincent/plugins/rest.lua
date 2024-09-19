@@ -1,6 +1,7 @@
 return {
   {
     "mistweaverco/kulala.nvim",
+    ft = { "http" },
     config = function()
       local kulala = require("kulala")
 
@@ -10,7 +11,7 @@ return {
         debug = false,
       })
 
-      vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+      vim.api.nvim_create_autocmd({ "FileType", "BufNewFile", "BufRead" }, {
         pattern = { "*.http" },
         desc = "Set the filetype of .http files",
         callback = function()
