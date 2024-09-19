@@ -22,7 +22,7 @@ return {
       })
 
       local yank_entry = yanky.history.storage.get(2)
-      if yank_entry.regcontents then
+      if yank_entry and yank_entry.regcontents then
         vim.fn.setreg('"', yank_entry.regcontents)
         vim.fn.setreg("0", yank_entry.regcontents)
       end
