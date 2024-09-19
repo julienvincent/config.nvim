@@ -1,17 +1,25 @@
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
-
 local M = {}
 
 M.setup = function()
-  local general = augroup("General", { clear = true })
+  local general = vim.api.nvim_create_augroup("General", { clear = true })
 
-  autocmd("FileType", {
-    pattern = { "clojure" },
-    group = general,
+  vim.api.nvim_create_autocmd("FileType", {
     desc = "Override the iskeyword opt for some languages",
+    group = general,
+    pattern = { "clojure" },
     callback = function()
       vim.opt_local.iskeyword = "@,48-57,_,192-255,!,?"
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    desc = "Override buffer-local settings for all filetypes",
+    group = general,
+    pattern = { "*" },
+    callback = function()
+      -- This prevents comments from being inserted when in normal mode and pressing `o` or `O`
+      vim.opt.formatoptions:remove("o")
+      vim.opt.formatoptions:append("r")
     end,
   })
 
