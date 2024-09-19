@@ -17,6 +17,10 @@ return {
       end
 
       conform.setup({
+        default_format_opts = {
+          lsp_format = "fallback",
+        },
+
         formatters_by_ft = {
           javascript = js_formatter,
           typescript = js_formatter,
@@ -24,29 +28,43 @@ return {
 
           lua = { "stylua" },
           just = { "just" },
+
+          markdown = function()
+            return { "prettier", "injected" }
+          end,
         },
 
         formatters = {
-          just = {
-            command = "just",
-            args = {
-              "--fmt",
-              "--unstable",
-              "-f",
-              "$FILENAME",
-            },
-            stdin = false,
-          },
+          just = require("julienvincent.modules.formatters.just"),
+          stylua = require("julienvincent.modules.formatters.stylua"),
+          cljfmt = require("julienvincent.modules.formatters.cljfmt"),
+          prettierd = require("julienvincent.modules.formatters.prettierd"),
+          prettier = require("julienvincent.modules.formatters.prettier"),
         },
       })
 
+      conform.formatters.injected = {
+        options = {
+          ignore_errors = true,
+          lang_to_formatters = {
+            clojure = { "cljfmt" },
+          },
+        },
+      }
+
       local function format()
-        conform.format({
-          lsp_fallback = true,
-        })
+        local res = conform.format()
+        if not res then
+          return
+        end
+
+        local mode = vim.api.nvim_get_mode().mode
+        if vim.startswith(string.lower(mode), "v") then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+        end
       end
 
-      vim.keymap.set("n", "<localleader>f", format, {
+      vim.keymap.set("", "<localleader>f", format, {
         desc = "Format current buffer",
       })
     end,
