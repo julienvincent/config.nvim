@@ -1,111 +1,113 @@
+local function is_clojure_core_import(item)
+  if not item.data or not item.data.unresolved then
+    return false
+  end
+
+  for _, entry in ipairs(item.data.unresolved) do
+    if entry[1] == "alias" then
+      if entry[2]["ns-to-add"] == "clojure.core" then
+        return true
+      end
+    end
+  end
+end
+
 return {
   {
-    "L3MON4D3/LuaSnip",
-    event = "BufReadPost",
+    "Saghen/blink.cmp",
     config = function()
-      local luasnip = require("luasnip")
-
-      luasnip.setup()
-      luasnip.filetype_extend("typescript", { "javascript" })
-
-      require("luasnip.loaders.from_snipmate").lazy_load()
-    end,
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    event = "BufReadPost",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-path",
-      "onsails/lspkind.nvim",
-      "saadparwaiz1/cmp_luasnip",
-    },
-    config = function()
-      local luasnip = require("luasnip")
-      local lspkind = require("lspkind")
-      local cmp = require("cmp")
-
-      local compare = require("cmp.config.compare")
-
-      cmp.setup({
-        -- disable completion in comments
-        enabled = function()
-          local context = require("cmp.config.context")
-          -- keep command mode completion enabled when cursor is in a comment
-          if vim.api.nvim_get_mode().mode == "c" then
-            return true
-          end
-
-          if context.in_treesitter_capture("comment") then
-            return false
-          end
-
-          return true
-        end,
-
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol",
-          }),
-          fields = { "abbr", "kind" },
+      require("blink.cmp").setup({
+        fuzzy = {
+          prebuilt_binaries = {
+            -- force_version = "v0.9.0",
+          },
         },
 
-        preselect = "item",
+        keymap = {
+          preset = "enter",
+
+          ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+          ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+        },
+
+        appearance = {
+          use_nvim_cmp_as_default = true,
+        },
+
         completion = {
-          keyword_length = 2,
-          completeopt = "menu,menuone,noinsert",
-        },
-        mapping = {
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm(),
+          documentation = {
+            auto_show = true,
+          },
 
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif cmp.visible() then
-              cmp.confirm()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
+          list = {
+            selection = function(ctx)
+              if ctx.mode == "cmdline" then
+                return "auto_insert"
+              end
+              return "preselect"
+            end,
+          },
 
-          ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-          ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
+          menu = {
+            draw = {
+              columns = {
+                { "label", "label_description", gap = 1 },
+                { "kind_icon" },
+              },
+            },
+          },
         },
 
         sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "path" },
-        },
+          default = { "lsp", "path", "snippets" },
 
-        sorting = {
-          priority_weight = 1.0,
-          comparators = {
-            compare.locality,
-            compare.score,
-            compare.recently_used,
-            compare.offset,
-            compare.order,
+          providers = {
+            lsp = {
+              -- Primarilly copy-pasted from the default config for blink.cmp
+              -- but added a custom item filter to remove `clojure.core` alias
+              -- imports.
+              --
+              -- These are incredibly annoying auto-completion items that show
+              -- up as `c/<text>` for all clojure.core functions
+              transform_items = function(_, items)
+                -- demote snippets
+                for _, item in ipairs(items) do
+                  if item.kind == require("blink.cmp.types").CompletionItemKind.Snippet then
+                    item.score_offset = item.score_offset - 3
+                  end
+                end
+
+                local is_clojure = vim.bo.filetype == "clojure"
+
+                -- filter out text items, since we have the buffer source
+                return vim.tbl_filter(function(item)
+                  if item.kind == require("blink.cmp.types").CompletionItemKind.Text then
+                    return false
+                  end
+
+                  if is_clojure and is_clojure_core_import(item) then
+                    return false
+                  end
+
+                  return true
+                end, items)
+              end,
+            },
+
+            snippets = {
+              opts = {
+                get_filetype = function(_)
+                  local ft = vim.bo.filetype
+                  -- Just use javascript snippets for ts[x] filetypes
+                  if string.match(ft, "^typescript") ~= nil then
+                    return "javascript"
+                  end
+                  return ft
+                end,
+              },
+            },
           },
         },
-      })
-
-      cmp.setup.filetype("clojure", {
-        sources = cmp.config.sources({
-          { name = "nvim_lsp", trigger_characters = { ".", "/", ":", "*", "{", "|" } },
-        }),
       })
     end,
   },

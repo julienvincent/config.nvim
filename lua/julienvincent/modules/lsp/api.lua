@@ -1,3 +1,4 @@
+local capabilities = require("julienvincent.modules.lsp.capabilities")
 local keymaps = require("julienvincent.modules.lsp.keymaps")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
@@ -8,26 +9,10 @@ function M.get_clients()
   return CLIENTS
 end
 
-local function make_client_capabilities()
-  local cmplsp = require("cmp_nvim_lsp")
-
-  local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-  local cmp_capabilities = cmplsp.default_capabilities(default_capabilities)
-  local file_rename_capabilities = require("lsp-file-operations").default_capabilities()
-
-  return vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities, file_rename_capabilities, {
-    workspace = {
-      workspaceEdit = {
-        documentChanges = true,
-      },
-    },
-  })
-end
-
 local function create_client(buf, server_config)
   local config = vim.tbl_deep_extend("force", server_config, {
     name = server_config.name,
-    capabilities = make_client_capabilities(),
+    capabilities = capabilities.make_client_capabilities(),
     cmd_cwd = server_config.root_dir,
 
     on_error = function()
