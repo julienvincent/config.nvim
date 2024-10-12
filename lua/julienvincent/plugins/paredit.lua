@@ -2,7 +2,7 @@ return {
   {
     "julienvincent/nvim-paredit",
     -- dir = "~/code/nvim-paredit",
-    ft = { "clojure" },
+    ft = { "clojure", "fennel", "scheme", "lisp" },
     config = function()
       local paredit = require("nvim-paredit")
       paredit.setup({
@@ -38,15 +38,6 @@ return {
           ["<localleader>R"] = { paredit.api.raise_form, "Raise form" },
         },
       })
-    end,
-  },
-  {
-    "julienvincent/nvim-paredit-fennel",
-    -- dir = "~/code/nvim-paredit-fennel",
-    dependencies = { "julienvincent/nvim-paredit" },
-    ft = { "fennel" },
-    config = function()
-      require("nvim-paredit-fennel").setup()
     end,
   },
 }
