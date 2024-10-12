@@ -1,4 +1,5 @@
 local keymaps = require("julienvincent.modules.lsp.keymaps")
+local fs = require("julienvincent.modules.lsp.utils.fs")
 
 local CLIENTS = {}
 local M = {}
@@ -27,7 +28,7 @@ local function create_client(buf, server_config)
   local config = vim.tbl_deep_extend("force", server_config, {
     name = server_config.name,
     capabilities = make_client_capabilities(),
-    cmd_cwd = server_config.root_dir or vim.fn.getcwd(),
+    cmd_cwd = server_config.root_dir,
 
     handlers = {
       ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -74,9 +75,12 @@ end
 
 function M.attach_client(buf, server_config)
   local buf_path = vim.api.nvim_buf_get_name(buf)
-  local root_dir = server_config.root_dir
-  if type(root_dir) == "function" then
-    root_dir = root_dir(buf_path)
+
+  local root_dir = nil
+  if server_config.root_dir then
+    if #buf_path > 0 and fs.bufname_valid(buf_path) then
+      root_dir = server_config.root_dir(buf_path)
+    end
   end
 
   local cmd = server_config.cmd
@@ -96,10 +100,6 @@ function M.attach_client(buf, server_config)
     return
   end
 
-  if not root_dir then
-    root_dir = vim.fn.getcwd()
-  end
-
   local active_client
   for _, client in ipairs(CLIENTS) do
     if client.root_dir == root_dir and client.name == server_config.name then
@@ -117,16 +117,15 @@ function M.attach_client(buf, server_config)
     return
   end
 
-  local client_id = create_client(
-    buf,
-    vim.tbl_deep_extend("force", server_config, {
-      cmd = cmd,
-      root_dir = root_dir,
-      on_exit = function(_, _, client_id)
-        remove_client(client_id)
-      end,
-    })
-  )
+  local config = vim.deepcopy(server_config)
+
+  config.cmd = cmd
+  config.root_dir = root_dir
+  config.on_exit = function(_, _, client_id)
+    remove_client(client_id)
+  end
+
+  local client_id = create_client(buf, config)
 
   if not client_id then
     vim.notify("Failed to start client " .. server_config.name, vim.log.levels.ERROR)

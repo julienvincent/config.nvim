@@ -1,20 +1,9 @@
 local servers = require("julienvincent.modules.lsp.servers")
 local info = require("julienvincent.modules.lsp.ui.info")
+local fs = require("julienvincent.modules.lsp.utils.fs")
 local api = require("julienvincent.modules.lsp.api")
 
 local M = {}
-
-local function bufname_valid(bufname)
-  if
-    bufname:match("^/")
-    or bufname:match("^[a-zA-Z]:")
-    or bufname:match("^zipfile://")
-    or bufname:match("^tarfile:")
-  then
-    return true
-  end
-  return false
-end
 
 local function resolve_server_configs()
   return vim.tbl_map(function(config_factory)
@@ -37,7 +26,7 @@ local function buf_is_valid(buf, server_config)
     return
   end
 
-  if #bufname ~= 0 and not bufname_valid(bufname) then
+  if #bufname ~= 0 and not fs.bufname_valid(bufname) then
     return
   end
 
