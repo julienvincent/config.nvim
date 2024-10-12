@@ -32,6 +32,9 @@ return {
           markdown = function()
             return { "prettier", "injected" }
           end,
+          mdx = function()
+            return { "prettier", "injected" }
+          end,
         },
 
         formatters = {
