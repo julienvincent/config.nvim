@@ -23,6 +23,8 @@
   "hydra.nvim": { "branch": "main", "commit": "7f5341643107d05a8d7d4fdea00b29af28517380" },
   "kulala.nvim": { "branch": "main", "commit": "ee9a49ad838637cf8dd6db74aa22dd22f0d1b1a8" },
   "lazy.nvim": { "branch": "main", "commit": "ec95702ae617308df35f35ad93c469c86d47346f" },
+  "litee-calltree.nvim": { "branch": "main", "commit": "b50c809d136ad479caf761a7f030da98c56c7976" },
+  "litee.nvim": { "branch": "main", "commit": "4efaf373322d9e71eaff31164abb393417cc6f6a" },
   "lspkind.nvim": { "branch": "master", "commit": "59c3f419af48a2ffb2320cea85e44e5a95f71664" },
   "lualine.nvim": { "branch": "master", "commit": "b431d228b7bbcdaea818bdc3e25b8cdbe861f056" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },

@@ -41,6 +41,9 @@ function M.setup_on_attach_keybinds(buf)
   map("gS", function()
     require("fzf-lua").lsp_document_symbols()
   end, buf, "Symbol references")
+
+  map("<leader>lti", vim.lsp.buf.incoming_calls)
+  map("<leader>lto", vim.lsp.buf.outgoing_calls)
 end
 
 return M
