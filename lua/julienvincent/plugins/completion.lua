@@ -21,8 +21,6 @@ return {
       "hrsh7th/cmp-path",
       "onsails/lspkind.nvim",
       "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lua",
-      "petertriho/cmp-git",
     },
     config = function()
       local luasnip = require("luasnip")
@@ -88,7 +86,6 @@ return {
 
         sources = {
           { name = "nvim_lsp" },
-          { name = "nvim_lua" },
           { name = "luasnip" },
           { name = "path" },
         },
@@ -103,12 +100,6 @@ return {
             compare.order,
           },
         },
-      })
-
-      cmp.setup.filetype("gitcommit", {
-        sources = cmp.config.sources({
-          { name = "git" },
-        }),
       })
 
       cmp.setup.filetype("clojure", {
