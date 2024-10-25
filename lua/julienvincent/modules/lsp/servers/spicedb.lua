@@ -9,7 +9,6 @@ return {
 
     return { "spicedb", "lsp", "--stdio" }
   end,
-  root_dir = nil,
 
   single_file_support = true,
 }

@@ -64,10 +64,10 @@ function M.show_lsp_info()
 
     local buffers = { { "attached_buffers = " } }
     local attached_buffers = api.get_attached_buffers(client.id)
-    for i, attached_buf in ipairs(attached_buffers) do
+    for index, attached_buf in ipairs(attached_buffers) do
       table.insert(buffers, { "[" })
       table.insert(buffers, { attached_buf .. "", "Number" })
-      if i == #attached_buffers then
+      if index == #attached_buffers then
         table.insert(buffers, { "]" })
       else
         table.insert(buffers, { "], " })
