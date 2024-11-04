@@ -3,16 +3,16 @@ local saving = require("julienvincent.modules.core.auto-save")
 
 local function reload_namespaces()
   saving.write_all_buffers()
-  nrepl.eval("user", "(reload-namespaces)")
+  nrepl.eval("local", "(reload-namespaces)")
 end
 
 local function reset()
   reload_namespaces()
-  nrepl.eval("user", "(do (restart-system) nil)")
+  nrepl.eval("local", "(run-binding! :restart!)")
 end
 
 local function stop()
-  nrepl.eval("user", "(do (stop-system) nil)")
+  nrepl.eval("local", "(run-binding! :stop!)")
 end
 
 local M = {}
