@@ -3,16 +3,16 @@ local saving = require("julienvincent.modules.core.auto-save")
 
 local function reload_namespaces()
   saving.write_all_buffers()
-  nrepl.eval("local", "(reload-namespaces)")
+  nrepl.eval("jv.repl", "(reload-namespaces)")
 end
 
 local function reset()
   reload_namespaces()
-  nrepl.eval("local", "(run-binding! :restart!)")
+  nrepl.eval("jv.repl", "(run-binding! :restart!)")
 end
 
 local function stop()
-  nrepl.eval("local", "(run-binding! :stop!)")
+  nrepl.eval("jv.repl", "(run-binding! :stop!)")
 end
 
 local M = {}
@@ -48,22 +48,22 @@ function M.setup()
       })
 
       vim.keymap.set("n", "<leader>§", reset, {
-        desc = "Eval 'user/reset",
+        desc = "Eval 'jv.repl/reset",
         buffer = event.buf,
       })
 
       vim.keymap.set("n", "<leader>`", reset, {
-        desc = "Eval 'user/reset",
+        desc = "Eval 'jv.repl/reset",
         buffer = event.buf,
       })
 
       vim.keymap.set("n", "<leader>!", stop, {
-        desc = "Eval 'user/stop",
+        desc = "Eval 'jv.repl/stop",
         buffer = event.buf,
       })
 
       vim.keymap.set("n", "<localleader>nr", reload_namespaces, {
-        desc = "Eval 'user/reload-namespaces",
+        desc = "Eval 'jv.repl/reload-namespaces",
         buffer = event.buf,
       })
     end,

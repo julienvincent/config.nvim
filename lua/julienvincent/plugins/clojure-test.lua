@@ -16,7 +16,7 @@ return {
             local nrepl = require("julienvincent.modules.clojure.nrepl.api")
 
             saving.write_all_buffers()
-            nrepl.eval("user", "(reload-namespaces)")
+            nrepl.eval("jv.repl", "(reload-namespaces)")
           end,
         },
       })
