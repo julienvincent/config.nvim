@@ -98,7 +98,15 @@ function M.setup()
     end)
   end
 
-  local function stop()
+  local function stop(params)
+    local args = params.fargs
+    if args[1] == "all" then
+      for _, client in ipairs(api.get_clients()) do
+        api.stop_client(client.id)
+      end
+      return
+    end
+
     local buf = vim.api.nvim_get_current_buf()
     api.select_client(buf, function(client)
       if not client then
@@ -116,7 +124,7 @@ function M.setup()
   vim.keymap.set("n", "<leader>lI", info.show_lsp_info, { desc = "Show LSP info" })
 
   vim.api.nvim_create_user_command("LspStart", start, { nargs = 0 })
-  vim.api.nvim_create_user_command("LspStop", stop, { nargs = 0 })
+  vim.api.nvim_create_user_command("LspStop", stop, { nargs = "*" })
   vim.api.nvim_create_user_command("LspRestart", restart, { nargs = 0 })
   vim.api.nvim_create_user_command("LspInfo", info.show_lsp_info, { nargs = 0 })
 end
