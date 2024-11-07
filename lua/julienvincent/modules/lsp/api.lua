@@ -30,15 +30,6 @@ local function create_client(buf, server_config)
     capabilities = make_client_capabilities(),
     cmd_cwd = server_config.root_dir,
 
-    handlers = {
-      ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        signs = true,
-        virtual_text = false,
-        update_in_insert = true,
-        underline = true,
-      }),
-    },
-
     on_error = function()
       vim.notify("LSP failed to start")
     end,
