@@ -31,7 +31,6 @@ end
 return {
   {
     "Olical/conjure",
-    version = "v4.*",
     ft = { "clojure", "lua" },
     init = function()
       vim.g["conjure#highlight#enabled"] = true
