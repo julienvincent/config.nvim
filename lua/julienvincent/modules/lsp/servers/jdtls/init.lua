@@ -53,7 +53,10 @@ return function()
         data_dir,
       }
     end,
-    root_dir = fs.find_furthest_root({ "deps.edn", ".git" }, fs.fallback_fn_cwd),
+    root_dir = fs.find_closest_root(
+      { "pom.xml" },
+      fs.find_furthest_root({ "deps.edn", ".git" }, fs.fallback_fn_cwd)
+    ),
 
     -- JDTLS handles all java files so far - so this just returns true for now
     buf_is_valid = function()
