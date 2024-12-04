@@ -30,6 +30,18 @@ return {
           lua = { "stylua" },
           just = { "just" },
 
+          clojure = {
+            stop_after_first = true,
+
+            lsp_format = "first",
+            -- When clojure-lsp is attached in single-file mode (no root_dir)
+            -- it drops its support for formatting.
+            --
+            -- By default I want to use clojure-lsp for formatting, but as a
+            -- fallback I want to use cljfmt.
+            "cljfmt",
+          },
+
           markdown = function()
             return { "prettier", "injected" }
           end,
