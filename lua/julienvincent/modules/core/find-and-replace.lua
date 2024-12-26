@@ -80,7 +80,12 @@ function M.open()
 end
 
 function M.setup()
-  vim.keymap.set("n", "<leader>R", M.open, {
+  local saving = require("julienvincent.modules.core.auto-save")
+
+  vim.keymap.set("n", "<leader>R", function()
+    saving.write_all_buffers()
+    M.open()
+  end, {
     desc = "find-and-replace",
     noremap = true,
     silent = true,
