@@ -34,6 +34,10 @@ M.setup = function()
     silent = true,
     desc = "Open URI under cursor",
   })
+
+  map("n", "yc", "yy<cmd>normal gcc<CR>p", {
+    desc = "Duplicate line below, commenting first",
+  })
 end
 
 return M
