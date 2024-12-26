@@ -36,7 +36,7 @@ return {
 
         map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
         map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghd", gs.preview_hunk, "Diff Hunk")
+        map("n", "<leader>ghp", gs.preview_hunk, "Diff Hunk")
 
         map("n", "<leader>gbl", gs.blame_line, "Blame Line")
         map("n", "<leader>gbb", gs.blame , "Toggle line blame")
