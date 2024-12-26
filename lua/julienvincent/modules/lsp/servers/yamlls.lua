@@ -22,6 +22,10 @@ return function()
         schemas = require("schemastore").yaml.schemas({
           select = { "GitHub Workflow" },
         }),
+
+        editor = {
+          formatOnType = false
+        }
       },
     },
   }

@@ -18,7 +18,10 @@ return {
             return file_size > 256 * 1024
           end,
         },
-        indent = { enable = true },
+        indent = {
+          enable = true,
+          disable = { "yaml" },
+        },
         ensure_installed = {
           "nim",
           "cpp",
