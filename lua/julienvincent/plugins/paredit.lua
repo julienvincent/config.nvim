@@ -19,6 +19,9 @@ return {
           ["<e"] = false,
           [">f"] = false,
           ["<f"] = false,
+          [">p"] = false,
+          ["<p"] = false,
+
           ["<localleader>o"] = false,
           ["<localleader>O"] = false,
 
