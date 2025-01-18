@@ -52,10 +52,6 @@ return {
           ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         },
 
-        appearance = {
-          use_nvim_cmp_as_default = true,
-        },
-
         completion = {
           documentation = {
             auto_show = true,
