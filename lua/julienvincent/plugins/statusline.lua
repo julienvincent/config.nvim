@@ -3,7 +3,7 @@ local function get_lsp_client_status()
 end
 
 local function get_lsp_cond()
-  local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+  local client = vim.lsp.get_clients({ bufnr = 0 })[1]
   if client then
     return true
   end
@@ -11,7 +11,7 @@ local function get_lsp_cond()
 end
 
 local function get_lsp_client_color()
-  local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+  local client = vim.lsp.get_clients({ bufnr = 0 })[1]
   if not client or not client.initialized then
     return {
       bg = "#928374",
