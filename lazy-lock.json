@@ -46,7 +46,7 @@
   "sqlite.lua": { "branch": "master", "commit": "b487fcc8937b683942a1f7d9662fcf50ca5acd58" },
   "tree-sitter-numscript": { "branch": "master", "commit": "2f38363f2f029913044b6aa3f8ad78277ceeca20" },
   "undotree": { "branch": "master", "commit": "2556c6800b210b2096b55b66e74b4cc1d9ebbe4f" },
-  "vim-illuminate": { "branch": "master", "commit": "5eeb7951fc630682c322e88a9bbdae5c224ff0aa" },
+  "vim-illuminate": { "branch": "fix-encoding", "commit": "93fa83084d6f45e75aa29588666d836562d321d0" },
   "vim-jjdescription": { "branch": "main", "commit": "b94c5062d52b4bb2416a113fa13d8ef7153094b8" },
   "vim-just": { "branch": "main", "commit": "ed67f198e981f555c0f9e9ed5b69b4b06543a9e1" },
   "vim-smoothie": { "branch": "master", "commit": "df1e324e9f3395c630c1c523d0555a01d2eb1b7e" },

@@ -1,6 +1,9 @@
 return {
   {
-    "RRethy/vim-illuminate",
+    -- TODO: https://github.com/RRethy/vim-illuminate/pull/218
+    -- "RRethy/vim-illuminate",
+    "rockyzhang24/vim-illuminate",
+    branch = "fix-encoding",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("illuminate").configure({
