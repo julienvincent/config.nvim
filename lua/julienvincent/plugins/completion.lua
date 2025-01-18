@@ -38,6 +38,16 @@ return {
             "fallback",
           },
 
+          cmdline = {
+            preset = "enter",
+
+            ["<Up>"] = { "fallback" },
+            ["<Down>"] = { "fallback" },
+
+            ["<Tab>"] = { "select_next", "fallback" },
+            ["<S-Tab>"] = { "select_prev", "fallback" },
+          },
+
           ["<C-u>"] = { "scroll_documentation_up", "fallback" },
           ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         },
@@ -51,13 +61,19 @@ return {
             auto_show = true,
           },
 
+          accept = {
+            auto_brackets = {
+              enabled = false,
+            },
+          },
+
           list = {
-            selection = function(ctx)
-              if ctx.mode == "cmdline" then
-                return "auto_insert"
-              end
-              return "preselect"
-            end,
+            selection = {
+              preselect = function(ctx)
+                return ctx.mode ~= "cmdline"
+              end,
+              auto_insert = false,
+            },
           },
 
           menu = {
@@ -124,6 +140,9 @@ return {
             },
 
             snippets = {
+              should_show_items = function(ctx)
+                return ctx.trigger.initial_kind ~= "trigger_character"
+              end,
               opts = {
                 get_filetype = function(_)
                   local ft = vim.bo.filetype
