@@ -29,6 +29,7 @@ return {
 
           lua = { "stylua" },
           just = { "just" },
+          toml = { "taplo" },
 
           clojure = {
             stop_after_first = true,
@@ -57,6 +58,7 @@ return {
           prettierd = require("julienvincent.modules.formatters.prettierd"),
           prettier = require("julienvincent.modules.formatters.prettier"),
           markdown_native = require("julienvincent.modules.formatters.markdown"),
+          taplo = require("julienvincent.modules.formatters.taplo"),
         },
       })
 
