@@ -50,6 +50,7 @@ return {
           "commonlisp",
           "rust",
           "go",
+          "wit",
         },
       })
 
