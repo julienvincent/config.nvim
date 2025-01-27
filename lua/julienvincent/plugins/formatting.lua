@@ -49,6 +49,10 @@ return {
           mdx = function()
             return { "prettier", "injected" }
           end,
+
+          http = function()
+            return { "injected" }
+          end,
         },
 
         formatters = {
@@ -67,6 +71,7 @@ return {
           ignore_errors = true,
           lang_to_formatters = {
             clojure = { "cljfmt" },
+            json = { "prettierd", "prettier", stop_after_first = true },
           },
         },
       }
