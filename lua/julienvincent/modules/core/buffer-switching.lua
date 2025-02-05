@@ -2,17 +2,6 @@
 
 local M = {}
 
-local function starts_with(str, prefix)
-  return string.sub(str, 1, string.len(prefix)) == prefix
-end
-
-local function as_relative_path(source, base)
-  if not starts_with(source, base) then
-    return source
-  end
-  return string.sub(source, #base + 1)
-end
-
 local MAX_DEPTH = 20
 
 -- Keeps a 'stack' of previously visited buffers for each window. This is stored as a stack as intermediary
@@ -52,6 +41,12 @@ local function append_buffer_to_stack(win, buf)
   PREV_BUFS[win] = bufs
 end
 
+local function remote_buffer_from_stack(win, buf)
+  local bufs = PREV_BUFS[win] or {}
+  remove_element_from_table(bufs, buf)
+  PREV_BUFS[win] = bufs
+end
+
 local function get_files_for_picker(win)
   local bufs = PREV_BUFS[win] or {}
 
@@ -68,32 +63,6 @@ local function get_files_for_picker(win)
   return results
 end
 
-local function included_in_table(tbl, element)
-  for _, item in ipairs(tbl) do
-    if item == element then
-      return true
-    end
-  end
-  return false
-end
-
-local function remove_files_from_stack(win, files)
-  local cwd = vim.fn.getcwd() .. "/"
-  local results = {}
-
-  for _, buf in ipairs(PREV_BUFS[win]) do
-    local is_valid = vim.api.nvim_buf_is_valid(buf)
-    if is_valid then
-      local filename = vim.api.nvim_buf_get_name(buf)
-      if not included_in_table(files, as_relative_path(filename, cwd)) then
-        table.insert(results, buf)
-      end
-    end
-  end
-
-  PREV_BUFS[win] = results
-end
-
 M.switch_to_prev_buf = function()
   local win = vim.api.nvim_get_current_win()
   local bufs = PREV_BUFS[win]
@@ -104,78 +73,69 @@ M.switch_to_prev_buf = function()
 end
 
 function M.pick_buffer()
-  local fzf = require("fzf-lua")
+  local format = require("snacks.picker.format")
 
   local win = vim.api.nvim_get_current_win()
-  local cwd = vim.fn.getcwd() .. "/"
+  local files = get_files_for_picker(win)
 
-  local opts = {
-    prompt = "Quick Switch❯ ",
-    previewer = false,
-    winopts = {
-      preview = {
-        hidden = "hidden",
-      },
-      height = 0.30,
-      width = 0.40,
-      row = 0.3,
-    },
-    fzf_opts = {
-      ["--layout"] = "reverse",
-    },
-    keymap = {
-      fzf = {
-        ["tab"] = "down",
-        ["shift-tab"] = "up",
-      },
-    },
-    actions = {
-      ["default"] = function(selected)
-        local entry = selected[1]
-        if not entry then
-          return
-        end
-
-        local bufnr
-        for _, file in ipairs(get_files_for_picker(win)) do
-          local as_entry = fzf.make_entry.file(as_relative_path(file.filename, cwd), {
-            file_icons = true,
-          })
-          if as_entry == entry then
-            bufnr = file.buf
-            break
-          end
-        end
-
-        vim.api.nvim_set_current_buf(bufnr)
-      end,
-
-      ["ctrl-d"] = {
-        function(selected)
-          local paths = {}
-          for _, path in ipairs(selected) do
-            local without_icon = path:gsub("^[^%w%s]+", "")
-            table.insert(paths, without_icon)
-          end
-          remove_files_from_stack(win, paths)
-        end,
-        fzf.actions.resume,
-      },
-    },
-  }
-
-  local function builder(cb)
-    local files = get_files_for_picker(win)
-    for _, file in ipairs(files) do
-      cb(fzf.make_entry.file(as_relative_path(file.filename, cwd), {
-        file_icons = true,
-        color_icons = true,
-      }))
-    end
-    cb()
+  local items = {}
+  for idx, file in ipairs(files) do
+    table.insert(items, {
+      idx = idx,
+      text = file.filename,
+      file = file.filename,
+      bufnr = file.buf,
+    })
   end
 
-  fzf.fzf_exec(builder, opts)
+  require("snacks.picker").pick({
+    items = items,
+    format = format.filename,
+    title = "",
+    prompt = "Quick Switch❯ ",
+    show_empty = true,
+    layout = {
+      preview = false,
+      layout = {
+        height = 0.30,
+        width = 0.3,
+        min_width = 30,
+        row = 0.2,
+      },
+    },
+    win = {
+      input = {
+        keys = {
+          ["<Esc>"] = { "close", mode = { "n", "i" } },
+
+          ["<Tab>"] = { "list_down", mode = { "i", "n" } },
+          ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+
+          ["<C-d>"] = {
+            "delete",
+            mode = { "i", "n" },
+          },
+
+          ["<C-n>"] = {
+            "select_and_next",
+            mode = { "i", "n" },
+          },
+        },
+      },
+    },
+
+    actions = {
+      delete = function(_, item)
+        remote_buffer_from_stack(win, item.bufnr)
+      end,
+      confirm = function(picker, item)
+        picker:close()
+        vim.schedule(function()
+          vim.api.nvim_set_current_buf(item.bufnr)
+        end)
+      end,
+    },
+  })
 end
 
 M.setup = function()

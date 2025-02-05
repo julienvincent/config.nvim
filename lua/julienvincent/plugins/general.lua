@@ -127,44 +127,6 @@ return {
   },
 
   {
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("dressing").setup({
-        select = {
-          fzf_lua = {
-            previewer = false,
-            winopts = {
-              preview = {
-                hidden = "hidden",
-              },
-              height = 10,
-              width = 0.33,
-            },
-          },
-        },
-        input = {
-          insert_only = false,
-          start_in_insert = true,
-
-          win_options = {
-            -- Window transparency (0-100)
-            winblend = 0,
-          },
-
-          get_config = function(opts)
-            if opts.kind == "center" then
-              return {
-                relative = "editor",
-              }
-            end
-          end,
-        },
-      })
-    end,
-  },
-
-  {
     "NoahTheDuke/vim-just",
     ft = "just",
   },
