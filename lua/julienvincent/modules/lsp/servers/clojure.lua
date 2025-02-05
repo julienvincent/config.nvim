@@ -38,6 +38,11 @@ return {
         ["classpath-cmd"] = { "kmono", "cp" },
       },
     },
+
+    hover = {
+      ["hide-file-location?"] = true,
+      ["hide-signature-call?"] = true,
+    },
   },
 
   handlers = {
