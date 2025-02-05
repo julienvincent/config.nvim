@@ -45,6 +45,9 @@ return {
       files = {
         excludeDirs = { ".embuild", "target", ".git" },
       },
+      checkOnSave = {
+        command = "clippy"
+      }
     },
   },
 }
