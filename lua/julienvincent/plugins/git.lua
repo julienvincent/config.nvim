@@ -1,3 +1,23 @@
+-- This checks if Neovim was started with "-c DiffviewOpen" in which case we
+-- generally want to quit neovim when exiting DiffView.
+local function opened_on_boot()
+  for i = 1, #vim.v.argv do
+    if vim.v.argv[i] == "-c" and vim.v.argv[i + 1] and vim.v.argv[i + 1]:match("^DiffviewOpen") then
+      return true
+    end
+  end
+  return false
+end
+
+local function close_diffview()
+  if opened_on_boot() then
+    vim.cmd("qa")
+    return
+  end
+
+  vim.cmd.DiffviewClose()
+end
+
 return {
   { "avm99963/vim-jjdescription" },
 
@@ -59,10 +79,10 @@ return {
 
         keymaps = {
           view = {
-            ["q"] = "<cmd>DiffviewClose<cr>",
+            ["q"] = close_diffview,
           },
           file_panel = {
-            ["q"] = "<cmd>DiffviewClose<cr>",
+            ["q"] = close_diffview,
             {
               "n",
               "<Right>",
@@ -75,6 +95,9 @@ return {
               actions.focus_entry,
               { desc = "Focus the diff entry" },
             },
+          },
+          file_history_panel = {
+            ["q"] = close_diffview,
           },
         },
 
