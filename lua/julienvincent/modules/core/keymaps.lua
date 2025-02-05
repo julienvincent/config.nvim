@@ -29,9 +29,13 @@ M.setup = function()
     desc = "Replace selection",
   })
 
-  map("n", "gx", [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], {
+  map("n", "gx", function()
+    local uri = vim.fn.expand("<cfile>")
+    vim.fn.jobstart({ "open", uri }, {
+      detach = true,
+    })
+  end, {
     noremap = true,
-    silent = true,
     desc = "Open URI under cursor",
   })
 
