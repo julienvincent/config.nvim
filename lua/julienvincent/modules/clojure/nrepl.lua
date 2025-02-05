@@ -15,6 +15,10 @@ local function stop()
   nrepl.eval("jv.repl", "(run-binding! :stop!)")
 end
 
+local function sync_deps()
+  nrepl.eval("jv.repl", "(sync-deps)")
+end
+
 local M = {}
 
 function M.setup()
@@ -65,6 +69,28 @@ function M.setup()
       vim.keymap.set("n", "<localleader>nr", reload_namespaces, {
         desc = "Eval 'jv.repl/reload-namespaces",
         buffer = event.buf,
+      })
+
+      vim.api.nvim_create_user_command("Repl", function(opts)
+        local params = vim.split(opts.args, " ")
+        local command = params[1]
+
+        if command == "sync-deps" then
+          sync_deps()
+          vim.notify("Deps synced")
+          return
+        end
+
+        vim.notify("Unknown command " .. command, vim.log.levels.ERROR)
+      end, {
+        nargs = "+",
+        complete = function(arg, _, _)
+          local completions = { "sync-deps" }
+          return vim.tbl_filter(function(item)
+            return item:match("^" .. arg)
+          end, completions)
+        end,
+        desc = "Execute Clojure commands",
       })
     end,
   })
