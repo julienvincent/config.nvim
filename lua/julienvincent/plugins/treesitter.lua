@@ -26,6 +26,7 @@ return {
           "nim",
           "cpp",
           "bash",
+          "fish",
           "html",
           "javascript",
           "http",
