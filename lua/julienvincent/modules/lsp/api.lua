@@ -1,6 +1,7 @@
 local capabilities = require("julienvincent.modules.lsp.capabilities")
 local keymaps = require("julienvincent.modules.lsp.keymaps")
 local fs = require("julienvincent.modules.lsp.utils.fs")
+local mise = require("julienvincent.modules.core.mise")
 
 local CLIENTS = {}
 local M = {}
@@ -14,6 +15,7 @@ local function create_client(buf, server_config)
     name = server_config.name,
     capabilities = capabilities.make_client_capabilities(),
     cmd_cwd = server_config.root_dir,
+    cmd_env = mise.get_mise_env(server_config.root_dir),
 
     on_error = function()
       vim.notify("LSP failed to start")
