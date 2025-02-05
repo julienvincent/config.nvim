@@ -14,4 +14,5 @@ return {
   mod("ltex"),
   mod("clangd"),
   mod("nim"),
+  mod("fish"),
 }
