@@ -276,6 +276,16 @@ return {
 
       register_keymaps()
 
+      -- See https://github.com/nvim-neo-tree/neo-tree.nvim/issues/1271
+      vim.api.nvim_create_user_command("NeoTreeReset", function()
+        require("neo-tree.events").clear_all_events()
+        require("neo-tree.sources.manager")._clear_state()
+        require("neo-tree.ui.renderer").clean_invalid_neotree_buffers(true)
+        collectgarbage("collect")
+      end, {
+        desc = "Clear neotree state",
+      })
+
       vim.api.nvim_create_user_command("RevealChanges", function()
         reveal_changes_in_neotree()
       end, {
