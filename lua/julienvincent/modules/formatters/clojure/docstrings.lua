@@ -39,12 +39,16 @@ local function format_markdown(lines, offset)
   vim.notify(stdout[1], vim.log.levels.WARN)
 end
 
+local function escape_unescaped(str)
+  return str:gsub("\\", ""):gsub('"', '\\"')
+end
+
 local function add_offset_indentation(lines, offset)
   local i = 0
   return vim.tbl_map(function(line)
     i = i + 1
     if i == 1 then
-      return line
+      return escape_unescaped(line)
     end
 
     if line == "" then
@@ -52,7 +56,7 @@ local function add_offset_indentation(lines, offset)
     end
 
     local chars = string.rep(" ", offset)
-    return chars .. line
+    return chars .. escape_unescaped(line)
   end, lines)
 end
 
