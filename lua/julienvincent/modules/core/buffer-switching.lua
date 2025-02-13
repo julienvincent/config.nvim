@@ -41,7 +41,7 @@ local function append_buffer_to_stack(win, buf)
   PREV_BUFS[win] = bufs
 end
 
-local function remote_buffer_from_stack(win, buf)
+local function remove_buffer_from_stack(win, buf)
   local bufs = PREV_BUFS[win] or {}
   remove_element_from_table(bufs, buf)
   PREV_BUFS[win] = bufs
@@ -72,12 +72,8 @@ M.switch_to_prev_buf = function()
   end
 end
 
-function M.pick_buffer()
-  local format = require("snacks.picker.format")
-
-  local win = vim.api.nvim_get_current_win()
+local function create_items(win)
   local files = get_files_for_picker(win)
-
   local items = {}
   for idx, file in ipairs(files) do
     table.insert(items, {
@@ -87,9 +83,16 @@ function M.pick_buffer()
       bufnr = file.buf,
     })
   end
+  return items
+end
+
+function M.pick_buffer()
+  local format = require("snacks.picker.format")
+
+  local win = vim.api.nvim_get_current_win()
 
   require("snacks.picker").pick({
-    items = items,
+    items = create_items(win),
     format = format.filename,
     title = "",
     prompt = "Quick Switch❯ ",
@@ -111,7 +114,7 @@ function M.pick_buffer()
           ["<Tab>"] = { "list_down", mode = { "i", "n" } },
           ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
 
-          ["<C-d>"] = {
+          ["<C-x>"] = {
             "delete",
             mode = { "i", "n" },
           },
@@ -125,11 +128,16 @@ function M.pick_buffer()
     },
 
     actions = {
-      delete = function(_, item)
+      delete = function(picker, item)
         if not item then
           return
         end
-        remote_buffer_from_stack(win, item.bufnr)
+        remove_buffer_from_stack(win, item.bufnr)
+        vim.api.nvim_buf_delete(item.bufnr, { force = true })
+        local items = create_items(win)
+        picker.finder.items = items
+        picker.list.items = items
+        picker.list:update({ force = true })
       end,
       confirm = function(picker, item)
         picker:close()
