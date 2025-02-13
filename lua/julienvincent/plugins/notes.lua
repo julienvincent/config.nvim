@@ -1,7 +1,7 @@
 return {
   {
     "backdround/global-note.nvim",
-    event = "VeryLazy",
+    keys = { "<leader>N" },
     config = function()
       local global_note = require("global-note")
       global_note.setup({
