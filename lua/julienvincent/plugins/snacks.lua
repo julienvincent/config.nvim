@@ -36,6 +36,8 @@ return {
             },
           },
         },
+
+        profiler = {},
       })
 
       local image = require("snacks.image")
@@ -48,6 +50,19 @@ return {
       end, {
         desc = "Clear image",
       })
+
+      local profiler = require("snacks.profiler")
+      vim.keymap.set("n", "<leader>PP", function()
+        profiler.toggle()
+      end)
+
+      vim.keymap.set("n", "<leader>Ps", function()
+        profiler.scratch()
+      end)
+
+      vim.keymap.set("n", "<leader>Po", function()
+        profiler.pick()
+      end)
     end,
   },
 }

@@ -92,6 +92,7 @@ return {
               color = get_lsp_client_color,
               separator = { left = "" },
             },
+            require("snacks.profiler").status()
           },
           lualine_y = {
             {
