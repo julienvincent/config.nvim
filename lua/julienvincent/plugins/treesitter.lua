@@ -50,6 +50,7 @@ return {
           "fennel",
           "sql",
           "commonlisp",
+          "clojure",
           "rust",
           "go",
           "wit",
@@ -59,16 +60,6 @@ return {
       })
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
-      parser_config.clojure = {
-        install_info = {
-          url = "https://github.com/julienvincent/tree-sitter-clojure",
-          revision = "5cf3c430a3d98cfd2191b420caee1b4b36e5e917",
-          files = { "src/parser.c" },
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-      }
 
       parser_config.spicedb = {
         install_info = {

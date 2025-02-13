@@ -6,5 +6,6 @@
    "defn-"
    "defmacro")
 
-  (str_lit
-    (str_content_lit) @doc-string))
+  (str_lit) @doc-string
+
+  (#offset! @doc-string 0 1 0 -1))

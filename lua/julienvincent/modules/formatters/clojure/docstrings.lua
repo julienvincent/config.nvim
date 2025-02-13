@@ -134,18 +134,22 @@ return function()
         captures = query:iter_captures(root, buf)
       end
 
-      local docstring_nodes = {}
-      for id, node in captures do
+      local docstring_matches = {}
+      for id, node, metadata in captures do
         if query.captures[id] == "doc-string" then
-          table.insert(docstring_nodes, node)
+          table.insert(docstring_matches, 1, { node = node, metadata = metadata[id] })
         end
       end
 
-      for _, node in ipairs(docstring_nodes) do
-        local node_range = { node:range() }
+      for _, match in ipairs(docstring_matches) do
+        local node = match.node
+        local node_range = match.metadata.range
         local offset = node_range[2]
 
-        local raw_text = vim.treesitter.get_node_text(node, buf)
+        -- The get_node_text API supports extracting the range from
+        -- `opts.metadata`. Our query directive sets this metadata, so passing
+        -- it here should feed right through.
+        local raw_text = vim.treesitter.get_node_text(node, buf, match)
         local formatted = format_markdown(raw_text, offset)
 
         if formatted then
