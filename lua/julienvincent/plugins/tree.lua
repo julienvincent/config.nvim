@@ -245,7 +245,22 @@ return {
             }
           end
 
-          api.config.mappings.default_on_attach(bufnr)
+          vim.keymap.set("n", "<Cr>", api.node.open.edit, opts("Open"))
+          vim.keymap.set("n", "<2-LeftMouse>", api.node.open.edit, opts("Open"))
+          vim.keymap.set("n", "gy", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
+          vim.keymap.set("n", "gY", api.fs.copy.basename, opts("Copy Basename"))
+          vim.keymap.set("n", "gx", api.node.run.system, opts("Run System"))
+
+          vim.keymap.set("n", "y", api.fs.copy.node, opts("Copy"))
+          vim.keymap.set("n", "x", api.fs.cut, opts("Cut"))
+          vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
+          vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+
+          vim.keymap.set("n", "a", api.fs.create, opts("Create File Or Directory"))
+          vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
+          vim.keymap.set("n", "R", api.tree.reload, opts("Refresh"))
+
+          vim.keymap.set("n", "m", api.marks.toggle, opts("Bookmark"))
 
           vim.keymap.set("n", "<Right>", expand_or_preview_node, opts("Preview Node"))
           vim.keymap.set("n", "<Left>", collapse_node_or_parent, opts("Collapse Node"))
