@@ -54,15 +54,21 @@ return {
       local profiler = require("snacks.profiler")
       vim.keymap.set("n", "<leader>PP", function()
         profiler.toggle()
-      end)
+      end, {
+        desc = "Start/Stop Profiler",
+      })
 
       vim.keymap.set("n", "<leader>Ps", function()
         profiler.scratch()
-      end)
+      end, {
+        desc = "Open profiler scratch buffer",
+      })
 
       vim.keymap.set("n", "<leader>Po", function()
         profiler.pick()
-      end)
+      end, {
+        desc = "Open last profile",
+      })
     end,
   },
 }
