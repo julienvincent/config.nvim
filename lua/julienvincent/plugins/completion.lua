@@ -21,7 +21,11 @@ return {
           implementation = "rust",
           use_frecency = false,
           use_proximity = true,
-          sorts = { "score", "sort_text" },
+          sorts = {
+            "exact",
+            "score",
+            "sort_text",
+          },
         },
 
         keymap = {
@@ -70,7 +74,7 @@ return {
           enabled = false,
           trigger = {
             show_on_insert = true,
-          }
+          },
         },
 
         completion = {
