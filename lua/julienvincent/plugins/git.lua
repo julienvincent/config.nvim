@@ -27,7 +27,14 @@ return {
     cmd = { "DiffEditor" },
     config = function()
       local hunk = require("hunk")
-      hunk.setup()
+      hunk.setup({
+        keys = {
+          diff = {
+            prev_hunk = { "<S-Left>" },
+            next_hunk = { "<S-Right>" },
+          },
+        },
+      })
     end,
   },
 
