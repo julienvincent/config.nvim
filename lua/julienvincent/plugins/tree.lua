@@ -114,6 +114,21 @@ local function collapse_node_or_parent()
   api.node.navigate.parent_close()
 end
 
+local function expand_all_below()
+  local api = require("nvim-tree.api")
+
+  local node = api.tree.get_node_under_cursor()
+  if not node then
+    return
+  end
+
+  if node.type ~= "directory" then
+    return
+  end
+
+  api.tree.expand_all(node)
+end
+
 local WIDTH_MODE = "fixed"
 local function toggle_window_width_mode()
   local api = require("nvim-tree.api")
@@ -194,6 +209,21 @@ return {
           },
         },
 
+        actions = {
+          expand_all = {
+            exclude = {
+              ".git",
+              "target",
+              "node_modules",
+              "dist",
+              ".cache",
+              ".clj-kondo",
+              ".lsp",
+              ".cpcache",
+            },
+          },
+        },
+
         select_prompts = true,
 
         ui = {
@@ -219,6 +249,8 @@ return {
 
           vim.keymap.set("n", "<Right>", expand_or_preview_node, opts("Preview Node"))
           vim.keymap.set("n", "<Left>", collapse_node_or_parent, opts("Collapse Node"))
+          vim.keymap.set("n", "<S-Left>", collapse_node_or_parent, opts("Collapse Node"))
+          vim.keymap.set("n", "<S-Right>", expand_all_below, opts("Expand all"))
           vim.keymap.set("n", "<leader>go", reveal_changes_in_tree, opts("Reveal Changes"))
 
           vim.keymap.set("n", "e", toggle_window_width_mode, opts("Toggle window width"))
