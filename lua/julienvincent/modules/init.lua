@@ -7,6 +7,7 @@ local modules = {
   mod("core.commands"),
   mod("core.keymaps"),
   mod("core.term-title"),
+  mod("core.quit"),
 
   mod("core.inter-process-yank"),
   mod("core.yank-to-clipboard"),

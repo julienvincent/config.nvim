@@ -1,13 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local saving = require("julienvincent.modules.core.auto-save")
   local lazy = require("lazy")
-
-  vim.keymap.set("n", "<leader>qq", function()
-    saving.write_all_buffers()
-    vim.api.nvim_command("qa")
-  end, { desc = "Save and quit" })
 
   vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", {
     desc = "Escape and clear hlsearch",
