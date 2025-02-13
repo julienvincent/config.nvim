@@ -59,6 +59,16 @@ local function override_highlights()
   vim.api.nvim_set_hl(0, "NvimTreeGitFolderNewHL", {
     link = "NvimTreeGitFileDirtyHL",
   })
+
+  vim.api.nvim_set_hl(0, "NvimTreeCopiedHL", {
+    sp = "#E9B143",
+    underline = true,
+  })
+
+  vim.api.nvim_set_hl(0, "NvimTreeCutHL", {
+    sp = "#FFC0B9",
+    strikethrough = true,
+  })
 end
 
 local function expand_or_preview_node()
