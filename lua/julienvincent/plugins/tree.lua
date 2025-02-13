@@ -201,6 +201,7 @@ return {
           highlight_git = "name",
           highlight_modified = "icon",
           icons = {
+            bookmarks_placement = "after",
             show = {
               git = false,
               diagnostics = false,
