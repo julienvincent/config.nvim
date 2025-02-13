@@ -6,13 +6,54 @@ local function reload_namespaces()
   nrepl.eval("jv.repl", "(reload-namespaces)")
 end
 
+local function list_bindings(binding_name, cb)
+  nrepl.eval("jv.repl", "(list-bindings " .. binding_name .. ")", {
+    ["passive?"] = true,
+    ["on-result"] = function(result)
+      local syms = {}
+      for line in result:sub(2, -2):gmatch("[^%s]+") do
+        table.insert(syms, line)
+      end
+      cb(syms)
+    end,
+  })
+end
+
+local function pick_binding(bindings, cb)
+  if #bindings == 1 then
+    return cb(bindings[1])
+  end
+
+  vim.ui.select(bindings, "Pick binding to run", function(item)
+    if not item then
+      return
+    end
+    return cb(item)
+  end)
+end
+
+local function run_binding(binding_name, before_run_cb)
+  list_bindings(binding_name, function(bindings)
+    pick_binding(bindings, function(binding)
+      nrepl.log_append({ ";; Running " .. binding })
+
+      if before_run_cb then
+        before_run_cb()
+      end
+
+      nrepl.eval("jv.repl", "(run-binding! '" .. binding .. ")")
+    end)
+  end)
+end
+
 local function reset()
-  reload_namespaces()
-  nrepl.eval("jv.repl", "(run-binding! :restart!)")
+  run_binding(":restart!", function()
+    reload_namespaces()
+  end)
 end
 
 local function stop()
-  nrepl.eval("jv.repl", "(run-binding! :stop!)")
+  run_binding(":stop!")
 end
 
 local function sync_deps()

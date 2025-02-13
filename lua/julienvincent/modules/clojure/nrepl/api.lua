@@ -17,6 +17,17 @@ function M.eval(ns, code, opts)
   )
 end
 
+function M.log_append(lines)
+  local client = require("conjure.client")
+  local log = require("conjure.log")
+  local text = require("conjure.text")
+  local cleaned = {}
+  for i, line in ipairs(lines) do
+    cleaned[i] = text["strip-ansi-escape-sequences"](line):match("^%s*(.-)%s*$")
+  end
+  client["with-filetype"]("clojure", log.append, cleaned)
+end
+
 function M.get_repl_status(not_connected_msg)
   if vim.bo.filetype ~= "clojure" then
     return not_connected_msg
