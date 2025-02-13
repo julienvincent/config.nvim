@@ -15,4 +15,5 @@ return {
   mod("clangd"),
   mod("nim"),
   mod("fish"),
+  mod("taplo"),
 }
