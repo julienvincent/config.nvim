@@ -23,6 +23,14 @@ return {
         fzf_colors = {
           ["gutter"] = "-1",
         },
+
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept",
+            ["alt-a"] = "toggle",
+            ["alt-A"] = "toggle-all",
+          },
+        },
       })
 
       vim.keymap.set("n", "<leader><space>", function()
@@ -46,6 +54,7 @@ return {
           keymap = {
             fzf = {
               ["ctrl-q"] = "select-all+accept",
+              ["alt-a"] = "toggle",
             },
           },
         })

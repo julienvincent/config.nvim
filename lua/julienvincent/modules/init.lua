@@ -17,6 +17,7 @@ local modules = {
   mod("core.highlights"),
   mod("core.diagnostics"),
   mod("core.find-and-replace"),
+  mod("core.quickfix"),
 
   mod("lang.authzed"),
   mod("lang.http"),
