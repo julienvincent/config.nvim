@@ -28,6 +28,13 @@ local function create_client(buf, server_config)
 
       keymaps.setup_on_attach_keybinds(bufnr)
     end,
+
+    handlers = {
+      ["window/showMessage"] = function(_, result, _)
+        local type = 5 - result.type
+        vim.notify(result.message, type)
+      end,
+    },
   })
 
   local project_settings = settings.load_project_settings(server_config.name, server_config.root_dir)
