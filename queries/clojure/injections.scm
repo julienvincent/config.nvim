@@ -5,6 +5,8 @@
   (sym_lit) @def-name
   (str_lit)? @docstring @injection.content)
 
+  (_)
+
   (#match? @def-type "^(defn-?|defmacro|defprotocol|ns)$")
   (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "markdown"))

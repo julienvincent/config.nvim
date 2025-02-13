@@ -9,6 +9,8 @@
 
   (str_lit) @doc-string
 
+  (_)
+
   (#offset! @doc-string 0 1 0 -1))
 
 (list_lit
