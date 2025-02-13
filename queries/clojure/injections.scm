@@ -9,6 +9,20 @@
   (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "markdown"))
 
+(list_lit
+  (sym_lit) @var-name
+  (#eq? @var-name "defprotocol")
+
+  (str_lit)?
+
+  (list_lit
+    (sym_lit)
+    (vec_lit)+
+    (str_lit) @doc-string @injection.content)
+
+  (#offset! @doc-string 0 1 0 -1)
+  (#set! injection.language "markdown"))
+
 ;; This example is for defining a clojure SQL language injection for clojure forms that look like:
 ;;
 ;; (def ^:sql query "SELECT * FROM foo;")
