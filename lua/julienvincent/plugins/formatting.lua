@@ -31,17 +31,34 @@ return {
           just = { "just" },
           toml = { "taplo" },
 
-          clojure = {
-            stop_after_first = true,
+          clojure = function(buf)
+            local clients = vim.lsp.get_clients({ bufnr = buf })
 
-            lsp_format = "first",
+            local supported = false
+            for _, client in ipairs(clients) do
+              if client:supports_method("textDocument/formatting") then
+                supported = true
+                break
+              end
+            end
+
+            if supported then
+              return {
+                lsp_format = "first",
+                "clojure_comments",
+              }
+            end
+
             -- When clojure-lsp is attached in single-file mode (no root_dir)
-            -- it drops its support for formatting.
+            -- it drops its support for formatting, which is a bit stupid.
             --
             -- By default I want to use clojure-lsp for formatting, but as a
             -- fallback I want to use cljfmt.
-            "cljfmt",
-          },
+            return {
+              "cljfmt",
+              "clojure_comments",
+            }
+          end,
 
           markdown = function()
             return { "prettier", "injected" }
@@ -62,6 +79,7 @@ return {
           prettierd = require("julienvincent.modules.formatters.prettierd"),
           prettier = require("julienvincent.modules.formatters.prettier"),
           markdown_native = require("julienvincent.modules.formatters.markdown"),
+          clojure_comments = require("julienvincent.modules.formatters.clojure.comments"),
           taplo = require("julienvincent.modules.formatters.taplo"),
         },
       })
@@ -70,7 +88,7 @@ return {
         options = {
           ignore_errors = true,
           lang_to_formatters = {
-            clojure = { "cljfmt" },
+            clojure = { "cljfmt", "clojure_comments" },
             json = { "prettierd", "prettier", stop_after_first = true },
           },
         },

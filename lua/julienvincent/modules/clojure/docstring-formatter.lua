@@ -104,7 +104,7 @@ function M.setup()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "clojure",
     callback = function(event)
-      vim.keymap.set("n", "gq", M.format_docstring, {
+      vim.keymap.set("n", "<localleader>gf", M.format_docstring, {
         desc = "Format fn docstring",
         buffer = event.buf,
       })
