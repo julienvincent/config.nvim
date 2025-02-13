@@ -1,19 +1,16 @@
 local M = {}
 
 function M.get_package(pkg, bin)
-  local mason_path = require("mason-core.path")
   local registry = require("mason-registry")
-
-  local bin_name = bin or pkg
-  local got_package, mason_package = pcall(registry.get_package, pkg)
-
-  if not got_package or not mason_package:is_installed() then
+  if not registry.is_installed(pkg) then
     return
   end
 
+  local bin_name = bin or pkg
+
   return {
-    bin = mason_path.bin_prefix() .. "/" .. bin_name,
-    install_dir = mason_package:get_install_path(),
+    bin = vim.fn.expand("$MASON/bin/" .. bin_name),
+    share_dir = vim.fn.expand("$MASON/share/" .. pkg),
   }
 end
 

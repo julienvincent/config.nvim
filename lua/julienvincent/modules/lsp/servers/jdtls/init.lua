@@ -18,15 +18,10 @@ return function()
         return
       end
 
-      local config_dir = "config_mac"
-      if vim.fn.has("linux") == 1 then
-        config_dir = "config_linux"
-      end
-
       local project_id = vim.fn.sha256(cwd)
       local data_dir = home_dir .. "/.local/share/nvim/jdtls/projects/" .. project_id
 
-      local launcher = fs.find_file_by_glob(paths.install_dir .. "/plugins", "org.eclipse.equinox.launcher_*")
+      local launcher = fs.find_file_by_glob(paths.share_dir .. "/plugins", "org.eclipse.equinox.launcher_*")
 
       return {
         "java",
@@ -47,7 +42,7 @@ return function()
         launcher,
 
         "-configuration",
-        paths.install_dir .. "/" .. config_dir,
+        paths.share_dir .. "/config",
 
         "-data",
         data_dir,
