@@ -50,6 +50,51 @@ local function reveal_file_in_neotree()
   vim.cmd.Neotree("reveal")
 end
 
+local function get_git_changed_files_absolute()
+  local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+  if not handle then
+    return {}
+  end
+  local git_root = handle:read("*a"):gsub("%s+$", "")
+  handle:close()
+
+  if git_root == "" then
+    vim.notify("Not in a git repository", vim.log.levels.WARN)
+    return {}
+  end
+
+  handle = io.popen("git status --porcelain 2>/dev/null")
+  if not handle then
+    return {}
+  end
+  local git_status = handle:read("*a")
+  handle:close()
+
+  local files = {}
+  for line in git_status:gmatch("[^\r\n]+") do
+    local file = line:match("^.. (.+)$")
+    if file then
+      if file:match(" -> ") then
+        file = file:match(" -> (.+)$")
+      end
+      table.insert(files, git_root .. "/" .. file)
+    end
+  end
+
+  return files
+end
+
+local function reveal_changes_in_neotree()
+  local files = get_git_changed_files_absolute()
+  for _, file in ipairs(files) do
+    require("neo-tree.command").execute({
+      action = "show",
+      reveal_file = file,
+      reveal_force_cwd = false,
+    })
+  end
+end
+
 local function register_keymaps()
   vim.keymap.set("n", "<leader>E", reveal_file_in_neotree, { desc = "Reveal current file in Neotree" })
   vim.keymap.set("n", "<leader>e", toggle_neotree_focus, { desc = "Toggle Neotree focus" })
@@ -230,6 +275,12 @@ return {
       end
 
       register_keymaps()
+
+      vim.api.nvim_create_user_command("RevealChanges", function()
+        reveal_changes_in_neotree()
+      end, {
+        desc = "Reveal changed files",
+      })
     end,
   },
 
