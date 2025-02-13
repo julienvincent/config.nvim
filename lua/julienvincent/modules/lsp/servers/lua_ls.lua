@@ -36,7 +36,8 @@ local function make_lazy_module_paths()
       table.insert(dirs, lazy_dir .. "/" .. name)
     end
   end
-  return make_module_paths(dirs)
+  -- return make_module_paths(dirs)
+  return {}
 end
 
 return function()
