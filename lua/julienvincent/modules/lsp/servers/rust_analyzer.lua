@@ -15,11 +15,35 @@ local function is_workspace_root(path)
   end
 end
 
+local mason_bin = mason.command("rust-analyzer")
+
+-- This will use the mise install from the system PATH if found. This
+-- configuration allows installing mise in a project specific way using mise.
+--
+-- The env passed here contains the mise-modified PATH.
+local function rust_analyzer_system_path(env)
+  local result = vim
+    .system({ "sh", "-c", "command -v rust-analyzer" }, {
+      env = env,
+      text = true,
+    })
+    :wait()
+  if result.code == 0 then
+    return vim.trim(result.stdout)
+  end
+end
+
 return {
   name = "rust-analyzer",
   filetypes = { "rust" },
 
-  cmd = mason.command("rust-analyzer"),
+  cmd = function(server_config)
+    local path = rust_analyzer_system_path(server_config.cmd_env)
+    if path then
+      return { path }
+    end
+    return mason_bin()
+  end,
   root_dir = fs.find_furthest_root(
     {
       { "Cargo.toml", is_root = is_workspace_root },

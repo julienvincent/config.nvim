@@ -16,7 +16,7 @@ local function create_client(buf, server_config)
     name = server_config.name,
     capabilities = capabilities.make_client_capabilities(),
     cmd_cwd = server_config.root_dir,
-    cmd_env = mise.get_mise_env(server_config.root_dir),
+    cmd_env = server_config.cmd_env,
 
     on_error = function()
       vim.notify("LSP failed to start", vim.log.levels.ERROR)
@@ -72,19 +72,6 @@ function M.attach_client(buf, server_config)
     end
   end
 
-  local cmd = server_config.cmd
-  if type(cmd) == "function" then
-    cmd = cmd()
-  end
-
-  if not cmd then
-    vim.notify_once(
-      "LSP Client " .. server_config.name .. " failed to resolve to a valid executable",
-      vim.log.levels.WARN
-    )
-    return
-  end
-
   if not root_dir and not server_config.single_file_support then
     return
   end
@@ -108,8 +95,23 @@ function M.attach_client(buf, server_config)
 
   local config = vim.deepcopy(server_config)
 
-  config.cmd = cmd
   config.root_dir = root_dir
+  config.cmd_env = mise.get_mise_env(root_dir)
+
+  local cmd = server_config.cmd
+  if type(cmd) == "function" then
+    cmd = cmd(config)
+  end
+
+  if not cmd then
+    vim.notify_once(
+      "LSP Client " .. server_config.name .. " failed to resolve to a valid executable",
+      vim.log.levels.WARN
+    )
+    return
+  end
+
+  config.cmd = cmd
   config.on_exit = function(_, _, client_id)
     remove_client(client_id)
   end
