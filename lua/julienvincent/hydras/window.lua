@@ -18,11 +18,11 @@ return {
         { "w", "<C-W>p", { desc = "Switch to other window", exit = true } },
 
         { "d", "<C-W>c", { desc = "Close window" } },
-        { "v", "<C-W>v", { desc = "Split window right" } },
-        { "h", "<C-W>s", { desc = "Split window below" } },
+        { "v", "<Cmd>vnew<Cr>", { desc = "Split window right" } },
+        { "h", "<Cmd>new<Cr>", { desc = "Split window below" } },
 
-        { "<S-Right>", "<C-W>v", { desc = "Split window right" } },
-        { "<S-Down>", "<C-W>s", { desc = "Split window below" } },
+        { "<S-Right>", "<Cmd>vnew<Cr>", { desc = "Split window right" } },
+        { "<S-Down>", "<Cmd>new<Cr>", { desc = "Split window below" } },
 
         { "s", "<C-W>x", { desc = "Swap window with next" } },
 
