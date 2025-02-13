@@ -71,6 +71,7 @@ return {
   {
     "petertriho/nvim-scrollbar",
     event = "BufReadPost",
+    enabled = false,
     config = function()
       require("scrollbar").setup({
         handle = {
