@@ -1,9 +1,17 @@
 local PREVIOUS_WIN = nil
 
 local get_neotree_state = function()
+  local neotree = require("neo-tree")
   local bufnr = vim.api.nvim_get_current_buf()
 
-  for _, source in ipairs(require("neo-tree").config.sources) do
+  if not neotree.config then
+    return {
+      is_open = false,
+      is_focused = false,
+    }
+  end
+
+  for _, source in ipairs(neotree.config.sources) do
     local state = require("neo-tree.sources.manager").get_state(source)
 
     local is_open = state and state.bufnr
