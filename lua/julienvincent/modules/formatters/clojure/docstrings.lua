@@ -136,7 +136,7 @@ return function()
 
       local docstring_matches = {}
       for id, node, metadata in captures do
-        if query.captures[id] == "doc-string" then
+        if query.captures[id] == "docstring" then
           table.insert(docstring_matches, 1, { node = node, metadata = metadata[id] })
         end
       end

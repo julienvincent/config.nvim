@@ -1,28 +1,59 @@
 ;; extends
 
 ((list_lit
-  (sym_lit) @def-type
-  (sym_lit) @def-name
-  (str_lit)? @docstring @injection.content)
+  ((sym_lit) @def-type
+   (sym_lit) @def-name
+   (str_lit)? @docstring @injection.content)
+   (map_lit)?)
 
-  (_)
+  (_)+
 
-  (#match? @def-type "^(defn-?|defmacro|defprotocol|ns)$")
+  (#match? @def-type "^(def|defprotocol)$")
+  (#offset! @injection.content 0 1 0 -1)
+  (#set! injection.language "markdown"))
+
+((list_lit
+  ((sym_lit) @def-type
+   (sym_lit) @def-name
+   (str_lit)? @docstring @injection.content)
+   (map_lit)?
+
+   [
+    (vec_lit)
+    (list_lit (vec_lit))+
+   ])
+
+  (#match? @def-type "^(defn-?|defmacro)$")
+  (#offset! @injection.content 0 1 0 -1)
+  (#set! injection.language "markdown"))
+
+;; Match ns
+((list_lit
+  ((sym_lit) @fn-type
+   (sym_lit) @ns-name
+   (#eq? @fn-type "ns")
+
+   (str_lit)? @docstring @injection.content)
+   (map_lit)?)
+
+  (_)*
+
   (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "markdown"))
 
 (list_lit
-  (sym_lit) @var-name
-  (#eq? @var-name "defprotocol")
+  ((sym_lit) @fn-name
+   (#eq? @fn-name "defprotocol")
+   (sym_lit) @protocol-name
 
-  (str_lit)?
+   (str_lit)?)
 
   (list_lit
     (sym_lit)
     (vec_lit)+
-    (str_lit) @doc-string @injection.content)
+    (str_lit) @docstring @injection.content)
 
-  (#offset! @doc-string 0 1 0 -1)
+  (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "markdown"))
 
 ;; This example is for defining a clojure SQL language injection for clojure forms that look like:
