@@ -73,7 +73,7 @@ function M.run_binding(binding_name, before_run_cb)
         before_run_cb()
       end
 
-      nrepl.eval("jv.repl", "(run-binding! '" .. binding .. ")")
+      nrepl.eval("jv.repl", "(run-binding! " .. binding_name .. " '" .. binding .. ")")
     end)
   end)
 end
