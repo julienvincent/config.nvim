@@ -46,6 +46,7 @@ return {
               return {
                 lsp_format = "first",
                 "clojure_comments",
+                "clojure_docstrings",
               }
             end
 
@@ -57,6 +58,7 @@ return {
             return {
               "cljfmt",
               "clojure_comments",
+              "clojure_docstrings",
             }
           end,
 
@@ -78,8 +80,8 @@ return {
           cljfmt = require("julienvincent.modules.formatters.cljfmt"),
           prettierd = require("julienvincent.modules.formatters.prettierd"),
           prettier = require("julienvincent.modules.formatters.prettier"),
-          markdown_native = require("julienvincent.modules.formatters.markdown"),
           clojure_comments = require("julienvincent.modules.formatters.clojure.comments"),
+          clojure_docstrings = require("julienvincent.modules.formatters.clojure.docstrings"),
           taplo = require("julienvincent.modules.formatters.taplo"),
         },
       })
@@ -88,22 +90,23 @@ return {
         options = {
           ignore_errors = true,
           lang_to_formatters = {
-            clojure = { "cljfmt", "clojure_comments" },
+            clojure = { "cljfmt", "clojure_comments", "clojure_docstrings" },
             json = { "prettierd", "prettier", stop_after_first = true },
           },
         },
       }
 
       local function format()
-        local res = conform.format()
-        if not res then
-          return
-        end
+        conform.format({ async = true }, function(err)
+          if err then
+            return
+          end
 
-        local mode = vim.api.nvim_get_mode().mode
-        if vim.startswith(string.lower(mode), "v") then
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-        end
+          local mode = vim.api.nvim_get_mode().mode
+          if vim.startswith(string.lower(mode), "v") then
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+          end
+        end)
       end
 
       vim.keymap.set("", "<localleader>f", format, {

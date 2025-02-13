@@ -24,7 +24,6 @@ local modules = {
   mod("lang.numscript"),
 
   mod("clojure.nrepl"),
-  mod("clojure.docstring-formatter"),
 
   mod("lsp"),
 }
