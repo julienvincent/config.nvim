@@ -84,7 +84,7 @@ local function expand_or_preview_node()
       api.node.open.preview()
     end
 
-    if node.has_children then
+    if #node.nodes > 0 then
       local cursor = vim.api.nvim_win_get_cursor(0)
       vim.api.nvim_win_set_cursor(0, { cursor[1] + 1, 0 })
     end
@@ -105,8 +105,7 @@ local function collapse_node_or_parent()
 
   if node.type == "directory" then
     if node.open then
-      -- This closes the dir? Bit messy
-      return api.node.open.preview()
+      return api.node.open.edit()
     end
 
     return api.node.navigate.parent_close()
