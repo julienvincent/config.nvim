@@ -29,7 +29,7 @@ M.setup = function()
 
   vim.keymap.set("n", "<leader>LL", lazy.show, { desc = "Show Lazy" })
 
-  vim.keymap.set("v", "<localleader>s", '"zy:%s/<C-r>z//g<Left><Left>', {
+  vim.keymap.set("v", "<localleader>s", [["zy:%s/<C-r>=escape(@z, '\/.')<CR>//g<Left><Left>]], {
     noremap = true,
     desc = "Replace selection",
   })
