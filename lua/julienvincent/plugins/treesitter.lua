@@ -31,6 +31,7 @@ return {
           "javascript",
           "http",
           "json",
+          "toml",
           "csv",
           "lua",
           "luadoc",
