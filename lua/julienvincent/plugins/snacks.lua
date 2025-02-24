@@ -17,7 +17,12 @@ return {
 
       require("snacks").setup({
         image = {
-          enabled = true
+          enabled = true,
+          doc = {
+            enabled = true,
+            inline = false,
+            float = false,
+          },
         },
 
         input = {
@@ -43,6 +48,17 @@ return {
             },
           },
         },
+      })
+
+      local image = require("snacks.image")
+      vim.keymap.set("n", "<localleader>i", function()
+        image.hover()
+      end, { silent = true, desc = "Preview image" })
+
+      vim.keymap.set("n", "<localleader>I", function()
+        image.doc.hover_close()
+      end, {
+        desc = "Clear image",
       })
     end,
   },
