@@ -13,6 +13,17 @@ M.setup = function()
     desc = "Escape and clear hlsearch",
   })
 
+  -- I use <Tab> to open my buffer switcher, but in terminals <C-i> and <Tab>
+  -- map to the same ascii codes (why the fuck?).
+  --
+  -- To get around this I am mapping <M-i> to do the same thing as <C-i>. If
+  -- this is paired with a terminal emulator that can remap <C-i> to <M-i> then
+  -- I can use both <Tab> and <C-i> to do distinct things.
+  --
+  -- TL;DR This indirectly allows me to use <C-i> to do what <C-i> is supposed
+  -- to do (jump-list backwards) and <Tab> to open my buffer switcher.
+  vim.keymap.set({ "n", "i", "v" }, "<M-i>", "<C-i>", { noremap = true, silent = true })
+
   -- tabs
   vim.keymap.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "Next Tab" })
   vim.keymap.set("n", "<leader><tab><Right>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
