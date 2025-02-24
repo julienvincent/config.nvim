@@ -18,9 +18,10 @@ return {
     config = function()
       require("blink.cmp").setup({
         fuzzy = {
-          prebuilt_binaries = {
-            -- force_version = "v0.9.0",
-          },
+          implementation = "rust",
+          use_frecency = false,
+          use_proximity = true,
+          sorts = { "score", "sort_text" },
         },
 
         keymap = {
@@ -43,8 +44,18 @@ return {
         },
 
         cmdline = {
+          completion = {
+            menu = {
+              auto_show = true,
+            },
+            list = {
+              selection = {
+                preselect = false,
+                auto_insert = false,
+              },
+            },
+          },
           keymap = {
-
             preset = "enter",
 
             ["<Up>"] = { "fallback" },
