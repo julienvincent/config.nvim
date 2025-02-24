@@ -38,7 +38,13 @@ return {
             "fallback",
           },
 
-          cmdline = {
+          ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+          ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+        },
+
+        cmdline = {
+          keymap = {
+
             preset = "enter",
 
             ["<Up>"] = { "fallback" },
@@ -47,9 +53,6 @@ return {
             ["<Tab>"] = { "select_next", "fallback" },
             ["<S-Tab>"] = { "select_prev", "fallback" },
           },
-
-          ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-          ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         },
 
         completion = {

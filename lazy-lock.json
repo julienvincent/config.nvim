@@ -1,6 +1,6 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
-  "blink.cmp": { "branch": "main", "commit": "75741d8c8208ed6b94b8e1c60758bb3d7208fa94" },
+  "blink.cmp": { "branch": "main", "commit": "69fe0ed74c48ba511fdc6c1846cf45f8d20cf67b" },
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "clojure-test.nvim": { "branch": "master", "commit": "fa55aa99c91e2f1ee109698271a21e3469fc35e6" },
   "conform.nvim": { "branch": "master", "commit": "c309423479f83f561d68d93d74c899f1683834f7" },
