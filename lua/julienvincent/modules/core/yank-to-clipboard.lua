@@ -15,9 +15,10 @@ M.setup = function()
         return
       end
 
-      local value = vim.fn.getreg(vim.v.register, 1, 1)
+      local value = vim.fn.getreg(vim.v.register, 1)
       local type = vim.fn.getregtype(vim.v.register)
       vim.fn.setreg("+", value, type)
+      vim.fn.setreg("p", value, type)
     end,
   })
 end

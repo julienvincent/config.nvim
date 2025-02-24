@@ -7,11 +7,16 @@ M.setup = function()
     desc = "Populate registers from yank history",
     callback = function()
       local yank_entry = require("yanky").history.first()
-
-      if yank_entry.regcontents then
-        vim.fn.setreg('"', yank_entry.regcontents)
-        vim.fn.setreg("0", yank_entry.regcontents)
+      if not yank_entry or not yank_entry.regcontents then
+        return
       end
+
+      if yank_entry.regcontents == vim.NIL then
+        return
+      end
+
+      vim.fn.setreg('"', yank_entry.regcontents)
+      vim.fn.setreg("0", yank_entry.regcontents)
     end,
   })
 end
