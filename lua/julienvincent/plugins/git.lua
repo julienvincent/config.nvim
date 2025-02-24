@@ -2,7 +2,7 @@
 -- generally want to quit neovim when exiting DiffView.
 local function opened_on_boot()
   for i = 1, #vim.v.argv do
-    if vim.v.argv[i] == "-c" and vim.v.argv[i + 1] and vim.v.argv[i + 1]:match("^DiffviewOpen") then
+    if vim.v.argv[i] == "-c" and vim.v.argv[i + 1] and vim.v.argv[i + 1]:match("^Diffview") then
       return true
     end
   end
@@ -76,7 +76,7 @@ return {
       { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
       { "<leader>gl", "<cmd>DiffviewFileHistory<cr>", desc = "Git log" },
     },
-    cmd = { "DiffviewOpen" },
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup({
@@ -103,6 +103,25 @@ return {
           },
           file_history_panel = {
             ["q"] = close_diffview,
+
+            {
+              "n",
+              "<Left>",
+              actions.select_entry,
+              { desc = "Open the diff for the selected entry" },
+            },
+            {
+              "n",
+              "<Right>",
+              actions.select_entry,
+              { desc = "Open the diff for the selected entry" },
+            },
+            {
+              "n",
+              "<cr>",
+              actions.focus_entry,
+              { desc = "Focus the diff entry" },
+            },
           },
         },
 
