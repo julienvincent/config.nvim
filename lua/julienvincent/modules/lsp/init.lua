@@ -127,6 +127,11 @@ function M.setup()
   vim.api.nvim_create_user_command("LspStop", stop, { nargs = "*" })
   vim.api.nvim_create_user_command("LspRestart", restart, { nargs = 0 })
   vim.api.nvim_create_user_command("LspInfo", info.show_lsp_info, { nargs = 0 })
+
+  -- Delete default lsp keybindings
+  for _, key in ipairs({ "gra", "gri", "grn", "grr" }) do
+    vim.keymap.del("n", key)
+  end
 end
 
 return M
