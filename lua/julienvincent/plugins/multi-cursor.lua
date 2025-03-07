@@ -2,6 +2,7 @@ return {
   {
     "brenton-leighton/multiple-cursors.nvim",
     event = "VeryLazy",
+    enabled = false,
     config = true,
     keys = {
       { "<C-Down>", "<Cmd>MultipleCursorsAddDown<CR>", mode = { "n", "i" } },
