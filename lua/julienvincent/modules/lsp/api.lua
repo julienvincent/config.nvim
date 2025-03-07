@@ -1,4 +1,5 @@
 local capabilities = require("julienvincent.modules.lsp.capabilities")
+local settings = require("julienvincent.modules.lsp.settings")
 local keymaps = require("julienvincent.modules.lsp.keymaps")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 local mise = require("julienvincent.modules.core.mise")
@@ -18,7 +19,7 @@ local function create_client(buf, server_config)
     cmd_env = mise.get_mise_env(server_config.root_dir),
 
     on_error = function()
-      vim.notify("LSP failed to start")
+      vim.notify("LSP failed to start", vim.log.levels.ERROR)
     end,
 
     on_attach = function(_, bufnr)
@@ -28,6 +29,9 @@ local function create_client(buf, server_config)
       keymaps.setup_on_attach_keybinds(bufnr)
     end,
   })
+
+  local project_settings = settings.load_project_settings(server_config.name, server_config.root_dir)
+  config.settings = vim.tbl_deep_extend("force", config.settings or {}, project_settings)
 
   local opts = {
     bufnr = buf,

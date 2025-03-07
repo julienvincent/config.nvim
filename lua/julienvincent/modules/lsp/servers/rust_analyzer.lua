@@ -3,13 +3,10 @@ local fs = require("julienvincent.modules.lsp.utils.fs")
 
 local function is_workspace_root(path)
   local file_path = path .. "/Cargo.toml"
-  local file = io.open(file_path, "r")
-  if not file then
+  local content = fs.read_file(file_path)
+  if not content then
     return false
   end
-
-  local content = file:read("*all")
-  file:close()
 
   if string.find(content, "%[workspace]") then
     return true
@@ -20,7 +17,7 @@ end
 
 return {
   name = "rust-analyzer",
-  filetypes = { "rust", "edn" },
+  filetypes = { "rust" },
 
   cmd = mason.command("rust-analyzer"),
   root_dir = fs.find_furthest_root(
@@ -46,8 +43,8 @@ return {
         excludeDirs = { ".embuild", "target", ".git" },
       },
       checkOnSave = {
-        command = "clippy"
-      }
+        command = "clippy",
+      },
     },
   },
 }

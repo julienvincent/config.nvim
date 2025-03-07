@@ -12,6 +12,17 @@ function M.is_file_empty(file_path)
   return size == 0
 end
 
+function M.read_file(path)
+  local file = io.open(path, "r")
+  if not file then
+    return
+  end
+
+  local content = file:read("*all")
+  file:close()
+  return content
+end
+
 function M.glob_exists_in_dir(dir, globs)
   for _, glob in ipairs(globs) do
     local filename = glob

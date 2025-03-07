@@ -1,7 +1,7 @@
 local servers = require("julienvincent.modules.lsp.servers")
-local info = require("julienvincent.modules.lsp.ui.info")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 local api = require("julienvincent.modules.lsp.api")
+local ui = require("julienvincent.modules.lsp.ui")
 
 local M = {}
 
@@ -121,12 +121,13 @@ function M.setup()
   })
 
   vim.keymap.set("n", "<leader>lR", restart, { desc = "Restart client" })
-  vim.keymap.set("n", "<leader>lI", info.show_lsp_info, { desc = "Show LSP info" })
+  vim.keymap.set("n", "<leader>lI", ui.info.show_lsp_info, { desc = "Show LSP info" })
 
   vim.api.nvim_create_user_command("LspStart", start, { nargs = 0 })
   vim.api.nvim_create_user_command("LspStop", stop, { nargs = "*" })
   vim.api.nvim_create_user_command("LspRestart", restart, { nargs = 0 })
-  vim.api.nvim_create_user_command("LspInfo", info.show_lsp_info, { nargs = 0 })
+  vim.api.nvim_create_user_command("LspInfo", ui.info.show_lsp_info, { nargs = 0 })
+  vim.api.nvim_create_user_command("LspSettings", ui.settings.open_server_config, { nargs = 0 })
 
   -- Delete default lsp keybindings
   for _, key in ipairs({ "gra", "gri", "grn", "grr" }) do
