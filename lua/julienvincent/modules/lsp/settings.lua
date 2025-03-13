@@ -27,11 +27,17 @@ function M.load_project_settings(server_name, root_dir)
   end
 
   local content = fs.read_file(config_file)
-  if not content then
+  if not content or content == "" then
     return {}
   end
 
-  return vim.fn.json_decode(content)
+  local success, data = pcall(vim.fn.json_decode, content)
+  if not success then
+    vim.notify("Failed to decode LSP settings JSON", vim.log.levels.WARN)
+    return {}
+  end
+
+  return data
 end
 
 return M
