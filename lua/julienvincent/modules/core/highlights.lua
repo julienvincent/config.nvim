@@ -82,6 +82,19 @@ local function override_gruvbox_material_dark()
     bg = palette.bg1[1],
     fg = palette.grey2[1],
   })
+
+  -- Snacks Picker
+  vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", {
+    link = "CursorLine",
+  })
+
+  vim.api.nvim_set_hl(0, "SnacksInputBorder", {
+    link = "Yellow",
+  })
+
+  vim.api.nvim_set_hl(0, "SnacksInputTitle", {
+    link = "Orange",
+  })
 end
 
 local function override_gruvbox_material_light()

@@ -3,18 +3,6 @@ return {
     "folke/snacks.nvim",
     event = "VeryLazy",
     config = function()
-      vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", {
-        link = "CursorLine",
-      })
-
-      vim.api.nvim_set_hl(0, "SnacksInputBorder", {
-        link = "Yellow",
-      })
-
-      vim.api.nvim_set_hl(0, "SnacksInputTitle", {
-        link = "Orange",
-      })
-
       require("snacks").setup({
         image = {
           enabled = true,
