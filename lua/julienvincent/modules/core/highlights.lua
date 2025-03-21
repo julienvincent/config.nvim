@@ -1,5 +1,10 @@
 local M = {}
 
+local THEME_MAPPING = {
+  dark = "gruvbox-material",
+  light = "default",
+}
+
 function M.get_macos_system_theme()
   local cmd = [[defaults read -g AppleInterfaceStyle]]
   local res = vim.fn.system(cmd)
@@ -16,7 +21,7 @@ function M.get_system_theme()
   end
 end
 
-function M.override_gruvbox_material_dark()
+local function override_gruvbox_material_dark()
   local palette = vim.fn["gruvbox_material#get_palette"]("soft", "mix", vim.empty_dict())
 
   -- DIAGNOSTICS --
@@ -79,9 +84,13 @@ function M.override_gruvbox_material_dark()
   })
 end
 
-function M.override_gruvbox_material_light()
+local function override_gruvbox_material_light()
   vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Comment" })
 end
+
+local function override_default_dark() end
+
+local function override_default_light() end
 
 function M.set_gruvbox_material_overrides()
   if vim.o.background == "dark" then
@@ -91,10 +100,19 @@ function M.set_gruvbox_material_overrides()
   end
 end
 
+local OVERRIDE_MAPPING = {
+  ["gruvbox-material-dark"] = override_gruvbox_material_dark,
+  ["gruvbox-material-light"] = override_gruvbox_material_light,
+
+  ["default-dark"] = override_default_dark,
+  ["default-light"] = override_default_light,
+}
+
 function M.set_highlight_overrides()
-  if vim.g.colors_name == "gruvbox-material" then
-    vim.cmd.colorscheme("gruvbox-material")
-    M.set_gruvbox_material_overrides()
+  local key = vim.g.colors_name .. "-" .. vim.o.background
+  local override = OVERRIDE_MAPPING[key]
+  if override then
+    override()
   end
 end
 
@@ -106,6 +124,7 @@ function M.update_theme_from_system()
 
   if vim.o.background ~= theme then
     vim.o.background = theme
+    vim.cmd.colorscheme(THEME_MAPPING[theme])
   end
 end
 
@@ -125,7 +144,7 @@ M.setup = function()
   })
 
   vim.o.background = M.get_system_theme() or "dark"
-  vim.cmd.colorscheme("gruvbox-material")
+  vim.cmd.colorscheme(THEME_MAPPING[vim.o.background])
 
   local timer = vim.loop.new_timer()
   timer:start(0, 10000, vim.schedule_wrap(M.update_theme_from_system))
