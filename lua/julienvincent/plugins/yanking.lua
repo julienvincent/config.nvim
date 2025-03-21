@@ -1,7 +1,7 @@
 return {
   {
     "gbprod/yanky.nvim",
-    event = "BufReadPost",
+    event = "VeryLazy",
     config = function()
       local yanky = require("yanky")
       yanky.setup({
