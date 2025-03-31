@@ -66,6 +66,13 @@ return {
           },
         },
 
+        signature = {
+          enabled = false,
+          trigger = {
+            show_on_insert = true,
+          }
+        },
+
         completion = {
           documentation = {
             auto_show = true,
