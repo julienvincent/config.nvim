@@ -53,6 +53,8 @@ return {
           "rust",
           "go",
           "wit",
+          "proto",
+          "java"
         },
       })
 
