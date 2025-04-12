@@ -126,10 +126,16 @@ function M.pick_buffer()
 
     actions = {
       delete = function(_, item)
+        if not item then
+          return
+        end
         remote_buffer_from_stack(win, item.bufnr)
       end,
       confirm = function(picker, item)
         picker:close()
+        if not item then
+          return
+        end
         vim.schedule(function()
           vim.api.nvim_set_current_buf(item.bufnr)
         end)
