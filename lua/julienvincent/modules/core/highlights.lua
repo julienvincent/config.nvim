@@ -84,10 +84,6 @@ local function override_gruvbox_material_dark()
   })
 
   -- Snacks Picker
-  vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", {
-    link = "CursorLine",
-  })
-
   vim.api.nvim_set_hl(0, "SnacksInputBorder", {
     link = "Yellow",
   })
@@ -103,7 +99,9 @@ end
 
 local function override_default_dark() end
 
-local function override_default_light() end
+local function override_default_light()
+  vim.api.nvim_set_hl(0, "NeoTreeGitModified", { fg = "#997633" })
+end
 
 function M.set_gruvbox_material_overrides()
   if vim.o.background == "dark" then
@@ -127,6 +125,10 @@ function M.set_highlight_overrides()
   if override then
     override()
   end
+
+  vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", {
+    link = "CursorLine",
+  })
 end
 
 function M.update_theme_from_system()
