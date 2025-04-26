@@ -1,10 +1,7 @@
 return {
   {
-    -- TODO: https://github.com/RRethy/vim-illuminate/pull/218
-    -- "RRethy/vim-illuminate",
-    "rockyzhang24/vim-illuminate",
-    branch = "fix-encoding",
-    event = { "BufReadPost", "BufNewFile" },
+    "RRethy/vim-illuminate",
+    event = { "VeryLazy" },
     config = function()
       require("illuminate").configure({
         delay = 200,
