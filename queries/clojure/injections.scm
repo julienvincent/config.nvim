@@ -3,7 +3,8 @@
 ((list_lit
   (sym_lit) @def-type
   (sym_lit) @def-name
-  (str_lit) @docstring @injection.content)
+  (str_lit
+    (str_content_lit) @injection.content) @docstring)
 
   (#match? @def-type "^(defn-?|defmacro|defprotocol|ns)$")
   (#set! injection.language "markdown"))
