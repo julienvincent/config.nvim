@@ -64,10 +64,13 @@ return {
   settings = {
     ["rust-analyzer"] = {
       files = {
-        excludeDirs = { ".embuild", "target", ".git" },
+        excludeDirs = { ".embuild", "target", ".git", ".jj" },
       },
       checkOnSave = {
         command = "clippy",
+      },
+      cargo = {
+        targetDir = true,
       },
     },
   },
