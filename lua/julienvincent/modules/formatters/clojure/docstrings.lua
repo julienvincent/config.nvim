@@ -137,13 +137,16 @@ return function()
       local docstring_matches = {}
       for id, node, metadata in captures do
         if query.captures[id] == "docstring" then
-          table.insert(docstring_matches, 1, { node = node, metadata = metadata[id] })
+          table.insert(docstring_matches, 1, {
+            node = node,
+            metadata = metadata[id],
+          })
         end
       end
 
       for _, match in ipairs(docstring_matches) do
         local node = match.node
-        local node_range = match.metadata.range
+        local node_range = vim.treesitter.get_range(match.node, buf, match.metadata)
         local offset = node_range[2]
 
         -- The get_node_text API supports extracting the range from
@@ -158,7 +161,7 @@ return function()
           -- stylua: ignore
           vim.api.nvim_buf_set_text(buf,
             node_range[1], node_range[2],
-            node_range[3], node_range[4],
+            node_range[4], node_range[5],
             re_indented
           )
         end
