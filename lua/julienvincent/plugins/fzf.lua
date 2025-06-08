@@ -5,6 +5,8 @@ return {
     config = function()
       local fzf = require("fzf-lua")
       fzf.setup({
+        "hide",
+
         winopts = {
           preview = {
             layout = "vertical",
@@ -60,9 +62,10 @@ return {
         })
       end, { silent = true, desc = "Find" })
 
-      vim.keymap.set("n", "<leader>fr", function()
-        fzf.grep_project({ resume = true })
-      end, { silent = true, desc = "Find" })
+      vim.keymap.set("n", "<leader>fr", fzf.resume, {
+        silent = true,
+        desc = "Find",
+      })
 
       vim.keymap.set("n", "<leader>/", function()
         fzf.grep_curbuf()
