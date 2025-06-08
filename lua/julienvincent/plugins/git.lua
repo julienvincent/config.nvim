@@ -32,6 +32,9 @@ return {
           diff = {
             prev_hunk = { "<S-Left>" },
             next_hunk = { "<S-Right>" },
+
+            toggle_line = { "s" },
+            toggle_line_pair = { "a" },
           },
         },
       })
