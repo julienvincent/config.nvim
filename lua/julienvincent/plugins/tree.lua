@@ -103,6 +103,10 @@ local function collapse_node_or_parent()
     return
   end
 
+  if node.name == ".." then
+    return
+  end
+
   if node.type == "directory" then
     if node.open then
       return api.node.open.edit()
