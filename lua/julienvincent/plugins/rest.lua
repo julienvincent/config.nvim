@@ -18,6 +18,12 @@ return {
               require("kulala.ui").show_headers_body()
             end,
           },
+          ["Show verbose"] = {
+            "<localleader>v",
+            function()
+              require("kulala.ui").show_verbose()
+            end,
+          },
         },
       })
 

@@ -41,14 +41,12 @@ local function show_recording()
     return ""
   end
 
-  return "RECORDING @" .. reg
+  return "recording [" .. reg .. "]"
 end
 
 return {
   {
     "nvim-lualine/lualine.nvim",
-
-    event = "VeryLazy",
 
     config = function()
       local lualine = require("lualine")

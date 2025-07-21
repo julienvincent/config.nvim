@@ -266,6 +266,9 @@ return {
           end
 
           vim.keymap.set("n", "<Cr>", api.node.open.edit, opts("Open"))
+          vim.keymap.set("n", "s", api.node.open.vertical, opts("Open vsplit"))
+          vim.keymap.set("n", "S", api.node.open.horizontal, opts("Open hsplit"))
+
           vim.keymap.set("n", "<2-LeftMouse>", api.node.open.edit, opts("Open"))
           vim.keymap.set("n", "gy", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
           vim.keymap.set("n", "gY", api.fs.copy.basename, opts("Copy Basename"))
