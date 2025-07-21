@@ -83,7 +83,6 @@ return {
           prettierd = require("julienvincent.modules.formatters.prettierd"),
           prettier = require("julienvincent.modules.formatters.prettier"),
           clojure_comments = require("julienvincent.modules.formatters.clojure.comments"),
-          clojure_docstrings = require("julienvincent.modules.formatters.clojure.docstrings"),
           injected = require("julienvincent.modules.formatters.injected"),
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
