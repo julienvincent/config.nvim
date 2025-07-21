@@ -2,10 +2,11 @@
   ((sym_lit) @def-type
    (#any-of? @def-type "def" "defprotocol")
    (sym_lit) @def-name
-   (str_lit)? @docstring)
-   (map_lit)?)
+   (str_lit) @docstring)
+   (map_lit)?
 
-  (_)+
+   ;; The def(protocol) body
+   (_)+)
 
   (#offset! @docstring 0 1 0 -1))
 
@@ -16,7 +17,7 @@
     "defn-"
     "defmacro")
    (sym_lit) @def-name
-   (str_lit)? @docstring)
+   (str_lit) @docstring)
    (map_lit)?
 
    [
@@ -32,10 +33,10 @@
    (sym_lit) @ns-name
    (#eq? @fn-type "ns")
 
-   (str_lit)? @docstring)
-   (map_lit)?)
+   (str_lit) @docstring)
+   (map_lit)?
 
-  (_)*
+   (_)*)
 
   (#offset! @docstring 0 1 0 -1))
 
