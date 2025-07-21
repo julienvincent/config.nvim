@@ -197,7 +197,12 @@ end
 
 return {
   {
-    "https://github.com/nvim-tree/nvim-tree.lua",
+    -- This is a fork
+    -- TODO: Move back to the original once:
+    --  - https://github.com/nvim-tree/nvim-tree.lua/pull/3176
+    -- has been merged
+    "https://github.com/julienvincent/nvim-tree.lua",
+    branch = "jv/new-tracked-hl",
 
     config = function()
       local api = require("nvim-tree.api")
@@ -304,7 +309,7 @@ return {
   {
     "antosha417/nvim-lsp-file-operations",
     dependencies = {
-      "nvim-tree/nvim-tree.lua",
+      "julienvincent/nvim-tree.lua",
     },
     config = function()
       require("lsp-file-operations").setup()
