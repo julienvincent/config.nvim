@@ -6,7 +6,7 @@ local function reverse_iter(elements)
   return results
 end
 
-local function reposition_comment(buf, comment)
+local function calculate_offset(comment)
   local range = { comment:range() }
 
   local next_sibling = comment:next_named_sibling()
@@ -22,16 +22,7 @@ local function reposition_comment(buf, comment)
   local sibling_range = { next_sibling:range() }
 
   local delta = sibling_range[2] - range[2]
-  if delta == 0 then
-    return
-  end
-
-  if delta > 0 then
-    local chars = string.rep(" ", delta)
-    vim.api.nvim_buf_set_text(buf, range[1], 0, range[1], 0, { chars })
-  else
-    vim.api.nvim_buf_set_text(buf, range[1], 0, range[1], delta * -1, {})
-  end
+  return range[2] + delta
 end
 
 local function is_double_comment(buf, comment)
@@ -51,20 +42,116 @@ local function filter_double_comments(buf, comments)
   end, comments)
 end
 
-local function fix_comment_line_breaks(buf, comments)
-  local range_start = { comments[#comments]:range() }
-  local range_end = { comments[1]:range() }
-  local start_row = range_start[1] + 1
-  local end_row = range_end[3]
+local function format_markdown(buf, lines, offset)
+  local mason = require("julienvincent.modules.core.mason")
+  local paths = mason.get_package("prettierd")
+  if not paths then
+    return
+  end
 
-  vim.api.nvim_buf_call(buf, function()
-    vim.cmd(string.format("normal! %dGv%dGgq", start_row, end_row))
-  end)
+  local textwidth = vim.api.nvim_get_option_value("textwidth", {
+    buf = buf,
+  }) or 80
+
+  local args = {
+    paths.bin,
+    "--prose-wrap=always",
+    "--print-width=" .. (textwidth - offset),
+    "--stdin-filepath",
+    "docstrings.md",
+  }
+
+  local stdout = {}
+  local handle = vim.fn.jobstart(args, {
+    stdin = "pipe",
+    stdout_buffered = false,
+    on_stdout = function(_, data)
+      if data then
+        vim.list_extend(stdout, data)
+      end
+    end,
+  })
+
+  for _, line in ipairs(lines) do
+    vim.fn.chansend(handle, line)
+    vim.fn.chansend(handle, "\n")
+  end
+  vim.fn.chanclose(handle, "stdin")
+
+  local status = vim.fn.jobwait({ handle }, -1)[1]
+  if status == 0 then
+    return stdout
+  end
+
+  vim.notify(stdout[1], vim.log.levels.WARN)
 end
 
-local function reposition_comments(buf, comments)
-  for _, comment in ipairs(comments) do
-    reposition_comment(buf, comment)
+local function trim_end(lines)
+  while lines[#lines] == "" do
+    table.remove(lines)
+  end
+  return lines
+end
+
+local function add_offset_indentation(lines, offset)
+  local i = 0
+  return vim.tbl_map(function(line)
+    i = i + 1
+    if i == 1 then
+      return line
+    end
+
+    if line == "" then
+      return line
+    end
+
+    local chars = string.rep(" ", offset)
+    return chars .. line
+  end, lines)
+end
+
+local function format_comments(buf, comments)
+  local lines = {}
+  for i, _ in ipairs(comments) do
+    local comment = comments[#comments - i + 1]
+    local comment_lines = vim.split(vim.treesitter.get_node_text(comment, buf), "\n")
+    for _, line in ipairs(comment_lines) do
+      local replaced = line:gsub(";;", "")
+      table.insert(lines, replaced)
+    end
+  end
+
+  local range_start = { comments[#comments]:range() }
+  local range_end = { comments[1]:range() }
+  local offset = calculate_offset(comments[1])
+
+  -- The +3 accounts for the three characters that make up ';; '
+  local formatted_lines = format_markdown(buf, lines, offset + 3)
+  if not formatted_lines then
+    return
+  end
+
+  local commented_lines = {}
+  for _, line in ipairs(trim_end(formatted_lines)) do
+    table.insert(commented_lines, ";; " .. line)
+  end
+  table.insert(commented_lines, "")
+
+  local re_indented = add_offset_indentation(commented_lines, offset)
+
+  -- stylua: ignore
+  vim.api.nvim_buf_set_text(buf,
+    range_start[1], range_start[2],
+    range_end[3], range_end[4],
+    re_indented
+  )
+
+  local delta = offset - range_start[2]
+  if delta > 0 then
+    local chars = string.rep(" ", delta)
+    vim.api.nvim_buf_set_text(buf, range_start[1], 0, range_start[1], 0, { chars })
+  else
+    vim.api.nvim_buf_set_text(buf, range_start[1], 0, range_start[1], delta * -1, {})
   end
 end
 
@@ -96,21 +183,15 @@ local function group_related_comments(comments)
   return groups
 end
 
-local SCRATCH_BUF = nil
-
-local function init_scratch_buf()
-  if SCRATCH_BUF then
-    return SCRATCH_BUF
-  end
-
-  SCRATCH_BUF = vim.api.nvim_create_buf(false, true)
+local function init_scratch_buf(ref_buf)
+  local buf = vim.api.nvim_create_buf(false, true)
 
   local opts = {
     textwidth = vim.api.nvim_get_option_value("textwidth", {
-      buf = 0,
+      buf = ref_buf,
     }) or 80,
     formatoptions = vim.api.nvim_get_option_value("formatoptions", {
-      buf = 0,
+      buf = ref_buf,
     }),
     shiftwidth = 2,
     filetype = "clojure",
@@ -118,25 +199,23 @@ local function init_scratch_buf()
 
   for option, value in pairs(opts) do
     vim.api.nvim_set_option_value(option, value, {
-      buf = SCRATCH_BUF,
+      buf = buf,
     })
   end
 
-  return SCRATCH_BUF
-end
-
-local function prepare_scratch_buffer(lines)
-  local buf = init_scratch_buf()
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  local tree = vim.treesitter.get_parser(buf):parse()[1]
-  return buf, tree
+  return buf
 end
 
 return function()
   return {
     format = function(_, ctx, lines, callback)
-      local buf, tree = prepare_scratch_buffer(lines)
+      local buf = init_scratch_buf(ctx.buf)
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+      local tree = vim.treesitter.get_parser(buf):parse(true)[1]
       if not tree then
+        vim.api.nvim_buf_delete(buf, { force = true })
+        callback(nil, lines)
         return
       end
 
@@ -153,6 +232,8 @@ return function()
 
       local query = vim.treesitter.query.get("clojure", "formatting/comments")
       if not query then
+        vim.api.nvim_buf_delete(buf, { force = true })
+        callback(nil, lines)
         return
       end
 
@@ -164,14 +245,14 @@ return function()
       end
 
       comments = reverse_iter(comments)
-      reposition_comments(buf, comments)
 
       local groups = group_related_comments(filter_double_comments(buf, comments))
       for _, grouped_comments in ipairs(groups) do
-        fix_comment_line_breaks(buf, grouped_comments)
+        format_comments(buf, grouped_comments)
       end
 
       local formatted_lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+      vim.api.nvim_buf_delete(buf, { force = true })
       callback(nil, formatted_lines)
     end,
   }
