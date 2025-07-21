@@ -35,22 +35,6 @@ return {
         },
       })
 
-      vim.keymap.set("n", "<leader><space>", function()
-        fzf.files({
-          prompt = "❯ ",
-          header = false,
-          cwd_prompt = false,
-          ignore_current_file = true,
-
-          winopts = {
-            height = 0.60,
-            width = 0.50,
-            row = 0.33,
-            col = 0.33,
-          },
-        })
-      end, { silent = true, desc = "Find files" })
-
       vim.keymap.set("n", "<leader>ff", function()
         fzf.grep_project({
           keymap = {
