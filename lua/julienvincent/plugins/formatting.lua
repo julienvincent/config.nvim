@@ -48,7 +48,7 @@ return {
               return {
                 lsp_format = "first",
                 "clojure_comments",
-                "clojure_docstrings",
+                "injected",
               }
             end
 
@@ -60,7 +60,7 @@ return {
             return {
               "cljfmt",
               "clojure_comments",
-              "clojure_docstrings",
+              "injected",
             }
           end,
 
@@ -84,20 +84,11 @@ return {
           prettier = require("julienvincent.modules.formatters.prettier"),
           clojure_comments = require("julienvincent.modules.formatters.clojure.comments"),
           clojure_docstrings = require("julienvincent.modules.formatters.clojure.docstrings"),
+          injected = require("julienvincent.modules.formatters.injected"),
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
         },
       })
-
-      conform.formatters.injected = {
-        options = {
-          ignore_errors = true,
-          lang_to_formatters = {
-            clojure = { "cljfmt", "clojure_comments", "clojure_docstrings" },
-            json = { "prettierd", "prettier", stop_after_first = true },
-          },
-        },
-      }
 
       local function format()
         conform.format({ async = true }, function(err)

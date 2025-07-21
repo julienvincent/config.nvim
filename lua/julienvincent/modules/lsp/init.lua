@@ -15,6 +15,10 @@ local function resolve_server_configs()
 end
 
 local function buf_is_valid(buf, server_config)
+  if not vim.api.nvim_buf_is_valid(buf) then
+    return
+  end
+
   local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
   local bufname = vim.api.nvim_buf_get_name(buf)
 
