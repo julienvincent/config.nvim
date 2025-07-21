@@ -31,6 +31,8 @@ return {
           just = { "just" },
           toml = { "taplo" },
 
+          sql = { "sqruff" },
+
           clojure = function(buf)
             local clients = vim.lsp.get_clients({ bufnr = buf })
 
@@ -83,6 +85,7 @@ return {
           clojure_comments = require("julienvincent.modules.formatters.clojure.comments"),
           clojure_docstrings = require("julienvincent.modules.formatters.clojure.docstrings"),
           taplo = require("julienvincent.modules.formatters.taplo"),
+          sqruff = require("julienvincent.modules.formatters.sqruff"),
         },
       })
 
