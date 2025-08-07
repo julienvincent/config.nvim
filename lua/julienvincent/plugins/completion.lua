@@ -15,6 +15,7 @@ end
 return {
   {
     "Saghen/blink.cmp",
+    build = "cargo build --release",
     config = function()
       require("blink.cmp").setup({
         fuzzy = {
