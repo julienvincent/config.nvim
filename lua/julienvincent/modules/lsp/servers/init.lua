@@ -17,4 +17,5 @@ return {
   mod("fish"),
   mod("taplo"),
   mod("tailwind"),
+  mod("css"),
 }
