@@ -4,6 +4,12 @@ return {
     config = function()
       require("ts_context_commentstring").setup({
         enable_autocmd = false,
+        languages = {
+          mdx = {
+            __default = "{/* %s */}",
+            __multiline = "{/* %s */}",
+          },
+        },
       })
     end,
   },
