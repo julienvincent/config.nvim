@@ -21,7 +21,7 @@ return function()
 
   return {
     name = "harper",
-    filetypes = { "markdown", "gitcommit", "toml", "json", "yaml", "clojure" },
+    filetypes = { "markdown", "gitcommit", "toml", "json", "yaml", "clojure", "jjdescription" },
 
     cmd = mason.command("harper-ls", { "--stdio" }),
     root_dir = root_dir_fn,

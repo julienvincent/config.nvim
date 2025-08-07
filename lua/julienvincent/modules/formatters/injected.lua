@@ -78,6 +78,11 @@ local function trim_end(lines)
 end
 
 return function()
+  local allowed_languages = {
+    sql = true,
+    clojure = true,
+  }
+
   return {
     format = function(_, ctx, lines, callback)
       local nio = require("nio")
@@ -113,7 +118,7 @@ return function()
 
       local injections = {}
       for lang, child_tree in pairs(parser:children()) do
-        if conform.formatters_by_ft[lang] then
+        if conform.formatters_by_ft[lang] and allowed_languages[lang] then
           for _, region in ipairs(child_tree:included_regions()) do
             -- stylua: ignore
             local injection_range = {
