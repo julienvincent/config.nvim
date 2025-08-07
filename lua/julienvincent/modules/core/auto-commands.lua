@@ -4,9 +4,9 @@ M.setup = function()
   local general = vim.api.nvim_create_augroup("General", { clear = true })
 
   vim.api.nvim_create_autocmd("FileType", {
-    desc = "Override the iskeyword opt for some languages",
+    desc = "Override the iskeyword for all languages",
     group = general,
-    pattern = { "clojure" },
+    pattern = { "*" },
     callback = function()
       vim.opt_local.iskeyword = "@,48-57,_,192-255,!,?"
     end,
