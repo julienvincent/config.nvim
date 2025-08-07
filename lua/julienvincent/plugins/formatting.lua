@@ -26,6 +26,7 @@ return {
           javascript = js_formatter,
           typescript = js_formatter,
           typescriptreact = js_formatter,
+          css = js_formatter,
 
           lua = { "stylua" },
           just = { "just" },
