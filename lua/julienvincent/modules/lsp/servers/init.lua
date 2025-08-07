@@ -17,4 +17,5 @@ return {
   mod("nim"),
   mod("fish"),
   mod("taplo"),
+  mod("tailwind"),
 }
