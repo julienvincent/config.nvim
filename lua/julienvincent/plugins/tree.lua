@@ -203,6 +203,10 @@ return {
       local api = require("nvim-tree.api")
 
       require("nvim-tree").setup({
+        git = {
+          timeout = 2000,
+        },
+
         view = {
           signcolumn = "no",
         },
@@ -212,7 +216,8 @@ return {
         },
 
         filters = {
-          enable = false,
+          enable = true,
+          git_ignored = false,
         },
 
         renderer = {

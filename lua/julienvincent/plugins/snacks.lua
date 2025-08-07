@@ -35,6 +35,13 @@ return {
               end,
             },
           },
+
+          icons = {
+            ui = {
+              selected = "❯ ",
+              unselected = "  ",
+            },
+          },
         },
 
         profiler = {},

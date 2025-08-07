@@ -98,7 +98,7 @@ function M.pick_buffer()
     prompt = "Quick Switch❯ ",
     show_empty = true,
     layout = {
-      preview = false,
+      hidden = { "preview" },
       layout = {
         height = 0.30,
         width = 0.3,

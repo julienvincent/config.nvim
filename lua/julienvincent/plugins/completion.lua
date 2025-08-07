@@ -20,7 +20,9 @@ return {
       require("blink.cmp").setup({
         fuzzy = {
           implementation = "rust",
-          use_frecency = false,
+          frecency = {
+            enabled = false,
+          },
           use_proximity = true,
           sorts = {
             "exact",
