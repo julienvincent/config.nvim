@@ -32,7 +32,7 @@ return {
           just = { "just" },
           toml = { "taplo" },
 
-          sql = { "sqruff" },
+          sql = { "pg_formatter" },
 
           clojure = function(buf)
             local clients = vim.lsp.get_clients({ bufnr = buf })
@@ -87,6 +87,7 @@ return {
           injected = require("julienvincent.modules.formatters.injected"),
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
+          pg_formatter = require("julienvincent.modules.formatters.pgformatter"),
         },
       })
 
