@@ -25,6 +25,14 @@ return {
             end,
           },
         },
+
+        ui = {
+          win_opts = {
+            wo = {
+              foldmethod = "manual",
+            },
+          },
+        },
       })
 
       local function setup_keybinds(event)
