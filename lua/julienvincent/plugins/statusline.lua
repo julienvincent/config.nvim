@@ -84,13 +84,15 @@ return {
           },
 
           lualine_x = {
+            { "progress", separator = nil, padding = 1 },
+            { "location", separator = { left = " " }, padding = { left = 0, right = 1 } },
             {
               get_lsp_client_status,
               cond = get_lsp_cond,
               color = get_lsp_client_color,
               separator = { left = "" },
             },
-            require("snacks.profiler").status()
+            require("snacks.profiler").status(),
           },
           lualine_y = {
             {
