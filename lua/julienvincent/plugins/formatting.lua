@@ -34,6 +34,8 @@ return {
 
           sql = { "pg_formatter" },
 
+          rust = { lsp_format = "first", "injected", "trim_newlines" },
+
           clojure = function(buf)
             local clients = vim.lsp.get_clients({ bufnr = buf })
 
