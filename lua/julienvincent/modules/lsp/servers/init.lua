@@ -11,7 +11,6 @@ return {
   mod("tsserver"),
   mod("jdtls"),
   mod("rust_analyzer"),
-  -- mod("ltex"),
   mod("harper"),
   mod("clangd"),
   mod("nim"),
