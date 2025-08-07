@@ -81,6 +81,7 @@ return function()
   local allowed_languages = {
     sql = true,
     clojure = true,
+    markdown = true,
   }
 
   return {

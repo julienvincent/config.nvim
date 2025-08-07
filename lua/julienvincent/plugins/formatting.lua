@@ -34,7 +34,7 @@ return {
 
           sql = { "pg_formatter" },
 
-          rust = { lsp_format = "first", "injected", "trim_newlines" },
+          rust = { lsp_format = "first", "pruner_injected", "trim_newlines" },
 
           clojure = function(buf)
             local clients = vim.lsp.get_clients({ bufnr = buf })
@@ -50,8 +50,8 @@ return {
             if supported then
               return {
                 lsp_format = "first",
+                "pruner_injected",
                 "clojure_comments",
-                "injected",
                 "trim_newlines",
               }
             end
@@ -62,23 +62,15 @@ return {
             -- By default I want to use clojure-lsp for formatting, but as a
             -- fallback I want to use cljfmt.
             return {
-              "cljfmt",
+              "pruner",
               "clojure_comments",
-              "injected",
               "trim_newlines",
             }
           end,
 
-          markdown = function()
-            return { "prettier", "injected" }
-          end,
-          mdx = function()
-            return { "prettier", "injected" }
-          end,
-
-          http = function()
-            return { "injected" }
-          end,
+          markdown = { "pruner" },
+          mdx = { "pruner" },
+          http = { "pruner_injected" },
         },
 
         formatters = {
@@ -92,6 +84,8 @@ return {
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
           pg_formatter = require("julienvincent.modules.formatters.pgformatter"),
+          pruner_injected = require("julienvincent.modules.formatters.pruner")({ injected_only = true }),
+          pruner = require("julienvincent.modules.formatters.pruner")(),
         },
       })
 
