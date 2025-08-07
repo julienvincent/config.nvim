@@ -9,8 +9,10 @@ return {
       local fff = require("fff")
 
       fff.setup({
-        width = 0.6,
-        height = 0.7,
+        layout = {
+          width = 0.6,
+          height = 0.7,
+        },
         prompt = "❯ ",
 
         preview = {
