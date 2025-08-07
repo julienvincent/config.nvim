@@ -1,12 +1,15 @@
--- This is an alternative implementation to `telescope.builtin.oldfiles` which renders files a bit better
+-- This is a custom buffer-switching utility which keeps track of previously
+-- visited buffers in a stack across windows and allows easilly switching
+-- between them.
 
 local M = {}
 
 local MAX_DEPTH = 20
 
--- Keeps a 'stack' of previously visited buffers for each window. This is stored as a stack as intermediary
--- buffers are opened all the time during normal development. As they are closed, the are popped off the
--- stack.
+-- Keeps a 'stack' of previously visited buffers.
+--
+-- We use a stack as intermediary buffers are opened all the time during normal
+-- development. As they are closed, the are popped off the stack.
 --
 -- When switching to the previous buffer for a window, we just pop the last buffer off the stack
 local PREV_BUFS = {}
@@ -20,43 +23,50 @@ local function get_window_for_buffer(buf)
   return nil
 end
 
-local function remove_element_from_table(tbl, element)
+local function remove_buf_from_table(tbl, buf)
   for i = #tbl, 1, -1 do
-    if tbl[i] == element then
+    if tbl[i].buf == buf then
       table.remove(tbl, i)
     end
   end
 end
 
 local function append_buffer_to_stack(win, buf)
-  local bufs = PREV_BUFS[win] or {}
+  local bufs = PREV_BUFS
 
-  remove_element_from_table(bufs, buf)
-  table.insert(bufs, buf)
+  remove_buf_from_table(bufs, buf)
+  table.insert(bufs, {
+    buf = buf,
+    win = win,
+  })
 
   if #bufs > MAX_DEPTH then
     table.remove(bufs, 1)
   end
 
-  PREV_BUFS[win] = bufs
+  PREV_BUFS = bufs
 end
 
-local function remove_buffer_from_stack(win, buf)
-  local bufs = PREV_BUFS[win] or {}
-  remove_element_from_table(bufs, buf)
-  PREV_BUFS[win] = bufs
+local function remove_buffer_from_stack(buf)
+  local bufs = PREV_BUFS
+  remove_buf_from_table(bufs, buf)
+  PREV_BUFS = bufs
 end
 
-local function get_files_for_picker(win)
-  local bufs = PREV_BUFS[win] or {}
+local function get_files_for_picker()
+  local bufs = PREV_BUFS
 
   local results = {}
   for i = #bufs - 1, 1, -1 do
-    local buf = bufs[i]
+    local buf = bufs[i].buf
     local is_valid = vim.api.nvim_buf_is_valid(buf)
     if is_valid then
       local filename = vim.api.nvim_buf_get_name(buf)
-      table.insert(results, { filename = filename, buf = buf })
+      table.insert(results, {
+        filename = filename,
+        buf = buf,
+        win = bufs[i].win,
+      })
     end
   end
 
@@ -64,16 +74,16 @@ local function get_files_for_picker(win)
 end
 
 M.switch_to_prev_buf = function()
-  local win = vim.api.nvim_get_current_win()
-  local bufs = PREV_BUFS[win]
+  local bufs = PREV_BUFS
   if bufs and #bufs > 0 then
     local prev_buf = bufs[#bufs]
-    vim.api.nvim_win_set_buf(win, prev_buf)
+    vim.api.nvim_win_set_buf(prev_buf.win, prev_buf.buf)
+    vim.api.nvim_set_current_win(prev_buf.win)
   end
 end
 
-local function create_items(win)
-  local files = get_files_for_picker(win)
+local function create_items()
+  local files = get_files_for_picker()
   local items = {}
   for idx, file in ipairs(files) do
     table.insert(items, {
@@ -81,6 +91,7 @@ local function create_items(win)
       text = file.filename,
       file = file.filename,
       bufnr = file.buf,
+      win = file.win,
     })
   end
   return items
@@ -89,10 +100,8 @@ end
 function M.pick_buffer()
   local format = require("snacks.picker.format")
 
-  local win = vim.api.nvim_get_current_win()
-
   require("snacks.picker").pick({
-    items = create_items(win),
+    items = create_items(),
     format = format.filename,
     title = "",
     prompt = "Quick Switch❯ ",
@@ -132,9 +141,9 @@ function M.pick_buffer()
         if not item then
           return
         end
-        remove_buffer_from_stack(win, item.bufnr)
+        remove_buffer_from_stack(item.bufnr)
         vim.api.nvim_buf_delete(item.bufnr, { force = true })
-        local items = create_items(win)
+        local items = create_items()
         picker.finder.items = items
         picker.list.items = items
         picker.list:update({ force = true })
@@ -145,7 +154,8 @@ function M.pick_buffer()
           return
         end
         vim.schedule(function()
-          vim.api.nvim_set_current_buf(item.bufnr)
+          vim.api.nvim_win_set_buf(item.win, item.bufnr)
+          vim.api.nvim_set_current_win(item.win)
         end)
       end,
     },
