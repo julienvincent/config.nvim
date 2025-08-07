@@ -55,7 +55,7 @@ return {
           "go",
           "wit",
           "proto",
-          "java"
+          "java",
         },
       })
 
