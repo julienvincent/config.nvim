@@ -17,14 +17,18 @@ return {
       heads = {
         { "w", "<C-W>p", { desc = "Switch to other window", exit = true } },
 
-        { "d", "<C-W>c", { desc = "Close window" } },
+        { "d", "<C-W>c", { desc = "Close window", exit = true } },
+        { "D", "<C-W>c", { desc = "Close window" } },
         { "v", "<Cmd>vnew<Cr>", { desc = "Split window right" } },
         { "h", "<Cmd>new<Cr>", { desc = "Split window below" } },
 
-        { "<S-Right>", "<Cmd>vnew<Cr>", { desc = "Split window right" } },
-        { "<S-Down>", "<Cmd>new<Cr>", { desc = "Split window below" } },
+        { "<S-Right>", "<C-W>x<C-w>l", { desc = "Swap window with right" } },
+        { "<S-Left>", "<C-w>h<C-w>x", { desc = "Swap with left" } },
+        { "<S-Up>", "<C-w>x<C-w>k", { desc = "Swap with above" } },
+        { "<S-Down>", "<C-w>j<C-w>x", { desc = "Swap with below" } },
 
-        { "s", "<C-W>x", { desc = "Swap window with next" } },
+        { "s", "<Cmd>vnew<Cr>", { desc = "Split window right", exit = true } },
+        { "S", "<Cmd>new<Cr>", { desc = "Split window below", exit = true } },
 
         { "=", "<C-W>=", { desc = "Equalize windows" } },
         { ">", "10<C-w>>", { desc = "resize →" } },
