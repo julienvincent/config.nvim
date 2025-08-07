@@ -50,6 +50,7 @@ return {
                 lsp_format = "first",
                 "clojure_comments",
                 "injected",
+                "trim_newlines",
               }
             end
 
@@ -62,6 +63,7 @@ return {
               "cljfmt",
               "clojure_comments",
               "injected",
+              "trim_newlines",
             }
           end,
 
