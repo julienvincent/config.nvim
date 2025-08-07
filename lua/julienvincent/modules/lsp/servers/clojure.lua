@@ -1,4 +1,4 @@
-local mason = require("julienvincent.modules.core.mason")
+local path_api = require("julienvincent.modules.lsp.utils.path")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 local api = require("julienvincent.modules.lsp.api")
 
@@ -52,7 +52,10 @@ return {
   name = "clojure-lsp",
   filetypes = { "clojure", "edn" },
 
-  cmd = mason.command("clojure-lsp"),
+  cmd = path_api.command({
+    bin = "clojure-lsp",
+    mason_package = "clojure-lsp",
+  }),
   root_dir = dependency_root_dir_fn,
 
   single_file_support = true,

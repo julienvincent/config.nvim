@@ -1,5 +1,4 @@
 local path = require("julienvincent.modules.lsp.utils.path")
-local mason = require("julienvincent.modules.core.mason")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
 local function is_workspace_root(filepath)
@@ -16,21 +15,14 @@ local function is_workspace_root(filepath)
   end
 end
 
-local mason_bin = mason.command("rust-analyzer")
-
 return {
   name = "rust-analyzer",
   filetypes = { "rust" },
 
-  cmd = function(server_config)
-    local system_path = path.resolve_executuable("rust-analyzer", {
-      env = server_config.cmd_env,
-    })
-    if system_path then
-      return { system_path }
-    end
-    return mason_bin()
-  end,
+  cmd = path.command({
+    bin = "rust-analyzer",
+    mason_package = "rust-analyzer",
+  }),
   root_dir = fs.find_furthest_root(
     {
       { "Cargo.toml", is_root = is_workspace_root },
