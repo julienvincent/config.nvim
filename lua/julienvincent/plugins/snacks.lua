@@ -28,8 +28,10 @@ return {
           sources = {
             select = {
               config = function(opts)
-                opts.layout.layout.width = 0.33
-                opts.layout.layout.min_width = 20
+                opts.layout.layout = {
+                  width = 0.33,
+                  min_width = 20,
+                }
 
                 opts.win.input.keys["<Esc>"] = { "close", mode = { "n", "i" } }
               end,

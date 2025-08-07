@@ -41,7 +41,7 @@
   "quicker.nvim": { "branch": "master", "commit": "12a2291869a326424b1cbee937f4f80334433012" },
   "schemastore.nvim": { "branch": "main", "commit": "4341619da06779ae310ee9c3d6d70edfefed7152" },
   "screenkey.nvim": { "branch": "main", "commit": "95f2fb19a75d19ca848049d9f98bbc2b6d665682" },
-  "snacks.nvim": { "branch": "main", "commit": "7e3c655bec091e39d35ce950a41efd52c6341801" },
+  "snacks.nvim": { "branch": "main", "commit": "ecde81fc0ce7c4834def0ce710dd5dc62b0822fc" },
   "sqlite.lua": { "branch": "master", "commit": "50092d60feb242602d7578398c6eb53b4a8ffe7b" },
   "tree-sitter-numscript": { "branch": "master", "commit": "2f38363f2f029913044b6aa3f8ad78277ceeca20" },
   "undotree": { "branch": "master", "commit": "0f1c9816975b5d7f87d5003a19c53c6fd2ff6f7f" },
