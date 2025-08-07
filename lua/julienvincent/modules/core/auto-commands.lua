@@ -4,15 +4,6 @@ M.setup = function()
   local general = vim.api.nvim_create_augroup("General", { clear = true })
 
   vim.api.nvim_create_autocmd("FileType", {
-    desc = "Override the iskeyword for all languages",
-    group = general,
-    pattern = { "*" },
-    callback = function()
-      vim.opt_local.iskeyword = "@,48-57,_,192-255,!,?"
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("FileType", {
     desc = "Override buffer-local settings for all filetypes",
     group = general,
     pattern = { "*" },

@@ -6,6 +6,7 @@ local modules = {
   mod("core.auto-commands"),
   mod("core.commands"),
   mod("core.keymaps"),
+  mod("core.is-keyword"),
   mod("core.term-title"),
   mod("core.quit"),
 
