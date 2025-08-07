@@ -20,8 +20,8 @@ return function(config)
           table.insert(args, "--lang=" .. filetype)
         end
 
-        if config.injected_only then
-          table.insert(args, "--skip-root")
+        if config.profile then
+          table.insert(args, "--profile=" .. config.profile)
         end
 
         return args

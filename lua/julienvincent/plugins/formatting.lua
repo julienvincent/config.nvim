@@ -30,7 +30,7 @@ return {
 
           lua = { "stylua" },
           just = { "just" },
-          toml = { "taplo" },
+          toml = { "pruner" },
 
           sql = { "pg_formatter" },
 
@@ -50,9 +50,7 @@ return {
             if supported then
               return {
                 lsp_format = "first",
-                "pruner_injected",
-                "clojure_comments",
-                "trim_newlines",
+                "pruner",
               }
             end
 
@@ -62,15 +60,13 @@ return {
             -- By default I want to use clojure-lsp for formatting, but as a
             -- fallback I want to use cljfmt.
             return {
-              "pruner",
-              "clojure_comments",
-              "trim_newlines",
+              "pruner_clojure",
             }
           end,
 
           markdown = { "pruner" },
           mdx = { "pruner" },
-          http = { "pruner_injected" },
+          http = { "pruner" },
         },
 
         formatters = {
@@ -84,8 +80,10 @@ return {
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
           pg_formatter = require("julienvincent.modules.formatters.pgformatter"),
-          pruner_injected = require("julienvincent.modules.formatters.pruner")({ injected_only = true }),
+          scm = require("julienvincent.modules.formatters.scm"),
+
           pruner = require("julienvincent.modules.formatters.pruner")(),
+          pruner_clojure = require("julienvincent.modules.formatters.pruner")({ profile = "clojure-full" }),
         },
       })
 
