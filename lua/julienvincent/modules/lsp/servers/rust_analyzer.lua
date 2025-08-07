@@ -1,8 +1,9 @@
+local path = require("julienvincent.modules.lsp.utils.path")
 local mason = require("julienvincent.modules.core.mason")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
-local function is_workspace_root(path)
-  local file_path = path .. "/Cargo.toml"
+local function is_workspace_root(filepath)
+  local file_path = filepath .. "/Cargo.toml"
   local content = fs.read_file(file_path)
   if not content then
     return false
@@ -17,30 +18,16 @@ end
 
 local mason_bin = mason.command("rust-analyzer")
 
--- This will use the mise install from the system PATH if found. This
--- configuration allows installing mise in a project specific way using mise.
---
--- The env passed here contains the mise-modified PATH.
-local function rust_analyzer_system_path(env)
-  local result = vim
-    .system({ "sh", "-c", "command -v rust-analyzer" }, {
-      env = env,
-      text = true,
-    })
-    :wait()
-  if result.code == 0 then
-    return vim.trim(result.stdout)
-  end
-end
-
 return {
   name = "rust-analyzer",
   filetypes = { "rust" },
 
   cmd = function(server_config)
-    local path = rust_analyzer_system_path(server_config.cmd_env)
-    if path then
-      return { path }
+    local system_path = path.resolve_executuable("rust-analyzer", {
+      env = server_config.cmd_env,
+    })
+    if system_path then
+      return { system_path }
     end
     return mason_bin()
   end,

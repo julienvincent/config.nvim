@@ -1,3 +1,4 @@
+local path = require("julienvincent.modules.lsp.utils.path")
 local mason = require("julienvincent.modules.core.mason")
 local fs = require("julienvincent.modules.lsp.utils.fs")
 
@@ -19,11 +20,29 @@ return function()
     workspace_id = vim.fn.sha256(cwd)
   end
 
+  local mason_cmd = mason.command("harper-ls", { "--stdio" })
+
   return {
     name = "harper",
-    filetypes = { "markdown", "gitcommit", "toml", "json", "yaml", "clojure", "jjdescription" },
-
-    cmd = mason.command("harper-ls", { "--stdio" }),
+    filetypes = {
+      "markdown",
+      "mdx",
+      "gitcommit",
+      "toml",
+      "json",
+      "yaml",
+      "clojure",
+      "jjdescription",
+    },
+    cmd = function(server_config)
+      local system_path = path.resolve_executuable("harper-ls", {
+        env = server_config.cmd_env,
+      })
+      if system_path then
+        return { system_path, "--stdio" }
+      end
+      return mason_cmd()
+    end,
     root_dir = root_dir_fn,
 
     single_file_support = true,
