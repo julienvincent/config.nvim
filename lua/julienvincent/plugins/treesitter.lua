@@ -73,6 +73,15 @@ return {
         filetype = "authzed",
       }
 
+      parser_config.hyprlang = {
+        install_info = {
+          url = "https://github.com/tree-sitter-grammars/tree-sitter-hyprlang",
+          files = { "src/parser.c" },
+          branch = "master",
+        },
+        filetype = "hyprlang",
+      }
+
       parser_config.numscript = {
         install_info = {
           url = "https://github.com/julienvincent/tree-sitter-numscript",

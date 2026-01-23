@@ -18,4 +18,5 @@ return {
   mod("taplo"),
   mod("tailwind"),
   mod("css"),
+  mod("hyprls"),
 }

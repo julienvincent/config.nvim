@@ -3,3 +3,7 @@ vim.filetype.add({
     mdx = "mdx",
   },
 })
+
+vim.filetype.add({
+  pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+})
