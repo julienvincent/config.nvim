@@ -34,6 +34,8 @@ return {
 
           sql = { "pg_formatter" },
 
+          qml = { "pruner" },
+
           rust = { lsp_format = "first", "pruner" },
 
           clojure = function(buf)

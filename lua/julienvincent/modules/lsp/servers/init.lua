@@ -19,4 +19,5 @@ return {
   mod("tailwind"),
   mod("css"),
   mod("hyprls"),
+  mod("qmlls"),
 }
