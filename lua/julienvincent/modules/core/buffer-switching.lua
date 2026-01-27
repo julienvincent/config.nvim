@@ -100,6 +100,8 @@ end
 function M.pick_buffer()
   local format = require("snacks.picker.format")
 
+  local current_window = vim.api.nvim_get_current_win()
+
   require("snacks.picker").pick({
     items = create_items(),
     format = format.filename,
@@ -154,8 +156,12 @@ function M.pick_buffer()
           return
         end
         vim.schedule(function()
-          vim.api.nvim_win_set_buf(item.win, item.bufnr)
-          vim.api.nvim_set_current_win(item.win)
+          local win = item.win
+          if not vim.api.nvim_win_is_valid(win) then
+            win = current_window
+          end
+          vim.api.nvim_win_set_buf(win, item.bufnr)
+          vim.api.nvim_set_current_win(win)
         end)
       end,
     },
