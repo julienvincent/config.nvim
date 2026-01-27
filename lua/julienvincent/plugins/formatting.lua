@@ -80,7 +80,6 @@ return {
           taplo = require("julienvincent.modules.formatters.taplo"),
           sqruff = require("julienvincent.modules.formatters.sqruff"),
           pg_formatter = require("julienvincent.modules.formatters.pgformatter"),
-          scm = require("julienvincent.modules.formatters.scm"),
 
           pruner = require("julienvincent.modules.formatters.pruner")(),
           pruner_clojure = require("julienvincent.modules.formatters.pruner")({ profile = "clojure-full" }),
