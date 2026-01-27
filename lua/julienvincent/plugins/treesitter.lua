@@ -56,6 +56,7 @@ return {
           "wit",
           "proto",
           "java",
+          "qmljs"
         },
       })
 
