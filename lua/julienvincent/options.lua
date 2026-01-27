@@ -41,6 +41,8 @@ local opts = {
   spelllang = "en_gb",
 
   shell = "/bin/bash",
+
+  mousescroll = "ver:1,hor:1"
 }
 
 -- Set options from table
