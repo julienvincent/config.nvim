@@ -56,6 +56,22 @@
   (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "markdown"))
 
+(list_lit
+  ((sym_lit) @fn-name
+   (#eq? @fn-name "malt/defprotocol")
+   (sym_lit) @protocol-name
+
+   (str_lit)?)
+
+  (list_lit
+    (sym_lit)
+    (str_lit)? @docstring @injection.content
+    (map_lit)?
+    (vec_lit)+)
+
+  (#offset! @injection.content 0 1 0 -1)
+  (#set! injection.language "markdown"))
+
 ((str_lit) @injection.content
   (#match? @injection.content "^\"(SET|TRUNCATE|SELECT|CREATE|DELETE|ALTER|UPDATE|DROP|INSERT|WITH)")
   (#offset! @injection.content 0 1 0 -1)
