@@ -6,19 +6,18 @@ return function(config)
       command = "pruner",
       args = function(_, opts)
         local args = { "format" }
+
         local textwidth = vim.api.nvim_get_option_value("textwidth", {
           buf = opts.buf,
         })
-        if textwidth then
+        if textwidth and textwidth > 0 then
           table.insert(args, "--print-width=" .. textwidth)
         end
 
         local filetype = vim.api.nvim_get_option_value("filetype", {
           buf = opts.buf,
         })
-        if filetype then
-          table.insert(args, "--lang=" .. filetype)
-        end
+        table.insert(args, "--lang=" .. filetype)
 
         if config.profile then
           table.insert(args, "--profile=" .. config.profile)
