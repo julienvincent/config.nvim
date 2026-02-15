@@ -220,6 +220,20 @@ return {
           git_ignored = false,
         },
 
+        filesystem_watchers = {
+          ignore_dirs = {
+            "/.ccls-cache",
+            "/build",
+            "/node_modules",
+            "/target",
+            "/.lsp",
+            "/.clj-kondo",
+            "/dist",
+            "/.jj",
+            "/.git",
+          },
+        },
+
         renderer = {
           root_folder_label = ":~:s?$?/",
           highlight_git = "name",
