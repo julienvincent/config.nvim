@@ -4,7 +4,9 @@ return {
     -- This is really just here to ensure it starts after the file-tree (which
     -- sets the cwd)
     event = "VeryLazy",
-    build = "cargo build --release",
+    build = function()
+      require("fff.download").download_or_build_binary()
+    end,
     config = function()
       local fff = require("fff")
 
