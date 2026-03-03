@@ -5,7 +5,7 @@ return function(config)
     return {
       command = "pruner",
       args = function(_, opts)
-        local args = { "format" }
+        local args = { "format", "--stdin-filepath=$FILENAME" }
 
         local textwidth = vim.api.nvim_get_option_value("textwidth", {
           buf = opts.buf,
