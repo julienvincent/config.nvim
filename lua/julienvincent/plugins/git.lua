@@ -136,8 +136,29 @@ return {
         },
 
         hooks = {
-          diff_buf_win_enter = function()
-            -- vim.opt_local.foldenable = false
+          diff_buf_win_enter = function(bufnr, _, ctx)
+            -- This little hack is a quality-of-life improvement which shrinks
+            -- the 'left' window when the file is empty (i.e we are looking at
+            -- an ADDED diff).
+            --
+            -- If automatically equalizes the windows again when opening a diff
+            -- with content on the left.
+            --
+            -- ctx.symbol == "a" when we are operating on the 'left' buffer,
+            -- and the bufname == "diffview://null" when the left side has no
+            -- content.
+            if ctx.symbol == "a" then
+              local bufname = vim.api.nvim_buf_get_name(bufnr)
+              local is_empty = bufname == "diffview://null"
+              if is_empty then
+                local win = vim.fn.bufwinid(bufnr)
+                if win ~= -1 then
+                  vim.api.nvim_win_set_width(win, 1)
+                end
+              else
+                vim.cmd("wincmd =")
+              end
+            end
           end,
         },
       })
