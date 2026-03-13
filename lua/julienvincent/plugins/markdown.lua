@@ -1,12 +1,15 @@
 return {
   {
-    "iamcco/markdown-preview.nvim",
-    ft = { "markdown", "mdx" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-    init = function()
-      vim.g["mkdp_auto_close"] = 0
+
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
+    config = function()
+      require("peek").setup({
+        app = { "chromium-browser", '--app="Peek"' },
+      })
+      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
   },
 }
