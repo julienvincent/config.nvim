@@ -5,4 +5,4 @@ require("julienvincent.filetypes")
 require("julienvincent.modules").setup()
 
 -- Experimental replacement to the vim messages interface
-require("vim._extui").enable({})
+require("vim._core.ui2").enable({})
