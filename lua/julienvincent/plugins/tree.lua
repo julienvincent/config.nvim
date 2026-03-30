@@ -293,10 +293,10 @@ return {
           vim.keymap.set("n", "gY", api.fs.copy.basename, opts("Copy Basename"))
           vim.keymap.set("n", "gx", api.node.run.system, opts("Run System"))
 
-          vim.keymap.set("n", "y", api.fs.copy.node, opts("Copy"))
-          vim.keymap.set("n", "x", api.fs.cut, opts("Cut"))
+          vim.keymap.set({ "n", "v" }, "y", api.fs.copy.node, opts("Copy"))
+          vim.keymap.set({ "n", "v" }, "x", api.fs.cut, opts("Cut"))
           vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
-          vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+          vim.keymap.set({ "n", "v" }, "d", api.fs.remove, opts("Delete"))
 
           vim.keymap.set("n", "a", api.fs.create, opts("Create File Or Directory"))
           vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
