@@ -43,6 +43,34 @@ local function reveal_changes_in_tree()
   end
 end
 
+local function current_node_path()
+  local core = require("nvim-tree.core")
+  local api = require("nvim-tree.api")
+  local utils = require("nvim-tree.utils")
+
+  local cwd = core.get_cwd()
+  local abs_path = api.tree.get_node_under_cursor().absolute_path
+  return utils.path_relative(abs_path, cwd)
+end
+
+local function current_dir_path()
+  local path = current_node_path()
+
+  if vim.fn.filereadable(path) == 1 then
+    path = vim.fn.fnamemodify(path, ":h")
+  end
+
+  return path
+end
+
+local function grep_in_folder()
+  vim.cmd([[FzfLua grep_project cwd=]] .. current_dir_path())
+end
+
+local function find_in_folder()
+  require("fff").find_files_in_dir(current_dir_path())
+end
+
 local function override_highlights()
   vim.api.nvim_set_hl(0, "NvimTreeGitFileDeletedHL", {
     link = "Red",
@@ -311,6 +339,9 @@ return {
           vim.keymap.set("n", "<leader>go", reveal_changes_in_tree, opts("Reveal Changes"))
 
           vim.keymap.set("n", "e", toggle_window_width_mode, opts("Toggle window width"))
+
+          vim.keymap.set("n", "ff", grep_in_folder, opts("Grep at directory"))
+          vim.keymap.set("n", "fF", find_in_folder, opts("Grep at directory"))
         end,
       })
 
